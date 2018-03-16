@@ -1,0 +1,4 @@
+/home/fperezgamonal/Documents/Datasets/MPI-Sintel_trainsubset/data_final/frame_0002.png
+/home/fperezgamonal/Documents/Datasets/MPI-Sintel_trainsubset/data_final/frame_0003.png
+/home/fperezgamonal/Documents/Datasets/MPI-Sintel_trainsubset/data_final/frame_0001.png
+/home/fperezgamonal/Documents/Datasets/MPI-Sintel_trainsubset/data_final/frame_0004.png
