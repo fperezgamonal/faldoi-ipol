@@ -48,10 +48,10 @@ RM = /home/fperezgamonal/Downloads/Programming_suites/clion-2017.3.2/bin/cmake/b
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src
+CMAKE_SOURCE_DIR = /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug
+CMAKE_BINARY_DIR = /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

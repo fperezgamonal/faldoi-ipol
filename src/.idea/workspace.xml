@@ -28,99 +28,8 @@
       <file leaf-file-name="local_faldoi.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/local_faldoi.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="477">
-              <caret line="1103" column="42" lean-forward="false" selection-start-line="1103" selection-start-column="42" selection-end-line="1103" selection-end-column="42" />
-              <folding>
-                <element signature="e#481#499#0" expanded="true" />
-                <element signature="e#817#833#0" expanded="true" />
-                <element signature="e#897#913#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="global_faldoi.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/global_faldoi.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="524">
-              <caret line="1383" column="46" lean-forward="false" selection-start-line="1383" selection-start-column="46" selection-end-line="1383" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utils_preprocess.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils_preprocess.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1008">
-              <caret line="56" column="23" lean-forward="false" selection-start-line="56" selection-start-column="23" selection-end-line="56" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#17#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="energy_structures.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/energy_structures.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="63" column="17" lean-forward="false" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tvl2_model.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tvl2_model.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1897">
-              <caret line="249" column="5" lean-forward="false" selection-start-line="249" selection-start-column="5" selection-end-line="249" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tvl2_model.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tvl2_model.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="41" column="5" lean-forward="false" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="energy_model.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/energy_model.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="776">
-              <caret line="766" column="20" lean-forward="false" selection-start-line="766" selection-start-column="20" selection-end-line="766" selection-end-column="20" />
-              <folding>
-                <element signature="e#410#426#0" expanded="true" />
-                <element signature="e#577#595#0" expanded="true" />
-                <element signature="e#693#716#0" expanded="true" />
-                <element signature="e#818#842#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="energy_model.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/energy_model.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="40" column="5" lean-forward="false" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tvl2_model_occ.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tvl2_model_occ.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2053">
-              <caret line="761" column="43" lean-forward="false" selection-start-line="761" selection-start-column="38" selection-end-line="761" selection-end-column="43" />
+            <state relative-caret-position="669">
+              <caret line="789" column="28" lean-forward="true" selection-start-line="789" selection-start-column="28" selection-end-line="789" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -129,8 +38,8 @@
       <file leaf-file-name="parameters.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parameters.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="60" column="37" lean-forward="true" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="37" />
+            <state relative-caret-position="1026">
+              <caret line="57" column="21" lean-forward="false" selection-start-line="57" selection-start-column="21" selection-end-line="57" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -140,36 +49,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>utils_pre</find>
-      <find>filename_i_1</find>
-      <find>can not open</find>
-      <find>xfopen</find>
-      <find>can not</find>
-      <find>ERROR(</find>
-      <find>today is</find>
-      <find>input images size</find>
-      <find>debug</find>
-      <find>IIO_SHOW</find>
-      <find>IIO</find>
-      <find>IIO_debug</find>
-      <find>failed in</find>
-      <find>filename_i0</find>
-      <find>failed in i</find>
-      <find>I0fil</find>
-      <find>patch</find>
-      <find>PAR_DEFAU</find>
-      <find>alpha</find>
-      <find>local</find>
-      <find>guided_tv</find>
-      <find>guided_tvl2coupled</find>
-      <find>main</find>
       <find>inserting initial</find>
       <find>LOCAL</find>
       <find>PAR_DEFAUL</find>
       <find>of_estimation</find>
       <find>LOCAL_ITER</find>
       <find>MAX_ITERA</find>
+      <find>today is</find>
+      <find>init_weight</find>
+      <find>params.mu</find>
+      <find>async</find>
+      <find>local</find>
+      <find>omp_set</find>
+      <find>local_gro</find>
+      <find>local_gr</find>
+      <find>omp_ge</find>
+      <find>forwar</find>
+      <find>pragma</find>
+      <find>var_reg</find>
+      <find>val_method</find>
+      <find>Parameters</find>
+      <find>params</find>
+      <find>params.w</find>
+      <find>local_growin</find>
+      <find>params.</find>
+      <find>params.iter</find>
+      <find>insert_initia</find>
+      <find>queue</find>
+      <find>for</find>
       <find>local_grow</find>
+      <find>kept defaul</find>
     </findStrings>
     <replaceStrings>
       <replace>//#pragma</replace>
@@ -189,7 +98,6 @@
         <option value="$PROJECT_DIR$/aux_energy_model.cpp" />
         <option value="$PROJECT_DIR$/energy_structures.h" />
         <option value="$PROJECT_DIR$/tvl2_model.h" />
-        <option value="$PROJECT_DIR$/tvl2_model.cpp" />
         <option value="$PROJECT_DIR$/tvcsadw_model.cpp" />
         <option value="$PROJECT_DIR$/tvl2w_model.cpp" />
         <option value="$PROJECT_DIR$/nltvw_model.cpp" />
@@ -201,11 +109,14 @@
         <option value="$PROJECT_DIR$/tvl2_model_occ.cpp" />
         <option value="$PROJECT_DIR$/energy_model.cpp" />
         <option value="$PROJECT_DIR$/utils_preprocess.h" />
-        <option value="$PROJECT_DIR$/utils_preprocess.cpp" />
         <option value="$PROJECT_DIR$/iio.c" />
-        <option value="$PROJECT_DIR$/local_faldoi.cpp" />
         <option value="$PROJECT_DIR$/parameters.h" />
         <option value="$PROJECT_DIR$/global_faldoi.cpp" />
+        <option value="$PROJECT_DIR$/utils_preprocess.cpp" />
+        <option value="$PROJECT_DIR$/bicubic_interpolation.c" />
+        <option value="$PROJECT_DIR$/tvl2_model.cpp" />
+        <option value="$PROJECT_DIR$/utils.cpp" />
+        <option value="$PROJECT_DIR$/local_faldoi.cpp" />
       </list>
     </option>
   </component>
@@ -215,12 +126,12 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds" extendedState="4">
-    <option name="x" value="992" />
-    <option name="y" value="24" />
+  <component name="OCFindUsagesOptions" text="false" ivars="false" properties="true" derivedClasses="false" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="75" />
+    <option name="y" value="-4" />
     <option name="width" value="928" />
-    <option name="height" value="1056" />
+    <option name="height" value="1084" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -239,9 +150,9 @@
     <panes />
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Faldoi_tfm-master/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../source_faldoi/source_faldoi" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -255,14 +166,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.global_faldoi">
+  <component name="RunManager" selected="Application.local_faldoi_subimages">
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="faldoi_qtcreator" RUN_TARGET_NAME="local_faldoi" EXPLICIT_BUILD_TARGET_NAME="all">
       <envs />
     </configuration>
     <configuration name="global_faldoi" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="faldoi_qtcreator" TARGET_NAME="global_faldoi" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="faldoi_qtcreator" RUN_TARGET_NAME="local_faldoi">
       <envs />
     </configuration>
-    <configuration name="local_faldoi" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="faldoi_qtcreator" TARGET_NAME="local_faldoi" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="faldoi_qtcreator" RUN_TARGET_NAME="local_faldoi">
+    <configuration name="local_faldoi_subimages" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../example_data/sintel_one_frame.txt ../Results/frame_0002_sift_mt_1.flo ../Results/frame_0003_sift_mt_2.flo ../Results/frame_0002_sift_rg.flo ../Results/frame_0002_sift_sim.tiff -m 0 -wr 5 " WORKING_DIR="file://$PROJECT_DIR$/../build" PASS_PARENT_ENVS_2="true" PROJECT_NAME="faldoi_qtcreator" TARGET_NAME="local_faldoi" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="faldoi_qtcreator" RUN_TARGET_NAME="local_faldoi">
       <envs />
     </configuration>
     <configuration name="sparse_flow" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="faldoi_qtcreator" TARGET_NAME="sparse_flow" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="faldoi_qtcreator" RUN_TARGET_NAME="sparse_flow">
@@ -271,7 +182,7 @@
     <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Application.Build All" />
       <item index="1" class="java.lang.String" itemvalue="Application.global_faldoi" />
-      <item index="2" class="java.lang.String" itemvalue="Application.local_faldoi" />
+      <item index="2" class="java.lang.String" itemvalue="Application.local_faldoi_subimages" />
       <item index="3" class="java.lang.String" itemvalue="Application.sparse_flow" />
     </list>
   </component>
@@ -299,21 +210,31 @@
       <workItem from="1519288656403" duration="3005000" />
       <workItem from="1519638359240" duration="23775000" />
       <workItem from="1519821609017" duration="26474000" />
+      <workItem from="1521457888539" duration="6578000" />
+      <workItem from="1522052947450" duration="1023000" />
+      <workItem from="1522137961904" duration="7061000" />
+      <workItem from="1522223342844" duration="1912000" />
+      <workItem from="1523521003386" duration="6186000" />
+      <workItem from="1524050632818" duration="59000" />
+      <workItem from="1524050771438" duration="14000" />
+      <workItem from="1524051307328" duration="1630000" />
+      <workItem from="1524209787452" duration="605000" />
+      <workItem from="1524212270511" duration="1422000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="142831000" />
+    <option name="totallyTimeSpent" value="169321000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="992" y="24" width="928" height="1056" extended-state="4" />
+    <frame x="75" y="-4" width="1857" height="1092" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20797414" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16806723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15816326" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -321,6 +242,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -355,26 +277,27 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="5" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/local_faldoi.cpp</url>
+          <line>1009</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/local_faldoi.cpp</url>
+          <line>1172</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="7" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/parameters.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="8" lean-forward="false" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sparse_flow.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="990">
           <caret line="55" column="17" lean-forward="false" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -382,7 +305,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4050">
           <caret line="225" column="88" lean-forward="false" selection-start-line="223" selection-start-column="12" selection-end-line="225" selection-end-column="88" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -391,7 +313,6 @@
         <state relative-caret-position="5418">
           <caret line="301" column="18" lean-forward="false" selection-start-line="301" selection-start-column="18" selection-end-line="301" selection-end-column="18" />
           <folding>
-            <element signature="e#410#426#0" expanded="true" />
             <element signature="e#577#595#0" expanded="true" />
             <element signature="e#693#716#0" expanded="true" />
             <element signature="e#818#842#0" expanded="true" />
@@ -410,11 +331,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#481#499#0" expanded="true" />
-            <element signature="e#817#833#0" expanded="true" />
-            <element signature="e#897#913#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -422,7 +339,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="26568">
           <caret line="1476" column="55" lean-forward="false" selection-start-line="1476" selection-start-column="55" selection-end-line="1476" selection-end-column="55" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -438,7 +354,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5940">
           <caret line="330" column="0" lean-forward="false" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -454,9 +369,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="990">
           <caret line="55" column="17" lean-forward="false" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -464,7 +376,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4050">
           <caret line="225" column="88" lean-forward="false" selection-start-line="223" selection-start-column="12" selection-end-line="225" selection-end-column="88" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -473,7 +384,6 @@
         <state relative-caret-position="5418">
           <caret line="301" column="18" lean-forward="false" selection-start-line="301" selection-start-column="18" selection-end-line="301" selection-end-column="18" />
           <folding>
-            <element signature="e#410#426#0" expanded="true" />
             <element signature="e#577#595#0" expanded="true" />
             <element signature="e#693#716#0" expanded="true" />
             <element signature="e#818#842#0" expanded="true" />
@@ -492,11 +402,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#481#499#0" expanded="true" />
-            <element signature="e#817#833#0" expanded="true" />
-            <element signature="e#897#913#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -504,7 +410,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="26568">
           <caret line="1476" column="55" lean-forward="false" selection-start-line="1476" selection-start-column="55" selection-end-line="1476" selection-end-column="55" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -520,7 +425,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5940">
           <caret line="330" column="0" lean-forward="true" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -536,9 +440,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="990">
           <caret line="55" column="17" lean-forward="true" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -546,7 +447,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4050">
           <caret line="225" column="88" lean-forward="true" selection-start-line="223" selection-start-column="12" selection-end-line="225" selection-end-column="88" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -555,7 +455,6 @@
         <state relative-caret-position="5418">
           <caret line="301" column="18" lean-forward="false" selection-start-line="301" selection-start-column="18" selection-end-line="301" selection-end-column="18" />
           <folding>
-            <element signature="e#410#426#0" expanded="true" />
             <element signature="e#577#595#0" expanded="true" />
             <element signature="e#693#716#0" expanded="true" />
             <element signature="e#818#842#0" expanded="true" />
@@ -567,13 +466,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="12618">
           <caret line="701" column="30" lean-forward="false" selection-start-line="701" selection-start-column="30" selection-end-line="701" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="113" column="25" lean-forward="false" selection-start-line="113" selection-start-column="24" selection-end-line="113" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -623,7 +515,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-329">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -638,7 +529,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6264">
           <caret line="348" column="30" lean-forward="false" selection-start-line="348" selection-start-column="30" selection-end-line="348" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -646,9 +536,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1152">
           <caret line="64" column="56" lean-forward="false" selection-start-line="64" selection-start-column="56" selection-end-line="64" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -659,21 +546,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding>
-            <element signature="e#397#414#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tvcsadw_model.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
           <caret line="284" column="59" lean-forward="false" selection-start-line="279" selection-start-column="4" selection-end-line="284" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -688,7 +564,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -703,38 +578,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="53712">
           <caret line="2984" column="10" lean-forward="false" selection-start-line="2984" selection-start-column="10" selection-end-line="2984" selection-end-column="10" />
-          <folding>
-            <element signature="e#1120#1139#0" expanded="true" />
-            <element signature="e#3199#3352#0" expanded="true" />
-            <element signature="e#95013#95090#0" expanded="true" />
-            <element signature="e#112285#112317#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils_preprocess.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="56" column="23" lean-forward="false" selection-start-line="56" selection-start-column="23" selection-end-line="56" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/energy_structures.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="63" column="17" lean-forward="false" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tvl2_model.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="41" column="5" lean-forward="false" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -742,24 +585,71 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="40" column="5" lean-forward="false" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3528">
+          <caret line="196" column="32" lean-forward="false" selection-start-line="196" selection-start-column="32" selection-end-line="196" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3384">
+          <caret line="188" column="0" lean-forward="false" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tvl2_model.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="23" column="8" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/global_faldoi.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5130">
+          <caret line="285" column="28" lean-forward="false" selection-start-line="285" selection-start-column="28" selection-end-line="285" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bicubic_interpolation.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="762">
+          <caret line="253" column="4" lean-forward="false" selection-start-line="253" selection-start-column="4" selection-end-line="253" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils_preprocess.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="738">
+          <caret line="41" column="8" lean-forward="false" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tvl2_model_occ.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2053">
-          <caret line="761" column="43" lean-forward="false" selection-start-line="761" selection-start-column="38" selection-end-line="761" selection-end-column="43" />
+        <state relative-caret-position="11520">
+          <caret line="640" column="82" lean-forward="false" selection-start-line="640" selection-start-column="82" selection-end-line="640" selection-end-column="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/energy_structures.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1278">
+          <caret line="71" column="8" lean-forward="false" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/energy_model.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="776">
-          <caret line="766" column="20" lean-forward="false" selection-start-line="766" selection-start-column="20" selection-end-line="766" selection-end-column="20" />
+        <state relative-caret-position="13788">
+          <caret line="766" column="27" lean-forward="false" selection-start-line="766" selection-start-column="27" selection-end-line="766" selection-end-column="27" />
           <folding>
-            <element signature="e#410#426#0" expanded="true" />
             <element signature="e#577#595#0" expanded="true" />
             <element signature="e#693#716#0" expanded="true" />
             <element signature="e#818#842#0" expanded="true" />
@@ -769,37 +659,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tvl2_model.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1897">
+        <state relative-caret-position="4482">
           <caret line="249" column="5" lean-forward="false" selection-start-line="249" selection-start-column="5" selection-end-line="249" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/global_faldoi.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="524">
-          <caret line="1383" column="46" lean-forward="false" selection-start-line="1383" selection-start-column="46" selection-end-line="1383" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parameters.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="60" column="37" lean-forward="true" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="37" />
+        <state relative-caret-position="1026">
+          <caret line="57" column="21" lean-forward="false" selection-start-line="57" selection-start-column="21" selection-end-line="57" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/local_faldoi.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="1103" column="42" lean-forward="false" selection-start-line="1103" selection-start-column="42" selection-end-line="1103" selection-end-column="42" />
-          <folding>
-            <element signature="e#481#499#0" expanded="true" />
-            <element signature="e#817#833#0" expanded="true" />
-            <element signature="e#897#913#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="669">
+          <caret line="789" column="28" lean-forward="true" selection-start-line="789" selection-start-column="28" selection-end-line="789" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>

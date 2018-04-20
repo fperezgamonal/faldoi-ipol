@@ -43,10 +43,10 @@ RM = /home/fperezgamonal/Downloads/Programming_suites/clion-2017.3.2/bin/cmake/b
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src
+CMAKE_SOURCE_DIR = /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug
+CMAKE_BINARY_DIR = /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/global_faldoi.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/global_faldoi.dir/flags.make
 
 CMakeFiles/global_faldoi.dir/iio.c.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/iio.c.o: ../iio.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/global_faldoi.dir/iio.c.o"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/global_faldoi.dir/iio.c.o   -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/iio.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/global_faldoi.dir/iio.c.o"
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/global_faldoi.dir/iio.c.o   -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/iio.c
 
 CMakeFiles/global_faldoi.dir/iio.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/global_faldoi.dir/iio.c.i"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/iio.c > CMakeFiles/global_faldoi.dir/iio.c.i
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/iio.c > CMakeFiles/global_faldoi.dir/iio.c.i
 
 CMakeFiles/global_faldoi.dir/iio.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/global_faldoi.dir/iio.c.s"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/iio.c -o CMakeFiles/global_faldoi.dir/iio.c.s
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/iio.c -o CMakeFiles/global_faldoi.dir/iio.c.s
 
 CMakeFiles/global_faldoi.dir/iio.c.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/global_faldoi.dir/iio.c.o.provides.build: CMakeFiles/global_faldoi.di
 
 CMakeFiles/global_faldoi.dir/mask.c.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/mask.c.o: ../mask.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/global_faldoi.dir/mask.c.o"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/global_faldoi.dir/mask.c.o   -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/mask.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/global_faldoi.dir/mask.c.o"
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/global_faldoi.dir/mask.c.o   -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/mask.c
 
 CMakeFiles/global_faldoi.dir/mask.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/global_faldoi.dir/mask.c.i"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/mask.c > CMakeFiles/global_faldoi.dir/mask.c.i
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/mask.c > CMakeFiles/global_faldoi.dir/mask.c.i
 
 CMakeFiles/global_faldoi.dir/mask.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/global_faldoi.dir/mask.c.s"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/mask.c -o CMakeFiles/global_faldoi.dir/mask.c.s
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/mask.c -o CMakeFiles/global_faldoi.dir/mask.c.s
 
 CMakeFiles/global_faldoi.dir/mask.c.o.requires:
 
@@ -107,16 +107,16 @@ CMakeFiles/global_faldoi.dir/mask.c.o.provides.build: CMakeFiles/global_faldoi.d
 
 CMakeFiles/global_faldoi.dir/xmalloc.c.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/xmalloc.c.o: ../xmalloc.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/global_faldoi.dir/xmalloc.c.o"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/global_faldoi.dir/xmalloc.c.o   -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/xmalloc.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/global_faldoi.dir/xmalloc.c.o"
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/global_faldoi.dir/xmalloc.c.o   -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/xmalloc.c
 
 CMakeFiles/global_faldoi.dir/xmalloc.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/global_faldoi.dir/xmalloc.c.i"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/xmalloc.c > CMakeFiles/global_faldoi.dir/xmalloc.c.i
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/xmalloc.c > CMakeFiles/global_faldoi.dir/xmalloc.c.i
 
 CMakeFiles/global_faldoi.dir/xmalloc.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/global_faldoi.dir/xmalloc.c.s"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/xmalloc.c -o CMakeFiles/global_faldoi.dir/xmalloc.c.s
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/xmalloc.c -o CMakeFiles/global_faldoi.dir/xmalloc.c.s
 
 CMakeFiles/global_faldoi.dir/xmalloc.c.o.requires:
 
@@ -131,16 +131,16 @@ CMakeFiles/global_faldoi.dir/xmalloc.c.o.provides.build: CMakeFiles/global_faldo
 
 CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o: ../bicubic_interpolation.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o   -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/bicubic_interpolation.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o"
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o   -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.c
 
 CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.i"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/bicubic_interpolation.c > CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.i
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.c > CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.i
 
 CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.s"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/bicubic_interpolation.c -o CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.s
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.c -o CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.s
 
 CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o.requires:
 
@@ -155,16 +155,16 @@ CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o.provides.build: CMakeFile
 
 CMakeFiles/global_faldoi.dir/elap_recsep.c.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/elap_recsep.c.o: ../elap_recsep.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/global_faldoi.dir/elap_recsep.c.o"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/global_faldoi.dir/elap_recsep.c.o   -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/elap_recsep.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/global_faldoi.dir/elap_recsep.c.o"
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/global_faldoi.dir/elap_recsep.c.o   -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/elap_recsep.c
 
 CMakeFiles/global_faldoi.dir/elap_recsep.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/global_faldoi.dir/elap_recsep.c.i"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/elap_recsep.c > CMakeFiles/global_faldoi.dir/elap_recsep.c.i
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/elap_recsep.c > CMakeFiles/global_faldoi.dir/elap_recsep.c.i
 
 CMakeFiles/global_faldoi.dir/elap_recsep.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/global_faldoi.dir/elap_recsep.c.s"
-	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/elap_recsep.c -o CMakeFiles/global_faldoi.dir/elap_recsep.c.s
+	gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/elap_recsep.c -o CMakeFiles/global_faldoi.dir/elap_recsep.c.s
 
 CMakeFiles/global_faldoi.dir/elap_recsep.c.o.requires:
 
@@ -179,16 +179,16 @@ CMakeFiles/global_faldoi.dir/elap_recsep.c.o.provides.build: CMakeFiles/global_f
 
 CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o: ../tvl2_model.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvl2_model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model.cpp
 
 CMakeFiles/global_faldoi.dir/tvl2_model.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/tvl2_model.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvl2_model.cpp > CMakeFiles/global_faldoi.dir/tvl2_model.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model.cpp > CMakeFiles/global_faldoi.dir/tvl2_model.cpp.i
 
 CMakeFiles/global_faldoi.dir/tvl2_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/tvl2_model.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvl2_model.cpp -o CMakeFiles/global_faldoi.dir/tvl2_model.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model.cpp -o CMakeFiles/global_faldoi.dir/tvl2_model.cpp.s
 
 CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o.requires:
 
@@ -203,16 +203,16 @@ CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o.provides.build: CMakeFiles/global_
 
 CMakeFiles/global_faldoi.dir/nltv_model.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/nltv_model.cpp.o: ../nltv_model.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/global_faldoi.dir/nltv_model.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/nltv_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltv_model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/global_faldoi.dir/nltv_model.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/nltv_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltv_model.cpp
 
 CMakeFiles/global_faldoi.dir/nltv_model.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/nltv_model.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltv_model.cpp > CMakeFiles/global_faldoi.dir/nltv_model.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltv_model.cpp > CMakeFiles/global_faldoi.dir/nltv_model.cpp.i
 
 CMakeFiles/global_faldoi.dir/nltv_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/nltv_model.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltv_model.cpp -o CMakeFiles/global_faldoi.dir/nltv_model.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltv_model.cpp -o CMakeFiles/global_faldoi.dir/nltv_model.cpp.s
 
 CMakeFiles/global_faldoi.dir/nltv_model.cpp.o.requires:
 
@@ -227,16 +227,16 @@ CMakeFiles/global_faldoi.dir/nltv_model.cpp.o.provides.build: CMakeFiles/global_
 
 CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o: ../tvcsad_model.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvcsad_model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsad_model.cpp
 
 CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvcsad_model.cpp > CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsad_model.cpp > CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.i
 
 CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvcsad_model.cpp -o CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsad_model.cpp -o CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.s
 
 CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o.requires:
 
@@ -251,16 +251,16 @@ CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o.provides.build: CMakeFiles/globa
 
 CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o: ../nltvcsad_model.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltvcsad_model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsad_model.cpp
 
 CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltvcsad_model.cpp > CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsad_model.cpp > CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.i
 
 CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltvcsad_model.cpp -o CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsad_model.cpp -o CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.s
 
 CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o.requires:
 
@@ -275,16 +275,16 @@ CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o.provides.build: CMakeFiles/glo
 
 CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o: ../tvl2w_model.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvl2w_model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2w_model.cpp
 
 CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvl2w_model.cpp > CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2w_model.cpp > CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.i
 
 CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvl2w_model.cpp -o CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2w_model.cpp -o CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.s
 
 CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o.requires:
 
@@ -299,16 +299,16 @@ CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o.provides.build: CMakeFiles/global
 
 CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o: ../nltvcsadw_model.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltvcsadw_model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsadw_model.cpp
 
 CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltvcsadw_model.cpp > CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsadw_model.cpp > CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.i
 
 CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltvcsadw_model.cpp -o CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsadw_model.cpp -o CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.s
 
 CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o.requires:
 
@@ -323,16 +323,16 @@ CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o.provides.build: CMakeFiles/gl
 
 CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o: ../nltvw_model.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltvw_model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvw_model.cpp
 
 CMakeFiles/global_faldoi.dir/nltvw_model.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/nltvw_model.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltvw_model.cpp > CMakeFiles/global_faldoi.dir/nltvw_model.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvw_model.cpp > CMakeFiles/global_faldoi.dir/nltvw_model.cpp.i
 
 CMakeFiles/global_faldoi.dir/nltvw_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/nltvw_model.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/nltvw_model.cpp -o CMakeFiles/global_faldoi.dir/nltvw_model.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvw_model.cpp -o CMakeFiles/global_faldoi.dir/nltvw_model.cpp.s
 
 CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o.requires:
 
@@ -347,16 +347,16 @@ CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o.provides.build: CMakeFiles/global
 
 CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o: ../tvcsadw_model.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvcsadw_model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsadw_model.cpp
 
 CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvcsadw_model.cpp > CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsadw_model.cpp > CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.i
 
 CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvcsadw_model.cpp -o CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsadw_model.cpp -o CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.s
 
 CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o.requires:
 
@@ -371,16 +371,16 @@ CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o.provides.build: CMakeFiles/glob
 
 CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o: ../aux_energy_model.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/aux_energy_model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.cpp
 
 CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/aux_energy_model.cpp > CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.cpp > CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.i
 
 CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/aux_energy_model.cpp -o CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.cpp -o CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.s
 
 CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o.requires:
 
@@ -395,16 +395,16 @@ CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o.provides.build: CMakeFiles/g
 
 CMakeFiles/global_faldoi.dir/energy_model.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/energy_model.cpp.o: ../energy_model.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/global_faldoi.dir/energy_model.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/energy_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/energy_model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/global_faldoi.dir/energy_model.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/energy_model.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_model.cpp
 
 CMakeFiles/global_faldoi.dir/energy_model.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/energy_model.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/energy_model.cpp > CMakeFiles/global_faldoi.dir/energy_model.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_model.cpp > CMakeFiles/global_faldoi.dir/energy_model.cpp.i
 
 CMakeFiles/global_faldoi.dir/energy_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/energy_model.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/energy_model.cpp -o CMakeFiles/global_faldoi.dir/energy_model.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_model.cpp -o CMakeFiles/global_faldoi.dir/energy_model.cpp.s
 
 CMakeFiles/global_faldoi.dir/energy_model.cpp.o.requires:
 
@@ -419,16 +419,16 @@ CMakeFiles/global_faldoi.dir/energy_model.cpp.o.provides.build: CMakeFiles/globa
 
 CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o: ../tvl2_model_occ.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvl2_model_occ.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model_occ.cpp
 
 CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvl2_model_occ.cpp > CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model_occ.cpp > CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.i
 
 CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/tvl2_model_occ.cpp -o CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model_occ.cpp -o CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.s
 
 CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o.requires:
 
@@ -443,16 +443,16 @@ CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o.provides.build: CMakeFiles/glo
 
 CMakeFiles/global_faldoi.dir/utils.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/utils.cpp.o: ../utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/global_faldoi.dir/utils.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/utils.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/utils.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/global_faldoi.dir/utils.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/utils.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.cpp
 
 CMakeFiles/global_faldoi.dir/utils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/utils.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/utils.cpp > CMakeFiles/global_faldoi.dir/utils.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.cpp > CMakeFiles/global_faldoi.dir/utils.cpp.i
 
 CMakeFiles/global_faldoi.dir/utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/utils.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/utils.cpp -o CMakeFiles/global_faldoi.dir/utils.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.cpp -o CMakeFiles/global_faldoi.dir/utils.cpp.s
 
 CMakeFiles/global_faldoi.dir/utils.cpp.o.requires:
 
@@ -467,16 +467,16 @@ CMakeFiles/global_faldoi.dir/utils.cpp.o.provides.build: CMakeFiles/global_faldo
 
 CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o: ../utils_preprocess.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/utils_preprocess.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils_preprocess.cpp
 
 CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/utils_preprocess.cpp > CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils_preprocess.cpp > CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.i
 
 CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/utils_preprocess.cpp -o CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils_preprocess.cpp -o CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.s
 
 CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o.requires:
 
@@ -491,16 +491,16 @@ CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o.provides.build: CMakeFiles/g
 
 CMakeFiles/global_faldoi.dir/global_faldoi.cpp.o: CMakeFiles/global_faldoi.dir/flags.make
 CMakeFiles/global_faldoi.dir/global_faldoi.cpp.o: ../global_faldoi.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/global_faldoi.dir/global_faldoi.cpp.o"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/global_faldoi.cpp.o -c /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/global_faldoi.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/global_faldoi.dir/global_faldoi.cpp.o"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/global_faldoi.dir/global_faldoi.cpp.o -c /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/global_faldoi.cpp
 
 CMakeFiles/global_faldoi.dir/global_faldoi.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/global_faldoi.dir/global_faldoi.cpp.i"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/global_faldoi.cpp > CMakeFiles/global_faldoi.dir/global_faldoi.cpp.i
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/global_faldoi.cpp > CMakeFiles/global_faldoi.dir/global_faldoi.cpp.i
 
 CMakeFiles/global_faldoi.dir/global_faldoi.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/global_faldoi.dir/global_faldoi.cpp.s"
-	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/global_faldoi.cpp -o CMakeFiles/global_faldoi.dir/global_faldoi.cpp.s
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/global_faldoi.cpp -o CMakeFiles/global_faldoi.dir/global_faldoi.cpp.s
 
 CMakeFiles/global_faldoi.dir/global_faldoi.cpp.o.requires:
 
@@ -561,7 +561,7 @@ global_faldoi: CMakeFiles/global_faldoi.dir/build.make
 global_faldoi: /usr/lib/x86_64-linux-gnu/libpng.so
 global_faldoi: /usr/lib/x86_64-linux-gnu/libz.so
 global_faldoi: CMakeFiles/global_faldoi.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable global_faldoi"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable global_faldoi"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/global_faldoi.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -596,6 +596,6 @@ CMakeFiles/global_faldoi.dir/clean:
 .PHONY : CMakeFiles/global_faldoi.dir/clean
 
 CMakeFiles/global_faldoi.dir/depend:
-	cd /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug /home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/cmake-build-debug/CMakeFiles/global_faldoi.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/cmake-build-debug/CMakeFiles/global_faldoi.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/global_faldoi.dir/depend
 

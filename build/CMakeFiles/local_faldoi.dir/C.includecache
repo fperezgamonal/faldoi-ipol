@@ -6,11 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/bicubic_interpolation.c
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.c
 stdbool.h
 -
+omp.h
+-
 
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/elap_recsep.c
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/elap_recsep.c
 math.h
 -
 stdlib.h
@@ -24,13 +26,13 @@ stdio.h
 string.h
 -
 mask.h
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/mask.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/mask.h
 zoom.h
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/zoom.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/zoom.h
 smapa.h
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/smapa.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/smapa.h
 
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/iio.c
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/iio.c
 assert.h
 -
 stdbool.h
@@ -46,9 +48,9 @@ string.h
 stdarg.h
 -
 iio.h
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/iio.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/iio.h
 png.h
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/png.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/png.h
 setjmp.h
 -
 ctype.h
@@ -66,7 +68,7 @@ ctype.h
 ImfCRgbaFile.h
 -
 
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/iio.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/iio.h
 stddef.h
 -
 stdbool.h
@@ -74,7 +76,7 @@ stdbool.h
 stdint.h
 -
 
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/mask.c
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/mask.c
 stdlib.h
 -
 stdio.h
@@ -82,9 +84,9 @@ stdio.h
 math.h
 -
 xmalloc.h
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/xmalloc.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/xmalloc.h
 
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/mask.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/mask.h
 stdlib.h
 -
 stdio.h
@@ -92,19 +94,19 @@ stdio.h
 math.h
 -
 
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/smapa.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/smapa.h
 
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/xmalloc.c
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/xmalloc.c
 stdio.h
 -
 stdlib.h
 -
 
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/xmalloc.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/xmalloc.h
 stdio.h
 -
 stdlib.h
 -
 
-/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/src/zoom.h
+/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/zoom.h
 

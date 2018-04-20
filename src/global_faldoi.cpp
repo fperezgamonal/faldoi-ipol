@@ -106,7 +106,7 @@ void Dual_TVL1_optic_flow(
         bicubic_interpolation_warp(I1x, u1, u2, I1wx, nx, ny, true);
         bicubic_interpolation_warp(I1y, u1, u2, I1wy, nx, ny, true);
 
-        //#pragma omp parallel for
+        #pragma omp parallel for
         for (int i = 0; i < size; i++) {
             const float Ix2 = I1wx[i] * I1wx[i];
             const float Iy2 = I1wy[i] * I1wy[i];
@@ -125,7 +125,7 @@ void Dual_TVL1_optic_flow(
             n++;
             // Estimate the values of the variable (v1, v2)
             // (thresholding opterator TH)
-            //#pragma omp parallel for
+            #pragma omp parallel for
             for (int i = 0; i < size; i++) {
                 const float rho = rho_c[i]
                                   + (I1wx[i] * u1[i] + I1wy[i] * u2[i]);
@@ -160,7 +160,7 @@ void Dual_TVL1_optic_flow(
 
             // Estimate the values of the optical flow (u1, u2)
             error = 0.0;
-            //#pragma omp parallel for reduction(+:error)
+            #pragma omp parallel for reduction(+:error)
             for (int i = 0; i < size; i++) {
                 const float u1k = u1[i];
                 const float u2k = u2[i];
@@ -178,7 +178,7 @@ void Dual_TVL1_optic_flow(
             forward_gradient(u2, u2x, u2y, nx, ny);
 
             // Estimate the values of the dual variable (p1, p2)
-            //#pragma omp parallel for
+            #pragma omp parallel for
             for (int i = 0; i < size; i++) {
                 const float taut = tau / theta;
                 const float g1 = hypotf(u1x[i], u1y[i]);
@@ -247,7 +247,7 @@ void ofDu_getP(
     float err_D = 0.0;
     float min, max;
 
-    //#pragma omp parallel for reduction(+:err_D)
+    #pragma omp parallel for reduction(+:err_D)
     for (int i = 0; i < size; i++) {
 
         const float u1k = u1[i];
@@ -283,7 +283,7 @@ void ofDu_getD(
         float tau,
         int size
 ) {
-    //#pragma omp parallel for
+    #pragma omp parallel for
 
     for (int i = 0; i < size; i++) {
 
@@ -324,7 +324,7 @@ void ofTVl2_getP(
     float err_D = 0.0;
     float min, max;
 
-//#pragma omp parallel for
+#pragma omp parallel for
     for (int i = 0; i < size; i++) {
 
         const float u1k = u1[i];
@@ -361,7 +361,7 @@ void ofTVl2_getD(
         int size
 ) {
 
-//#pragma omp parallel for
+#pragma omp parallel for
     for (int i = 0; i < size; i++) {
 
         const float g11 = xi11[i] * xi11[i];
@@ -911,7 +911,7 @@ void non_local_divergence(
         float *div_p
 ) {
 
-    //#pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0; i < size; i++) {
         div_p[i] = 0.0;
         for (int j = 0; j < n_d; j++) {
@@ -952,7 +952,7 @@ void ofnltv_getP(
 ) {
     float err_D = 0.0;
 
-    //#pragma omp parallel for reduction(+:err_D)
+    #pragma omp parallel for reduction(+:err_D)
     for (int i = 0; i < size; i++) {
 
         const float u1k = u1[i];
@@ -1071,7 +1071,7 @@ void nltvl1_PD(
         bicubic_interpolation_warp(I1, u1, u2, I1w, w, h, true);
         bicubic_interpolation_warp(I1x, u1, u2, I1wx, w, h, true);
         bicubic_interpolation_warp(I1y, u1, u2, I1wy, w, h, true);
-        //#pragma omp parallel for
+        #pragma omp parallel for
         for (int i = 0; i < size; i++) {
             const float Ix2 = I1wx[i] * I1wx[i];
             const float Iy2 = I1wy[i] * I1wy[i];
@@ -1097,7 +1097,7 @@ void nltvl1_PD(
             n++;
             // Estimate the values of the variable (v1, v2)
             // (thresholding opterator TH)
-            //#pragma omp parallel for
+            #pragma omp parallel for
             for (int i = 0; i < size; i++) {
                 const float rho = rho_c[i]
                                   + (I1wx[i] * u1[i] + I1wy[i] * u2[i]);
@@ -1239,7 +1239,7 @@ void tvcsad_getP(float *u1,
                  float *err) {
     float err_D = 0.0;
 
-    //#pragma omp parallel for reduction(+:err_D)
+    #pragma omp parallel for reduction(+:err_D)
     for (int i = 0; i < size; i++) {
 
         const float u1k = u1[i];
@@ -1269,7 +1269,7 @@ void tvcsad_getP(float *u1,
 */
 void tvcsad_getD(float *xi11, float *xi12, float *xi21, float *xi22, float *u1x, float *u1y, float *u2x, float *u2y,
                  float tau, int size) {
-    //#pragma omp parallel for
+    #pragma omp parallel for
 
     for (int i = 0; i < size; i++) {
         float xi1_N = hypot(xi11[i], xi12[i]);
@@ -1385,7 +1385,7 @@ void tvcsad_PD(
             n++;
             // Estimate the values of the variable (v1, v2)
             // (thresholding opterator TH)
-            // #pragma omp parallel for
+            #pragma omp parallel for
             for (int i = 0; i < size; i++) {
                 int it = 0;
                 for (int j = 0; j < n_d; j++) {
@@ -1568,7 +1568,7 @@ void nltvcsad_PD(
         while (n < MAX_ITERATIONS_GLOBAL) {
             n++;
             // Estimate the values of the variable (v1, v2)
-            //#pragma omp parallel for
+            #pragma omp parallel for
             for (int i = 0; i < size; i++) {
                 v1[i] = u1[i];
                 v2[i] = u2[i];

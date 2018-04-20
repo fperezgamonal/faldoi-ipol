@@ -933,7 +933,6 @@ void match_growing_variational(
     cout << "(match growing) Initializing everything took "
          << elapsed_secs2.count() << endl;
 
-
     // Insert initial seeds to queues
     printf("Inserting initial seeds\n");
 
@@ -944,18 +943,58 @@ void match_growing_variational(
                                       return insert_initial_seeds(i0n, i1n, i_1n, go, &queueGo, &ofGo, &stuffGo, ene_Go,
                                                                   oft0, occ_Go, BiFilt_Go);
                                   });
-
+	
     insert_initial_seeds(i1n, i0n, i2n, ba, &queueBa, &ofBa, &stuffBa, ene_Ba, oft1, occ_Ba, BiFilt_Ba);
     future_nfixed_go.get();
 
 
+// OpenMP (tests to optimise performance at HPC)
+/*
+#pragma omp parallel
+{
+    #pragma omp single
+    {
+        #pragma omp task
+        {
+            printf("(initial_seeds-forward) Hello from thread num %d!\n", omp_get_thread_num());
+	    nfixed = insert_initial_seeds(i0n, i1n, i_1n, go, &queueGo, &ofGo, &stuffGo, ene_Go, oft0, occ_Go, BiFilt_Go);
+        }
+	#pragma omp task
+	{
+	    printf("(initial_seeds-backward) Hello from thread num %d!\n", omp_get_thread_num());
+            nfixed = insert_initial_seeds(i1n, i0n, i2n, ba, &queueBa, &ofBa, &stuffBa, ene_Ba, oft1, occ_Ba, BiFilt_Ba);
+	} 
+    }
+}
+*/
+
+/*    
+    omp_set_dynamic(0);
+    omp_set_nested(1);
+   
+#pragma omp parallel sections
+{
+    #pragma omp section
+    {
+        printf("Inserting initial forward seeds...\n");
+	insert_initial_seeds(i0n, i1n, i_1n, go, &queueGo, &ofGo, &stuffGo, ene_Go, oft0, occ_Go, BiFilt_Go);
+    }
+    
+    #pragma omp section
+    {
+        printf("Inserting initial backward seeds...\n");
+	insert_initial_seeds(i1n, i0n, i2n, ba, &queueBa, &ofBa, &stuffBa, ene_Ba, oft1, occ_Ba, BiFilt_Ba); 
+    }
+}   
+*/
     printf("Finished inserting initial seeds\n");
 
-    auto clk3 = system_clock::now(); // DEBUG
+    
+    /*auto clk3 = system_clock::now(); // DEBUG
     duration<double> elapsed_secs3 = clk3 - clk2; // DEBUG
     cout << "(match growing) inserting initial seeds took "
          << elapsed_secs3.count() << endl;
-
+    */
     const int iter = LOCAL_ITER;
     // Variables for pruning
     float tol[2] = {FB_TOL, TU_TOL};
@@ -963,67 +1002,111 @@ void match_growing_variational(
 
 
     for (int i = 0; i < iter; i++) {
-        auto clk4 = system_clock::now();  // DEBUG
+       // auto clk4 = system_clock::now();  // DEBUG
         printf("Iteration: %d\n", i);
 
         // Estimate local minimization (I0-I1)
-        auto growing_fwd = async(launch::async,
+
+	auto growing_fwd = async(launch::async,
                                  [&] {
                                      local_growing(i0n, i1n, i_1n, &queueGo, &stuffGo, &ofGo, i, ene_Go, oft0, occ_Go,
                                                    BiFilt_Go, true);
                                  });
-
+	
         // auto clk5 = system_clock::now(); // DEBUG
-/*        duration<double> elapsed_secs4 = clk5- clk4; // DEBUG
-        cout << "(match growing) ASYNCH NOT TRUELocal iteration " << i << " => local_growing (I0-I1) took "
-             << elapsed_secs4.count() << endl;*/
+        //duration<double> elapsed_secs4 = clk5- clk4; // DEBUG
+        //cout << "(match growing) ASYNCH NOT TRUELocal iteration " << i << " => local_growing (I0-I1) took "
+          //   << elapsed_secs4.count() << endl;
 
 
         // Estimate local minimization (I1-I0)
         local_growing(i1n, i0n, i2n, &queueBa, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, BiFilt_Ba, false);
-        auto clk5 = system_clock::now(); // DEBUG
-        duration<double> elapsed_secs5 = clk5- clk4; // DEBUG
-        cout << "(match growing) Local iteration " << i << " => local_growing (I1-I0) took "
-             << elapsed_secs5.count() << endl;
+        //auto clk5 = system_clock::now(); // DEBUG
+        //duration<double> elapsed_secs5 = clk5- clk4; // DEBUG
+        //cout << "(match growing) Local iteration " << i << " => local_growing (I1-I0) took "
+        //     << elapsed_secs5.count() << endl;
 
         growing_fwd.get();  // HERE the first growing is retrieved
-        auto clk_extra = system_clock::now();
-        duration<double> elapsed_extra = clk_extra- clk4; // DEBUG
-        cout << "(match growing) ASYNC Local iteration " << i << " => local_growing (I0-I1) took "
-             << elapsed_secs5.count() << endl;
+        //auto clk_extra = system_clock::now();
+        //duration<double> elapsed_extra = clk_extra- clk4; // DEBUG
+        //cout << "(match growing) ASYNC Local iteration " << i << " => local_growing (I0-I1) took "
+        //     << elapsed_secs5.count() << endl;
 
+	
+/*	
+    #pragma omp parallel
+    {
+        #pragma omp single
+        {
+            #pragma omp task
+	    {
+                printf("(local_growing-forward) Hello from thread num %d!\n", omp_get_thread_num());                
+		local_growing(i0n, i1n, i_1n, &queueGo, &stuffGo, &ofGo, i, ene_Go, oft0, occ_Go,
+                                                        BiFilt_Go, true);
+	    }            
+	    #pragma omp task
+	    {
+		printf("(local_growing-backward) Hello from thread num %d!\n", omp_get_thread_num());
+	        local_growing(i1n, i0n, i2n, &queueBa, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, 
+							BiFilt_Ba, false);	
+	    }
+        }
+    }
+*/
 
+    /*
+    #pragma omp parallel sections
+    {
+	#pragma omp section
+	{
+	    printf("Starting forward local growing...\n");
+	    local_growing(i0n, i1n, i_1n, &queueGo, &stuffGo, &ofGo, i, ene_Go, oft0, occ_Go,
+                                                   BiFilt_Go, true);
+	}
 
+	#pragma omp section
+	{
+	    printf("Starting backward local growing...\n");
+	    local_growing(i1n, i0n, i2n, &queueBa, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba,
+						   BiFilt_Ba, false);	
+	}	   
+    } 
+    */
+    
         // Pruning method
         pruning_method(i0n, i1n, w, h, tol, p, ofGo.trust_points, oft0, ofBa.trust_points, oft1);
 
-        auto clk7 = system_clock::now(); // DEBUG
+        /*auto clk7 = system_clock::now(); // DEBUG
         duration<double> elapsed_secs6 = clk7- clk5; // DEBUG
         cout << "(match growing) Local iteration " << i << " => pruning method took "
              << elapsed_secs6.count() << endl;
 
+	*/
         // Delete not trustable candidates based on the previous pruning
         delete_not_trustable_candidates(&ofGo, oft0, ene_Go);
         delete_not_trustable_candidates(&ofBa, oft1, ene_Ba);
 
+	/*
         auto clk8 = system_clock::now(); // DEBUG
         duration<double> elapsed_secs7 = clk8- clk7; // DEBUG
         cout << "(match growing) Local iteration " << i << " => delete non-trustable candidates "
              << elapsed_secs7.count() << endl;
 
-        // Insert each pixel into the queue as possible candidate
+        */
+	// Insert each pixel into the queue as possible candidate
         insert_potential_candidates(oft0, &ofGo, queueGo, ene_Go, occ_Go);
         insert_potential_candidates(oft1, &ofBa, queueBa, ene_Ba, occ_Ba);
 
-        auto clk9 = system_clock::now(); // DEBUG
+        
+	/*auto clk9 = system_clock::now(); // DEBUG
         duration<double> elapsed_secs8 = clk9- clk8; // DEBUG
         cout << "(match growing) Local iteration " << i << " => insert potential candidates "
              << elapsed_secs8.count() << endl;
-
+	*/
         prepare_data_for_growing(&ofGo, ene_Go, oft0, occ_Go);
         prepare_data_for_growing(&ofBa, ene_Ba, oft1, occ_Ba);
 
-        auto clk10 = system_clock::now(); // DEBUG
+        /*auto clk10 = system_clock::now(); // DEBUG
         duration<double> elapsed_secs9 = clk10- clk9; // DEBUG
         cout << "(match growing) Local iteration " << i << " => prepare data for growing "
              << elapsed_secs9.count() << endl;
@@ -1031,20 +1114,20 @@ void match_growing_variational(
         auto clk11 = system_clock::now(); // DEBUG
         duration<double> elapsed_secs10 = clk11- clk4; // DEBUG
         cout << "(match growing) Local iteration " << i << " => all iteration's tasks took "
-             << elapsed_secs10.count() << endl;
+             << elapsed_secs10.count() << endl;*/
     }
-    auto last_growing = system_clock::now();    //DEBUG
+    //auto last_growing = system_clock::now();    //DEBUG
 
 
     printf("Last growing\n");
     local_growing(i0n, i1n, i_1n, &queueGo, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true);
 
 
-    auto clk_end = system_clock::now(); // DEBUG
+    /*auto clk_end = system_clock::now(); // DEBUG
     duration<double> elapsed_secs = clk_end- last_growing; // DEBUG
     cout << "(match growing) Last growing took "
          << elapsed_secs.count() << endl;
-
+    */	
     // Copy the result t, t+1 as output.
     memcpy(out_flow, oft0, sizeof(float) * w * h * 2);
     memcpy(ene_val, ene_Go, sizeof(float) * w * h);

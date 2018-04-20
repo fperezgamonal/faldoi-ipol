@@ -12,6 +12,7 @@
 
 #include <stdbool.h>
 
+#include <omp.h>
 #define BOUNDARY_CONDITION 0
 //0 Neumann
 //1 Periodic
@@ -250,13 +251,13 @@ void bicubic_interpolation_warp(
 	const int    ny,        // image height
 	bool         border_out // if true, put zeros outside the region
 ){
-    //#pragma omp parallel for
+    #pragma omp parallel for schedule(dynamic,1) collapse(2)
 	for(int i = 0; i < ny; i++)
 		for(int j = 0; j < nx; j++)
 		{
 			const int   p  = i * nx + j;
-			const float uu = (float) (j + u[p]);
-			const float vv = (float) (i + v[p]);
+			const float uu = j + u[p];
+			const float vv = i + v[p];
 
 			// obtain the bicubic interpolation at position (uu, vv)
 			output[p] = bicubic_interpolation_at(input,
@@ -285,12 +286,12 @@ void bicubic_interpolation_warp_patch(
         const int    ny,        // image height
         bool         border_out // if true, put zeros outside the region
         ) {
-//#pragma omp parallel for schedule(dynamic,1) collapse(2)
-    for(int j = ij; j < ej; j++)
+#pragma omp parallel for schedule(dynamic,1) collapse(2)
+	for(int j = ij; j < ej; j++)
         for(int i = ii; i < ei; i++){
             const int   p  = j * nx + i;
-            const float uu = (float) (i + u[p]);
-            const float vv = (float) (j + v[p]);
+            const float uu = i + u[p];
+            const float vv = j + v[p];
 
             // obtain the bicubic interpolation at position (uu, vv)
             output[p] = bicubic_interpolation_at(input,

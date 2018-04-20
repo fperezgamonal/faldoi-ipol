@@ -232,6 +232,7 @@ if local_of:
 			                    region_growing, sim_value, options)
 	# print param
 	command_line = '%s %s\n' % (match_propagation, param)
+	#print("l_of cmd:\n{}\n".format(command_line))
 	os.system(command_line)
 	# Elapsed time (dense flow from sparse set of initial seeds)
 	dense_timer = time.time()

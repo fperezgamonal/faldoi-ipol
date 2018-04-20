@@ -29,6 +29,7 @@ extern "C" {
 #include "bicubic_interpolation.h"
 #include "xmalloc.h"
 }
+#include <omp.h>
 
 
 #define PAR_DEFAULT_GAMMA 0.05
@@ -184,7 +185,7 @@ void forward_gradient_patch(
 
     // compute the divergence on the central body of the image
 //#pragma omp simd collapse(2)
-//#pragma omp for schedule(dynamic, 1) collapse(2)
+#pragma omp for schedule(dynamic, 1) collapse(2)
     for (int j = ij; j < ej-1; j++){
         for (int i = ii; i < ei-1; i++){
             const int p = j*nx + i;
