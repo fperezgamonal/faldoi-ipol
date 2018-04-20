@@ -120,7 +120,7 @@ Includes the optional parameters to model occlusions (only available with the TV
 ```bash
 ./fast_faldoi_occ.py file_paths_to_images.txt [options]
 ```
-options: same as fast_faldoi.py (see above).\
+options: same as fast_faldoi.py (see above).
 
 #### NOTE
 The format of the **file_paths_to_images.txt** file, is the following:
@@ -130,7 +130,7 @@ path/to/frame_0003.png
 path/to/frame_0001.png
 path/to/frame_0004.png
 ```
-For now, the paths should be absolute or relative to the current path (only those with the '~' character do not work ATM, e.g.: '~/Data/Results/Experiment1/'). We are trying to fix this as soon as possible.
+For now, the paths should be absolute or relative to the current path (only those with the tilde '~' character do not work ATM, e.g.: '~/Data/Results/Experiment1/'). We are trying to fix this as soon as possible.
 
 Notice that the order is important. The paths should be entered (one per line) as follows: first line: I0, second line: I1, third line: I_1 and fourth line: I2. Chronologically, they are ordered as: I_1 (t-1) --> I0 (t) --> I1 (t+1) --> I2 (t+2).
 If you are not modeling occlusions, you can pass only 2 paths to frames I0 and I1. Nevertheless, specifying the 4 paths as if you were using occlusions will enable you to use the same input files if you desire to start modeling occlusions at some point.
@@ -144,7 +144,7 @@ If you want to run the algorithm with SIFT matches and specify your own results 
 ```bash
 ./fast_sift.py file_paths_to_images.txt -vm 0 -wr 5 -res_path ~/Documents/tmp_faldoi/Experiment1/Results/
 ```
-Remember to add the final '/' so the files are created _inside_ the child folder (in the example 'Results') and not in its parent directory. You may run the '*faldoi_deep.py*' and '*faldoi_deep_occ*' in a similar fashion (we have not run several tests with them so some bugs may be present).
+Remember to add the final slash '/' so the files are created _inside_ the child folder (in the example 'Results') and not in its parent directory. You may run the '*faldoi_deep.py*' and '*faldoi_deep_occ*' in a similar fashion (we have not run several tests with them so some bugs may be present).
 
 ## Developers
 - Roberto Palomares, 2014 (main dev)
