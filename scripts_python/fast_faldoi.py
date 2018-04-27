@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 """
  Litle script for faldoy to execute the data from deep matches.
 

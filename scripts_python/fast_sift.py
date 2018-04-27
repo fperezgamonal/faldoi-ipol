@@ -1,10 +1,11 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 """
  Litle script for faldoy to execute the data from sift matches.
 
 """
 import argparse
 import os
+import sys
 import subprocess
 import shlex
 import time  # added for 'profiling'
