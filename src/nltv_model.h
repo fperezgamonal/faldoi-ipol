@@ -17,7 +17,7 @@
 
 void  intialize_stuff_nltvl1(
         SpecificOFStuff *ofStuff,
-        OpticalFlowData *ofCore);
+        OpticalFlowData *ofCore, int w, int h);
 
 
 void  free_stuff_nltvl1(SpecificOFStuff *ofStuff);
@@ -28,9 +28,9 @@ void eval_nltvl1(
         OpticalFlowData *ofD,
         NonLocalTVL1Stuff *nltvl1,
         float *ener_N,
-        const PatchIndexes index,
-        const float lambda,  // weight of the data term
-        const float theta
+        PatchIndexes index,
+        float lambda,  // weight of the data term
+        float theta
         );
 
 
@@ -49,11 +49,11 @@ void nltvl1_getP(
         int *mask,
         float theta,
         float tau,
-        const int ii, // initial column
-        const int ij, // initial row
-        const int ei, // end column
-        const int ej, // end row
-        const int w,
+        int ii, // initial column
+        int ij, // initial row
+        int ei, // end column
+        int ej, // end row
+        int w,
         float *u1,
         float *u2,
         float *err
@@ -62,11 +62,11 @@ void nltvl1_getP(
 void nltvl1_getD(
         float *u1,
         float *u2,
-        const int ii, // initial column
-        const int ij, // initial row
-        const int ei, // end column
-        const int ej, // end row
-        const int w,
+        int ii, // initial column
+        int ij, // initial row
+        int ei, // end column
+        int ej, // end row
+        int w,
         int n_d,
         float tau,
         DualVariables *p1,
@@ -79,13 +79,15 @@ void guided_nltvl1(
         OpticalFlowData *ofD,
         NonLocalTVL1Stuff *nltvl1,
         float *ener_N,
-        const PatchIndexes index, // end row
-        const float lambda,  // weight of the data term
-        const float theta,   // weight of the data term
-        const float tau,     // time step
-        const float tol_OF,  // tol max allowed
-        const int   warps,   // number of warpings per scale
-        const bool  verbose  // enable/disable the verbose mode
+        PatchIndexes index, // end row
+        float lambda,  // weight of the data term
+        float theta,   // weight of the data term
+        float tau,     // time step
+        float tol_OF,  // tol max allowed
+        int   warps,   // number of warpings per scale
+        bool  verbose, // enable/disable the verbose mode
+        int w,         // width of I0 (and I1)
+        int h          // height of I0 (and I1)
         );
 
 #endif //TVL2-L1 functional

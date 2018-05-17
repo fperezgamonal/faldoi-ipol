@@ -17,10 +17,11 @@ extern "C" {
 //// INITIALIZATION OF EACH METHOD
 void intialize_stuff_tvl2coupled(
         SpecificOFStuff *ofStuff,
-        OpticalFlowData *ofCore) {
+        OpticalFlowData *ofCore, const int w, const int h) {
 
-    const int w = ofCore->params.w;
-    const int h = ofCore->params.h;
+    // Added w, h in as function params
+    //const int w = ofCore->params.w;
+    //const int h = ofCore->params.h;
     //fprintf(stderr, "W x H :%d x %d\n", w, h);
 
     ofStuff->tvl2.xi11 = new float[w * h];
@@ -185,7 +186,9 @@ void eval_tvl2coupled(
         const int ei,               // end column
         const int ej,               // end row
         const float lambda,         // weight of the data term
-        const float theta
+        const float theta,
+        const int nx,
+        const int ny
 ) {
 
     float *u1 = ofD->u1;
@@ -193,8 +196,8 @@ void eval_tvl2coupled(
 
 
     // Columns and Rows
-    const int nx = ofD->params.w;
-    const int ny = ofD->params.h;
+    //const int nx = ofD->params.w;
+    //const int ny = ofD->params.h;
 
     // Optical flow derivatives
     float *v1 = tvl2->v1;
@@ -262,15 +265,17 @@ void guided_tvl2coupled(
         const float tau,            // time step
         const float tol_OF,         // tol max allowed
         const int warps,            // number of warpings per scale
-        const bool verbose          // enable/disable the verbose mode
+        const bool verbose,         // enable/disable the verbose mode
+        const int nx,               // width of I0 (and I1)
+        const int ny                // height of I0 (and I1)
 ) {
 
     float *u1 = ofD->u1;
     float *u2 = ofD->u2;
 
     // Columns and Rows
-    const int nx = ofD->params.w;
-    const int ny = ofD->params.h;
+    //const int nx = ofD->params.w;
+    //const int ny = ofD->params.h;
 
 
     float *u1_ = tvl2->u1_;
@@ -366,7 +371,7 @@ void guided_tvl2coupled(
 
         int n = 0;
         float err_D = INFINITY;
-        while (err_D > tol_OF * tol_OF && n < MAX_ITERATIONS_LOCAL) {
+        while (err_D > tol_OF * tol_OF && n < ofD->params.max_iter_patch) {
 
             n++;
             // Estimate the values of the variable (v1, v2)
@@ -442,7 +447,7 @@ void guided_tvl2coupled(
             std::printf("Warping: %d,Iter: %d "
                                 "Error: %f\n", warpings, n, err_D);
     }
-    eval_tvl2coupled(I0, I1, ofD, tvl2, ener_N, ii, ij, ei, ej, lambda, theta);
+    eval_tvl2coupled(I0, I1, ofD, tvl2, ener_N, ii, ij, ei, ej, lambda, theta, nx, ny);
 }
 
 #endif //TVL2-L1 functional

@@ -70,6 +70,10 @@ struct Parameters{
     int val_method;
     int step_algorithm;
     int iterations_of;
+    int max_iter_patch;
+    int split_img;
+    int h_parts;
+    int v_parts;
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Parameters& p){
@@ -426,9 +430,9 @@ struct  Tvl2CoupledOFStuff_occ {
 
 
 //General Struct for the auxiliar stuff.
-//Each pointer contains the auxiliar necessary information to estimate the of. 
+//Each pointer contains the auxiliar necessary information to estimate the OF.
 struct  SpecificOFStuff{
-    //TODO: Should think a best option. To link the things
+    //TODO: Should think of a better option. To link the things
     //Creo que el problema viene por como declaramos los punteros y todo eso.
 
     Tvl2CoupledOFStuff  tvl2;
@@ -445,5 +449,44 @@ struct  SpecificOFStuff{
 
 };
 
+// Struct to contain all the partition-specific variables (generalisation of the 1 partition (whole image) case...)
+struct PartitionParams {
+    int idx;
+    int width;
+    int height;
+    int off_x;
+    int off_y;
+    int n_ch;
+    float *i0n;
+    float *i1n;
+    float *i_1n;
+    float *i2n;
+    float *oft0;
+    float *oft1;
+    float *ene_Go;
+    float *ene_Ba;
+    float *occ_Go;
+    float *occ_Ba;
+    pq_cand *queue_Go;
+    pq_cand *queue_Ba;
+    SpecificOFStuff stuff_Go;
+    SpecificOFStuff stuff_Ba;
+    OpticalFlowData ofGo;
+    OpticalFlowData ofBa;
+    BilateralFilterData BiFilt_Go;
+    BilateralFilterData BiFilt_Ba;
+
+    // Not needed (??)
+    /*
+     * SpecificOFStuff stuff_Go; contains one struct per functional w. specific variables
+     * SpecificOFStuff stuff_Ba; same as above but for backwards' pass
+     * OpticalFlowData ofGo; common params for any functional (u1, u2, fixed_points, params (struct),...)
+     * OpticalFlowData ofBa; same as above but for backwards' pass
+     * BilateralFilterData BiFilt_Go; weights and indices of bilateral filter
+     * BilateralFilterData BiFilt_Ba; same as above but for backwards' pass
+     *
+     * Probably needed indeed (just because not every partition will necessary be equal! (diff width/height))
+     */
+};
 
 #endif// ENERGY_STRUCTURES_H

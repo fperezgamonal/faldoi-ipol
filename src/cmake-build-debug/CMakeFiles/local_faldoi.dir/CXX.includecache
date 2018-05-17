@@ -99,7 +99,7 @@ cstdio
 -
 cstring
 -
-string.h
+string
 -
 queue
 -
@@ -109,12 +109,8 @@ future
 -
 algorithm
 -
-vector
--
 energy_structures.h
 /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
-aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 energy_model.h
 /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_model.h
 utils_preprocess.h

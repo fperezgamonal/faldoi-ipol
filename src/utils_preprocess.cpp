@@ -39,10 +39,10 @@ Parameters init_params(const std::string& file_params, int step_alg){
 
     if (step_alg == LOCAL_STEP){
         params.warps = PAR_DEFAULT_NWARPS_LOCAL;
-        params.iterations_of = MAX_ITERATIONS_LOCAL;
+        //params.iterations_of = MAX_ITERATIONS_LOCAL;    // Defined in local_faldoi
     }else{
         params.warps = PAR_DEFAULT_NWARPS_GLOBAL;
-        params.iterations_of = MAX_ITERATIONS_GLOBAL;
+        //params.iterations_of = MAX_ITERATIONS_GLOBAL;   // Defined in local_faldoi
     }
 
     params.tol_OF = PAR_DEFAULT_TOL_D;

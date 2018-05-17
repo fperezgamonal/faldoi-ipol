@@ -17,7 +17,7 @@
 ////INITIALIZATION OF EACH METHOD
 void  intialize_stuff_tvl2coupled(
           SpecificOFStuff *ofStuff,
-          OpticalFlowData *ofCore
+          OpticalFlowData *ofCore, int w, int h
           );
 void  free_stuff_tvl2coupled(SpecificOFStuff *ofStuff);
 
@@ -54,7 +54,9 @@ void guided_tvl2coupled(
     float tau,                  // time step
     float tol_OF,               // tol max allowed
     int   warps,                // number of warpings per scale
-    bool  verbose               // enable/disable the verbose mode
+    bool  verbose,              // enable/disable the verbose mode
+    int nx,                     // width of I0 (and I1)
+    int ny                      // height of I0 (and I1)
     );
 
 #endif //TVL2-L1 functional

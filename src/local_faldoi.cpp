@@ -16,15 +16,13 @@
 #include <cmath>
 #include <cstdio>
 #include <cstring>
-#include <string.h>
+#include <string>
 #include <queue>
 #include <random>
 #include <future>
 #include <algorithm>
-#include <vector>
 
 #include "energy_structures.h"
-#include "aux_energy_model.h"
 #include "energy_model.h"
 #include "utils_preprocess.h"
 
@@ -45,7 +43,6 @@ extern "C" {
 #include <ctime>
 
 using namespace std;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////OUTLIERS FUNCTIONS/////////////////////////////
@@ -156,7 +153,7 @@ void pruning_method(
         int w,              // width image
         int h,              // height image
         float *tol,         // tolerance too_uniform and f-b
-        int *method,        // if method[i]!=0, then
+        const int *method,  // if method[i]!=0, then
         int *trust_Go,      // energy map of u
         float *go,          // of to t, t+1
         int *trust_Ba,      // energy map of v
@@ -216,15 +213,18 @@ void pruning_method(
 void delete_not_trustable_candidates(
         OpticalFlowData *ofD,
         float *in,
-        float *ene_val
+        float *ene_val,
+        const int w,
+        const int h
 ) {
 
     int *trust_points = ofD->trust_points;
     float *u1 = ofD->u1;
     float *u2 = ofD->u2;
     float *chi = ofD->chi;
-    int w = ofD->params.w;
-    int h = ofD->params.h;
+    // w, h as params in
+    //int w = ofD->params.w;
+    //int h = ofD->params.h;
     int n = 0;
     for (int i = 0; i < w * h; i++) {
         if (trust_points[i] == 0) {
@@ -244,6 +244,183 @@ void delete_not_trustable_candidates(
     }
     printf("Total_seeds: %d\n", n);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//////////////////LOCAL PARTITION INTO SUBIMAGES////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+void init_subimage_partitions(
+        int w_src,              // Width of the source image
+        int h_src,              // Height of the source image
+        int h_parts,            // Number of horizontal parts for the partition
+        int v_parts,            // Number of vertical parts for the partition
+        int **sub_width,        // Width of each partition (may not be equal sized)
+        int **sub_height,       // Height of each partition ( "  "   "   "     "  )
+        int **offset_x,         // Offset in width (x-axis) for each partition
+        int **offset_y          // Offset in height (y-axis) for each partition
+) {
+    // Define partition-specific variables
+    int num_partitions = h_parts * v_parts;
+
+    auto *sub_w = new int[num_partitions];
+    auto *sub_h = new int[num_partitions];
+    std::fill_n(sub_w, num_partitions, w_src / h_parts);
+    std::fill_n(sub_h, num_partitions, h_src / v_parts);
+
+    int rem_width = w_src % h_parts;
+    int rem_height = h_src % v_parts;
+
+    // Add extra pixels (if the partitions cannot be of equal size)
+
+    // Horizontally
+    if (rem_width > 0)
+    {
+        for (int i = 0; i < v_parts; i++)
+        {
+            sub_w[i * h_parts + h_parts-1] += rem_width;
+        }
+    }
+
+    // Vertically
+    if (rem_height > 0)
+    {
+        for (int j = 0; j < h_parts; j++)
+        {
+            sub_h[(v_parts-1) * h_parts + j] += rem_height;
+        }
+    }
+
+    // Define partitions' offset w.r.t original image
+    auto *off_x = new int[num_partitions];
+    auto *off_y = new int[num_partitions];
+
+    for (int v = 0; v < v_parts; v++)
+        for (int h = 0; h < h_parts; h++)
+        {
+            if (h > 0)
+            {
+                off_x[v * h_parts + h] = h * sub_w[0];
+                //std::cout << offset_x[v * h_parts + h] << std::endl;
+            }
+            if (v > 0)
+            {
+                off_y[v * h_parts + h] = v * sub_h[0];
+                //std::cout << offset_y[v * h_parts + h] << std::endl;
+            }
+        }
+
+
+    // No return value, just update pointers
+    *sub_width = sub_w;
+    *sub_height = sub_h;
+    *offset_x = off_x;
+    *offset_y = off_y;
+
+}
+float* fill_subimage_partition(
+        const float *src_img,       // Pointer to source image (e.g.: i0n, i1n, ...)
+        int w_src,                  // Width of the source image
+        int n_channels,             // Number of channels (for flow array w x h x 2)
+        int h_parts,                // Number of horizontal parts for the partition
+        int v_parts,                // Number of vertical parts for the partition
+        const int *sub_width,       // Width of each partition (may not be equal sized)
+        const int *sub_height,      // Height of each partition ( "  "   "   "     "  )
+        const int *offset_x,        // Offset in width (x-axis) for each partition
+        const int *offset_y         // Offset in height (y-axis) for each partition
+) {
+    // Define partition-specific variables
+    int num_partitions = h_parts * v_parts;
+
+    // Create matrix to store num_partitions partitions
+    // mtx has num_partitions x sub_max_width size
+    int subimgs_size = 0;
+    for (int p = 0; p < num_partitions; p++)
+    {
+        subimgs_size += sub_width[p] * sub_height[p];
+    }
+
+    //int sub_max_width = *std::max_element(sub_width, sub_width + num_partitions);
+    //int sub_max_height = *std::max_element(sub_height, sub_height + num_partitions);
+    //auto *subimages = new float[num_partitions * sub_max_width * sub_max_height];
+
+    auto *subimages = new float[subimgs_size * n_channels];
+
+    for (int p = 0; p < num_partitions; p++)
+    {
+        //std::cout << "p = " << p << std::endl;
+        for (int k = 0; k < n_channels; k++)
+        {
+            //std::cout << "k = " << k << std::endl;
+            for (int j = 0; j < sub_height[p]; j++)
+                for (int i = 0; i < sub_width[p]; i++)
+                {
+                    //int m = j * sub_width[p] + i;   // equiv for 2D mtx
+                    int offset_p = 0;
+                    if (p > 0)
+                    {
+                        offset_p = p * sub_width[p-1] * sub_height[p-1];
+                    }
+
+                    int m = ((j + offset_y[p]) * sub_width[p] + offset_x[p] + i) * n_channels + k + offset_p;  // "" 3D "
+                    // idx of the subarray is computed as follows (from image array):
+                    // idx = (y + j) * p + x + i
+                    // where:   x, y (subimage offsets, top-left corner)
+                    //          i, j indices (for sub_width[p] cols, sub_height[p] rows)
+                    //          p is the width of the image (q is the height)
+                    // int idx = (offset_y[p] + j) * w_src + offset_x[p] + i; // equiv for 2D
+                    int idx = ((offset_y[p] + j) * w_src + offset_x[p] + i) * n_channels + k;  // " " 3D
+
+                    subimages[m] = src_img[idx];
+                    //std::cout << subimages[m] << "\t";
+                    //if (i == sub_width[p]-1)  std::cout << std::endl;
+
+                }
+        }
+    }
+
+    // Return pointer to subimages array
+    return subimages;
+
+}
+
+
+float* get_subimage_partition(
+        const float *subimages,
+        int part_idx,
+        const int *sub_width,
+        const int *sub_height,
+        const int n_channels,
+        const int *offset_x,
+        const int *offset_y
+) {
+    //std::cout << "Partition num = "  << part_idx << std::endl;
+    auto *partition = new float[sub_width[part_idx] * sub_height[part_idx]];
+    for (int k = 0; k < n_channels; k++)
+    {
+        //std::cout << "k = " << k << std::endl;
+        for (int j = 0; j < sub_height[part_idx]; j++)
+            for (int i = 0; i < sub_width[part_idx]; i++)
+            {
+                int offset_p = 0;
+                if (part_idx > 0)
+                {
+                    offset_p = part_idx * sub_width[part_idx-1] * sub_height[part_idx-1];
+                }
+
+                int m = ((j + offset_y[part_idx]) * sub_width[part_idx] + offset_x[part_idx] + i) * n_channels + k + offset_p;  // "" 3D "
+                int m_p = (j * sub_width[part_idx] + i) * n_channels + k;
+                partition[m_p] = subimages[m];
+                //std::cout << partition[m_p] << "\t";
+                //if (i == sub_width[part_idx]-1)  std::cout << std::endl;
+
+            }
+    }
+
+    // Return pointer to partition 'part_idx' array
+    return partition;
+}
+
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -302,13 +479,17 @@ void interpolate_poisson(
 void bilateral_filter(
         OpticalFlowData *ofD,
         BilateralFilterData *BiFilt,
-        const PatchIndexes &patch) {
+        const PatchIndexes &patch,
+        const int w,
+        const int h
+) {
 
     int *trust_points = ofD->trust_points;
     int *fixed_points = ofD->fixed_points;
 
-    const int w = ofD->params.w;
-    const int h = ofD->params.h;
+    // Added changes for subimages
+    //const int w = ofD->params.w;
+    //const int h = ofD->params.h;
 
     const int w_patch = patch.ei - patch.ii;
     const int h_patch = patch.ej - patch.ij;
@@ -431,8 +612,9 @@ void insert_candidates(
         OpticalFlowData *ofD,
         const int i,
         const int j,
-        const float ener_N
-) {
+        const float ener_N,
+        const int w,
+        const int h) {
 
     int n_neigh = 4;
     int neighborhood[8][2] = {
@@ -444,9 +626,10 @@ void insert_candidates(
             {1,  -1},
             {-1, 1},
             {-1, -1}};
+    // w, h as params in the function call
 
-    const int w = ofD->params.w;
-    const int h = ofD->params.h;
+    //const int w = ofD->params.w;
+    //const int h = ofD->params.h;
     const float *sal = ofD->saliency;
 
     for (int k = 0; k < n_neigh; k++) {
@@ -531,12 +714,15 @@ static void get_index_weight(
 inline void copy_fixed_coordinates(
         OpticalFlowData *ofD,
         const float *out,
-        const PatchIndexes &index
+        const PatchIndexes &index,
+        const int w,
+        const int h
 ) {
     float *u1 = ofD->u1;
     float *u2 = ofD->u2;
-    int w = ofD->params.w;
-    int h = ofD->params.h;
+    //Added changes for subimages
+    //int w = ofD->params.w;
+    //int h = ofD->params.h;
     int *fixed = ofD->fixed_points;
 
     for (int l = index.ij; l < index.ej; l++) {
@@ -544,8 +730,8 @@ inline void copy_fixed_coordinates(
             // Copy only fixed values from the patch
             const int i = l * w + k;
             if (fixed[i] == 1) {
-                u1[i] = (float) out[i];
-                u2[i] = (float) out[w * h + i];
+                u1[i] = out[i];
+                u2[i] = out[w * h + i];
                 assert(isfinite(u1[i]));
                 assert(isfinite(u2[i]));
             }
@@ -557,10 +743,11 @@ inline void copy_fixed_coordinates(
 // Check if there is at least one pixel that hasn't survived to the prunning.
 int check_trustable_patch(
         OpticalFlowData *ofD,
-        const PatchIndexes &index
-) {
+        const PatchIndexes &index,
+        const int w) {
+    // w, h as params in the function call
 
-    const int w = ofD->params.w;
+    //const int w = ofD->params.w;
 
     int *fixed = ofD->trust_points;
 
@@ -590,11 +777,14 @@ static void add_neighbors(
         const int iteration,
         float *out,
         float *out_occ,
-        BilateralFilterData *BiFilt
+        BilateralFilterData *BiFilt,
+        const int w,
+        const int h
 ) {
+    // Added w, h in as function params
 
-    const int w = ofD->params.w;
-    const int h = ofD->params.h;
+    //const int w = ofD->params.w;
+    //const int h = ofD->params.h;
     const int wr = ofD->params.w_radio;
     float ener_N;
 
@@ -609,27 +799,27 @@ static void add_neighbors(
     // In first iteration, Poisson interpolation
     if (iteration == 0) {
         // Interpolate by poisson on initialization
-        copy_fixed_coordinates(ofD, out, index);
+        copy_fixed_coordinates(ofD, out, index, w, h);
         // Poisson Interpolation (4wr x 4wr + 1)
         interpolate_poisson(ofD, index);
 
     } else {
         // Interpolate by bilateral filtering if some points do not survive to prunning
-        if (check_trustable_patch(ofD, index) == 0) {
+        if (check_trustable_patch(ofD, index, w) == 0) {
 
-            copy_fixed_coordinates(ofD, out, index);
-            bilateral_filter(ofD, BiFilt, index);
+            copy_fixed_coordinates(ofD, out, index, w, h);
+            bilateral_filter(ofD, BiFilt, index, w, h);
 
         }
     }
 
     // Optical flow method on patch (2*wr x 2wr + 1)
-    of_estimation(ofS, ofD, &ener_N, i0, i1, i_1, index);
+    of_estimation(ofS, ofD, &ener_N, i0, i1, i_1, index, w, h);
 
     // Insert new candidates to the queue
-    insert_candidates(*queue, ene_val, ofD, i, j, ener_N);
+    insert_candidates(*queue, ene_val, ofD, i, j, ener_N, w, h);
 
-    // TODO: It is a strange step, if the energy over the patch is lower thant the
+    // It is a strange step, if the energy over the patch is lower thant the
     // stored energy, we put the new one, if it's not, we leave the old one.
     if (ene_val[j * w + i] > ener_N) {
         out[j * w + i] = ofD->u1[j * w + i];
@@ -653,10 +843,13 @@ void insert_initial_seeds(
         float *ene_val,
         float *out_flow,
         float *out_occ,
-        BilateralFilterData *BiFilt
-) {
-    const int w = ofD->params.w;
-    const int h = ofD->params.h;
+        BilateralFilterData *BiFilt,
+        const int w,
+        const int h) {
+    // w, h as params in the function call
+
+    //const int w = ofD->params.w;
+    //const int h = ofD->params.h;
     const int wr = ofD->params.w_radio;
 
 
@@ -684,7 +877,7 @@ void insert_initial_seeds(
 
                 // Add_neigbors 0 means that during the propagation interpolates the patch
                 // based on the energy.
-                add_neighbors(i0, i1, i_1, ene_val, ofD, ofS, queue, i, j, 0, out_flow, out_occ, BiFilt);
+                add_neighbors(i0, i1, i_1, ene_val, ofD, ofS, queue, i, j, 0, out_flow, out_occ, BiFilt, w, h);
 
                 // These values may have been modified in the previous function
                 out_flow[j * w + i] = in_flow[j * w + i];
@@ -704,11 +897,15 @@ void insert_potential_candidates(
         OpticalFlowData *ofD,
         pq_cand &queue,
         const float *ene_val,
-        const float *out_occ
+        const float *out_occ,
+        const int w,
+        const int h
 ) {
+    // Added changes for subimages
+
     // Note: in and out are the same pointer
-    const int w = ofD->params.w;
-    const int h = ofD->params.h;
+    //const int w = ofD->params.w;
+    //const int h = ofD->params.h;
     // Fixed the initial seeds.
     for (int j = 0; j < h; j++) {
         for (int i = 0; i < w; i++) {
@@ -738,10 +935,12 @@ void prepare_data_for_growing(
         OpticalFlowData *ofD,
         float *ene_val,
         float *out,
-        float *out_occ      // Consider removing it since it is not used
-) {
-    int w = ofD->params.w;
-    int h = ofD->params.h;
+        const int w,
+        const int h) {
+    // Added w, h as params in the function call
+
+    //int w = ofD->params.w;
+    //int h = ofD->params.h;
 
     // Set to the initial conditions all the stuff
     for (int i = 0; i < w * h; i++) {
@@ -765,12 +964,16 @@ void local_growing(
         float *out_flow,
         float *out_occ,
         BilateralFilterData *BiFilt,
-        bool fwd_or_bwd
+        bool fwd_or_bwd,
+        const int w,
+        const int h
 ) {
+    // Added w, h in as parameters
+
     int fixed = 0;
     vector<int> percent_print = {30, 70, 80, 95, 100};
-    const int w = ofD->params.w;
-    const int h = ofD->params.h;
+    //const int w = ofD->params.w;
+    //const int h = ofD->params.h;
     const int size = w * h;
     printf("Queue size at start = %d\n", (int) queue->size());
     while (!queue->empty()) {
@@ -814,7 +1017,7 @@ void local_growing(
             // ofD->u1[j*w + i] = u;
             // ofD->u2[j*w + i] = v;
 
-            add_neighbors(i0, i1, i_1, ene_val, ofD, ofS, queue, i, j, iteration, out_flow, out_occ, BiFilt);
+            add_neighbors(i0, i1, i_1, ene_val, ofD, ofS, queue, i, j, iteration, out_flow, out_occ, BiFilt, w, h);
 
             float percent = 100 * fixed * 1.0 / size * 1.0;
 
@@ -886,17 +1089,18 @@ void match_growing_variational(
     auto clk1 = system_clock::now();
     int w = params.w;
     int h = params.h;
+
     printf("Initializing stuff\n");
     // Initialize all the stuff for optical flow computation
     // Optical flow t, t+1
-    OpticalFlowData ofGo = init_Optical_Flow_Data(sal_go, params);
+    OpticalFlowData ofGo = init_Optical_Flow_Data(sal_go, params, w, h);
     auto *oft0 = new float[w * h * 2];
     auto *ene_Go = new float[w * h];
     auto *occ_Go = new float[w * h];
 
 
     // Optical flow t+1, t
-    OpticalFlowData ofBa = init_Optical_Flow_Data(sal_ba, params);
+    OpticalFlowData ofBa = init_Optical_Flow_Data(sal_ba, params, w, h);
     auto *oft1 = new float[w * h * 2];
     auto *ene_Ba = new float[w * h];
     auto *occ_Ba = new float[w * h];
@@ -906,28 +1110,13 @@ void match_growing_variational(
     // Nomenclature: queueGo_1, ..., queueGo_6 and queueBa_1, ..., queueBa_6
 
     pq_cand queue_Go;
-    pq_cand queueGo_1;
-    pq_cand queueGo_2;
-    pq_cand queueGo_3;
-    pq_cand queueGo_4;
-    pq_cand queueGo_5;
-    pq_cand queueGo_6;
-
     pq_cand queue_Ba;
-    pq_cand queueBa_1;
-    pq_cand queueBa_2;
-    pq_cand queueBa_3;
-    pq_cand queueBa_4;
-    pq_cand queueBa_5;
-    pq_cand queueBa_6;
-
 
     // Initialize all the auxiliar data.
     SpecificOFStuff stuffGo;
     SpecificOFStuff stuffBa;
-    initialize_auxiliar_stuff(stuffGo, ofGo);
-    initialize_auxiliar_stuff(stuffBa, ofBa);
-
+    initialize_auxiliar_stuff(stuffGo, ofGo, w, h);
+    initialize_auxiliar_stuff(stuffBa, ofBa, w, h);
 
     // i0n, i1n, i_1n, i2n are a gray and smooth version of i0, i1, i_1, i2
     float *i0n = nullptr;
@@ -935,7 +1124,7 @@ void match_growing_variational(
     float *i_1n = nullptr;
     float *i2n = nullptr;
     // Prepare data based on the functional chosen (energy_model.cpp)
-    prepare_stuff(&stuffGo, &ofGo, &stuffBa, &ofBa, i0, i1, i_1, i2, params.pd, &i0n, &i1n, &i_1n, &i2n);
+    prepare_stuff(&stuffGo, &ofGo, &stuffBa, &ofBa, i0, i1, i_1, i2, params.pd, &i0n, &i1n, &i_1n, &i2n, w, h);
 
     // Initialize weights for bilateral filtering
     auto BiFilt_Go = init_weights_bilateral(i0n, w, h);
@@ -957,10 +1146,11 @@ void match_growing_variational(
     auto future_nfixed_go = async(launch::async,
                                   [&] {
                                       return insert_initial_seeds(i0n, i1n, i_1n, go, &queue_Go, &ofGo, &stuffGo, ene_Go,
-                                                                  oft0, occ_Go, BiFilt_Go);
+                                                                  oft0, occ_Go, BiFilt_Go, w, h);
                                   });
 	
-    insert_initial_seeds(i1n, i0n, i2n, ba, &queue_Ba, &ofBa, &stuffBa, ene_Ba, oft1, occ_Ba, BiFilt_Ba);
+    insert_initial_seeds(i1n, i0n, i2n, ba, &queue_Ba, &ofBa, &stuffBa, ene_Ba,
+                         oft1, occ_Ba, BiFilt_Ba, w, h);
     future_nfixed_go.get();
 
 
@@ -1011,11 +1201,199 @@ void match_growing_variational(
     cout << "(match growing) inserting initial seeds took "
          << elapsed_secs3.count() << endl;
     */
-    const int iter = LOCAL_ITER;
+    const int iter = params.iterations_of;  //LOCAL_ITER;
     // Variables for pruning
     float tol[2] = {FB_TOL, TU_TOL};
     int p[2] = {1, 0};
 
+    // Initialise the partitions
+    // Second and third iteration (i == 1, 2) ==> h_parts x v_parts, v_parts x h_parts
+
+    int *sub_w = nullptr, *sub_w_r = nullptr;           // Array with the width of each partition
+    int *sub_h = nullptr, *sub_h_r = nullptr;           //   "    "    "  height "  "      "
+    int *off_x = nullptr, *off_x_r = nullptr;           //   "    "    "  width offset   "   "   "
+    int *off_y = nullptr, *off_y_r = nullptr;           //   "    "    "  height   "     "   "   "
+
+    // Queues (two per partition: 1 fwd + 1 bwd)
+    std::vector<pq_cand> queue_Go_p, queue_Go_p_r;
+    std::vector<pq_cand> queue_Ba_p, queue_Ba_p_r;
+
+    // Specific stuff (functional-specific)
+    std::vector<SpecificOFStuff> stuffGo_sub, stuffGo_sub_r;
+    std::vector<SpecificOFStuff> stuffBa_sub, stuffBa_sub_r;
+
+    // Optical Flow Data (common parameters for OF estimation)
+    std::vector<OpticalFlowData> ofGo_sub, ofGo_sub_r;
+    std::vector<OpticalFlowData> ofBa_sub, ofBa_sub_r;
+
+    // Initialise partitions
+    // Second iteration (i == 1)
+    init_subimage_partitions(w, h, params.h_parts, params.v_parts, &sub_w,
+                             &sub_h, &off_x, &off_y);
+
+    // Third iteration (i == 2) ==> v_parts x h_parts
+    init_subimage_partitions(w, h, params.v_parts, params.h_parts, &sub_w_r,
+                             &sub_h_r, &off_x_r, &off_y_r);
+
+    // Frames
+    float *i0_sub = nullptr, *i0_sub_r = nullptr;
+    float *i1_sub = nullptr, *i1_sub_r = nullptr;
+    float *i_1_sub = nullptr, *i_1_sub_r = nullptr;
+    float *i2_sub = nullptr, *i2_sub_r = nullptr;
+
+    // OF, energy, occlusions
+    float *oft0_sub = nullptr, *oft0_sub_r = nullptr;
+    float *oft1_sub = nullptr, *oft1_sub_r = nullptr;
+    float *ene_Go_sub = nullptr, *ene_Go_sub_r = nullptr;
+    float *ene_Ba_sub = nullptr, *ene_Ba_sub_r = nullptr;
+    float *occ_Go_sub = nullptr, *occ_Go_sub_r = nullptr;
+    float *occ_Ba_sub = nullptr, *occ_Ba_sub_r = nullptr;
+
+
+    // Optical Flow (fwd and bwd)
+    std::vector<float *> oft0_p, oft0_p_r;
+    std::vector<float *> oft1_p, oft1_p_r;
+
+    // Energy (fwd and bwd)
+    std::vector<float *> ene_Go_p, ene_Go_p_r;
+    std::vector<float *> ene_Ba_p, ene_Ba_p_r;
+
+    // Occlusions (fwd and bwd)
+    std::vector<float *> occ_Go_p, occ_Go_p_r;
+    std::vector<float *> occ_Ba_p, occ_Ba_p_r;
+
+    // Pointers to frames and their normalized versions (two different partitions)
+    std::vector<float *> i0_p, i1_p, i_1_p, i2_p, i0_p_r, i1_p_r, i_1_p_r, i2_p_r;
+    std::vector<float *> i0n_p, i1n_p, i_1n_p, i2n_p, i0n_p_r, i1n_p_r, i_1n_p_r, i2n_p_r;
+
+    // Bilateral filters computed for each partition (to have correct indexes and weights)
+    std::vector<BilateralFilterData*> BiFilt_Go_p, BiFilt_Go_p_r;
+    std::vector<BilateralFilterData*> BiFilt_Ba_p, BiFilt_Ba_p_r;
+
+    // OpticalFlowData
+    std::vector<OpticalFlowData> ofGo_p, ofGo_p_r;
+    std::vector<OpticalFlowData> ofBa_p, ofBa_p_r;
+
+    // SpecificOFStuff
+    std::vector<SpecificOFStuff> stuffGo_p, stuffGo_p_r;
+    std::vector<SpecificOFStuff> stuffBa_p, stuffBa_p_r;
+
+    if (params.split_img == 1)
+    {
+        // Fill partitions from original frames
+        i0_sub = fill_subimage_partition(i0, w, params.pd, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        i0_sub_r= fill_subimage_partition(i0, w, params.pd, params.v_parts, params.h_parts, sub_w_r, sub_h_r, off_x_r, off_y_r);
+
+        i1_sub = fill_subimage_partition(i1, w, params.pd, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        i1_sub_r = fill_subimage_partition(i1, w, params.pd, params.v_parts, params.h_parts, sub_w_r, sub_h_r, off_x_r, off_y_r);
+
+        i_1_sub = fill_subimage_partition(i_1, w, params.pd, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        i_1_sub_r = fill_subimage_partition(i_1, w, params.pd, params.v_parts, params.h_parts, sub_w_r, sub_h_r, off_x_r, off_y_r);
+
+        i2_sub = fill_subimage_partition(i2, w, params.pd, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        i2_sub_r = fill_subimage_partition(i2, w, params.pd, params.v_parts, params.h_parts, sub_w_r, sub_h_r, off_x_r, off_y_r);
+
+        // Fill with last iteration's OF
+        oft0_sub = fill_subimage_partition(oft0, w, 2, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        oft0_sub_r = fill_subimage_partition(oft0, w, 2, params.v_parts, params.h_parts, sub_w_r, sub_h_r, off_x_r, off_y_r);
+        oft1_sub = fill_subimage_partition(oft1, w, 2, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        oft1_sub_r = fill_subimage_partition(oft1, w, 2, params.v_parts, params.h_parts, sub_w_r, sub_h_r, off_x_r, off_y_r);
+
+        // Fill with last iteration's energy
+        ene_Go_sub = fill_subimage_partition(ene_Go, w, 1, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        ene_Go_sub_r = fill_subimage_partition(ene_Go, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r, off_x_r, off_y_r);
+        ene_Ba_sub = fill_subimage_partition(ene_Ba, w, 1, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        ene_Ba_sub_r = fill_subimage_partition(ene_Ba, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r, off_x_r, off_y_r);
+
+        // Fill with last iteration's occlusions
+        occ_Go_sub = fill_subimage_partition(occ_Go, w, 1, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        occ_Go_sub_r = fill_subimage_partition(occ_Go, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r, off_x_r, off_y_r);
+        occ_Ba_sub = fill_subimage_partition(occ_Ba, w, 1, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        occ_Ba_sub_r = fill_subimage_partition(occ_Ba, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r, off_x_r, off_y_r);
+
+        // Initialise OpticalFlowData and SpecificOFStuff
+        for (int prt = 0; prt < params.h_parts * params.v_parts; prt++)
+        {
+            // OpticalFlowData (fwd + bwd)
+            ofGo_p[prt] = init_Optical_Flow_Data(sal_go, params, sub_w[prt], sub_h[prt]);
+            ofBa_p[prt] = init_Optical_Flow_Data(sal_ba, params, sub_w[prt], sub_h[prt]);
+            ofGo_p_r[prt] = init_Optical_Flow_Data(sal_go, params, sub_w_r[prt], sub_h_r[prt]);
+            ofBa_p_r[prt] = init_Optical_Flow_Data(sal_ba, params, sub_w_r[prt], sub_h_r[prt]);
+
+            // SpecificOFStuff
+            initialize_auxiliar_stuff(stuffGo_p[prt], ofGo_p[prt], sub_w[prt], sub_h[prt]);
+            initialize_auxiliar_stuff(stuffBa_p[prt], ofBa_p[prt], sub_w[prt], sub_h[prt]);
+            initialize_auxiliar_stuff(stuffGo_p_r[prt], ofGo_p_r[prt], sub_w_r[prt], sub_h_r[prt]);
+            initialize_auxiliar_stuff(stuffBa_p_r[prt], ofBa_p_r[prt], sub_w_r[prt], sub_h_r[prt]);
+
+            // Get correct part of frame
+            i0_p[prt] = get_subimage_partition(i0_sub, prt, sub_w, sub_h, params.pd, off_x, off_y);
+            i0_p_r[prt] = get_subimage_partition(i0_sub_r, prt, sub_w_r, sub_h_r, params.pd, off_x_r, off_y_r);
+
+            i1_p[prt] = get_subimage_partition(i1_sub, prt, sub_w, sub_h, params.pd, off_x, off_y);
+            i1_p_r[prt] = get_subimage_partition(i1_sub_r, prt, sub_w_r, sub_h_r, params.pd, off_x_r, off_y_r);
+
+            i_1_p[prt] = get_subimage_partition(i_1_sub, prt, sub_w, sub_h, params.pd, off_x, off_y);
+            i_1_p_r[prt] = get_subimage_partition(i_1_sub_r, prt, sub_w_r, sub_h_r, params.pd, off_x_r, off_y_r);
+
+            i2_p[prt] = get_subimage_partition(i2_sub, prt, sub_w, sub_h, params.pd, off_x, off_y);
+            i2_p_r[prt] = get_subimage_partition(i2_sub_r, prt, sub_w_r, sub_h_r, params.pd, off_x_r, off_y_r);
+
+
+            // Prepare stuff (initialises variables used in local OF computation: gradients, dual variables...)
+            prepare_stuff(&stuffGo_p[prt], &ofGo_p[prt], &stuffBa_p[prt], &ofBa_p[prt], i0_p[prt], i1_p[prt],
+                          i_1_p[prt], i2_p[prt], params.pd, &i0n_p[prt], &i1n_p[prt], &i_1n_p[prt], &i2n_p[prt],
+                          sub_w[prt], sub_h[prt]);
+            prepare_stuff(&stuffGo_p_r[prt], &ofGo_p_r[prt], &stuffBa_p_r[prt], &ofBa_p_r[prt], i0_p_r[prt],
+                          i1_p_r[prt], i_1_p_r[prt], i2_p_r[prt], params.pd, &i0n_p_r[prt], &i1n_p_r[prt],
+                          &i_1n_p_r[prt], &i2n_p_r[prt], sub_w_r[prt], sub_h_r[prt]);
+
+            // Initialise bilateral filter
+            BiFilt_Go_p[prt] = init_weights_bilateral(i0n_p[prt], sub_w[prt], sub_h[prt]);
+            BiFilt_Go_p_r[prt] = init_weights_bilateral(i0n_p[prt], sub_w_r[prt], sub_h_r[prt]);
+            BiFilt_Ba_p[prt] = init_weights_bilateral(i1n_p[prt], sub_w[prt], sub_h[prt]);
+            BiFilt_Ba_p_r[prt] = init_weights_bilateral(i1n_p_r[prt], sub_w_r[prt], sub_h_r[prt]);
+
+        }
+
+        /*
+        oft0_sub = fill_subimage_partition(oft0, w, 2, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        oft1_sub = fill_subimage_partition(oft1, w, 2, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+
+        ene_Go_sub = fill_subimage_partition(ene_Go, w, 1, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        ene_Ba_sub = fill_subimage_partition(ene_Ba, w, 1, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+
+        occ_Go_sub = fill_subimage_partition(occ_Go, w, 1, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+        occ_Ba_sub = fill_subimage_partition(occ_Ba, w, 1, params.h_parts, params.v_parts, sub_w, sub_h, off_x, off_y);
+
+        */
+        // Third iteration (i == 1)
+        /*i0_sub_r = fill_subimage_partition(i0n, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r,
+                                            off_x_r, off_y_r);
+        i1_sub_r = fill_subimage_partition(i1n, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r,
+                                            off_x_r, off_y_r);
+        i_1_sub_r = fill_subimage_partition(i_1n, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r,
+                                             off_x_r, off_y_r);
+        i2_sub_r = fill_subimage_partition(i2n, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r,
+                                            off_x_r, off_y_r);
+        */
+        /*
+        oft0_sub_r = fill_subimage_partition(oft0, w, 2, params.v_parts, params.h_parts, sub_w_r, sub_h_r,
+                                             off_x_r, off_y_r);
+        oft1_sub_r = fill_subimage_partition(oft1, w, 2, params.v_parts, params.h_parts, sub_w_r, sub_h_r,
+                                             off_x_r, off_y_r);
+
+        ene_Go_sub_r = fill_subimage_partition(ene_Go, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r,
+                                               off_x_r, off_y_r);
+        ene_Ba_sub_r = fill_subimage_partition(ene_Ba, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r,
+                                               off_x_r, off_y_r);
+
+        occ_Go_sub_r = fill_subimage_partition(occ_Go, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r,
+                                               off_x_r, off_y_r);
+        occ_Ba_sub_r = fill_subimage_partition(occ_Ba, w, 1, params.v_parts, params.h_parts, sub_w_r, sub_h_r,
+                                               off_x_r, off_y_r);
+        */
+    }
 
     for (int i = 0; i < iter; i++) {
        // auto clk4 = system_clock::now();  // DEBUG
@@ -1023,12 +1401,11 @@ void match_growing_variational(
 
         // Estimate local minimization (I0-I1)
         // First iteration and possible 4th, 5th, ... work on the whole image
-        if (i == 0 || i >= 3) {
+        if (i == 0 || (i >= 3 && params.split_img == 0)) {
             auto growing_fwd = async(launch::async,
                                      [&] {
                                          local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, i, ene_Go, oft0,
-                                                       occ_Go,
-                                                       BiFilt_Go, true);
+                                                       occ_Go, BiFilt_Go, true, w, h);
                                      });
 
             // auto clk5 = system_clock::now(); // DEBUG
@@ -1038,7 +1415,7 @@ void match_growing_variational(
 
 
             // Estimate local minimization (I1-I0)
-            local_growing(i1n, i0n, i2n, &queue_Ba, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, BiFilt_Ba, false);
+            local_growing(i1n, i0n, i2n, &queue_Ba, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, BiFilt_Ba, false, w, h);
             //auto clk5 = system_clock::now(); // DEBUG
             //duration<double> elapsed_secs5 = clk5- clk4; // DEBUG
             //cout << "(match growing) Local iteration " << i << " => local_growing (I1-I0) took "
@@ -1101,8 +1478,8 @@ void match_growing_variational(
 
         */
             // Delete not trustable candidates based on the previous pruning
-            delete_not_trustable_candidates(&ofGo, oft0, ene_Go);
-            delete_not_trustable_candidates(&ofBa, oft1, ene_Ba);
+            delete_not_trustable_candidates(&ofGo, oft0, ene_Go, w, h);
+            delete_not_trustable_candidates(&ofBa, oft1, ene_Ba, w, h);
 
             /*
                 auto clk8 = system_clock::now(); // DEBUG
@@ -1112,8 +1489,8 @@ void match_growing_variational(
 
                 */
             // Insert each pixel into the queue as possible candidate
-            insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, occ_Go);
-            insert_potential_candidates(oft1, &ofBa, queue_Ba, ene_Ba, occ_Ba);
+            insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, occ_Go, w, h);
+            insert_potential_candidates(oft1, &ofBa, queue_Ba, ene_Ba, occ_Ba, w, h);
 
 
             /*auto clk9 = system_clock::now(); // DEBUG
@@ -1121,8 +1498,8 @@ void match_growing_variational(
                 cout << "(match growing) Local iteration " << i << " => insert potential candidates "
                      << elapsed_secs8.count() << endl;
             */
-            prepare_data_for_growing(&ofGo, ene_Go, oft0, occ_Go);
-            prepare_data_for_growing(&ofBa, ene_Ba, oft1, occ_Ba);
+            prepare_data_for_growing(&ofGo, ene_Go, oft0, w, h);
+            prepare_data_for_growing(&ofBa, ene_Ba, oft1, w, h);
 
             /*auto clk10 = system_clock::now(); // DEBUG
             duration<double> elapsed_secs9 = clk10- clk9; // DEBUG
@@ -1134,40 +1511,135 @@ void match_growing_variational(
             cout << "(match growing) Local iteration " << i << " => all iteration's tasks took "
                  << elapsed_secs10.count() << endl;*/
         }
-        else
+        else if (i > 0 && i <= 2 && params.split_img == 1)
         {
-            // Common stuff to iter 2 and 3
+            // Common stuff to iter 2 and 3 (i==1, i==2)
 
-            // 1) Initialise 6 variables to store subimages (maybe better outside the loop so its only done once
-            if (i == 1)
+            if (i == 1)             // part. grid: h_parts x v_parts
             {
-                // Specific stuff for i == 1 (second iteration)
-                // Create partitions (2 rows, 3 cols)
-                // Local growing based on updated oft0 and oft1 of the first iteration
-                // Pruning
-                // Delete non-trustable
-                // insert potential candidates
-                // prepare data for growing
-            }
-            else if (i == 2)
-            {
-                // Specific stuff for i == 2 (third iteration)
-                // Create partitions (3 rows, 2 cols)
-                // Local growing based on updated oft0 and oft1 of the first iteration
-                // Pruning
-                // Delete non-trustable
-                // insert potential candidates
-                // prepare data for growing
-                // Merge subimages' results (if the last fwd growing works with the whole image)
+                //#pragma omp parallel for
+                for (int prt = 0; prt < params.h_parts * params.v_parts; prt++)
+                {
+                    // Temporal pointers to correct part of partition array (created above)
+                    // Frames
+                    /*
+                    float *i0n_p = get_subimage_partition(i0n_sub, prt, sub_w, sub_h, off_x, off_y, 1);
+                    float *i1n_p = get_subimage_partition(i1n_sub, prt, sub_w, sub_h, off_x, off_y, 1);
+                    float *i_1n_p = get_subimage_partition(i_1n_sub, prt, sub_w, sub_h, off_x, off_y, 1);
+                    float *i2n_p = get_subimage_partition(i2n_sub, prt, sub_w, sub_h, off_x, off_y, 1);
+                    */
+
+                    // Fwd and bwd OF
+                    oft0_p[prt] = get_subimage_partition(oft0_sub, prt, sub_w, sub_h, 1, off_x, off_y);
+                    oft1_p[prt] = get_subimage_partition(oft1_sub, prt, sub_w, sub_h, 1, off_x, off_y);
+
+                    // Fwd and bwd energy
+                    ene_Go_p[prt] = get_subimage_partition(ene_Go_sub, prt, sub_w, sub_h, 1, off_x, off_y);
+                    ene_Ba_p[prt] = get_subimage_partition(ene_Ba_sub, prt, sub_w, sub_h, 1, off_x, off_y);
+
+                    // Fwd and bwd occlusions
+                    occ_Go_p[prt] = get_subimage_partition(occ_Go_sub, prt, sub_w, sub_h, 1, off_x, off_y);
+                    occ_Ba_p[prt] = get_subimage_partition(occ_Ba_sub, prt, sub_w, sub_h, 1, off_x, off_y);
+
+
+                    // 1. Local growing based on updated oft0 and oft1 of the first iteration
+                    // FWD
+                    local_growing(i0n_p[prt], i1n_p[prt], i_1n_p[prt], &queue_Go_p[prt], &stuffGo_p[prt],
+                                  &ofGo_p[prt], i, ene_Go_p[prt], oft0_p[prt], occ_Go_p[prt], BiFilt_Go_p[prt],
+                                  true, sub_w[prt], sub_h[prt]);
+                    // BWD
+                    local_growing(i1n_p[prt], i0n_p[prt], i2n_p[prt], &queue_Ba_p[prt], &stuffBa_sub[prt],
+                                  &ofBa_sub[prt], i, ene_Ba_p[prt], oft1_p[prt],
+                                  occ_Ba_p[prt], BiFilt_Ba_p[prt], false, sub_w[prt], sub_h[prt]);
+
+                    // 2. Pruning
+                    pruning_method(i0n_p[prt], i1n_p[prt], sub_w[prt], sub_h[prt], tol, p, ofGo_p[prt].trust_points,
+                                   oft0_p[prt], ofBa_p[prt].trust_points, oft1_p[prt]);
+
+                    // 3. Delete non-trustable
+                    delete_not_trustable_candidates(&ofGo_p[prt], oft0_p[prt], ene_Go_p[prt], sub_w[prt], sub_h[prt]);
+                    delete_not_trustable_candidates(&ofBa_p[prt], oft1_p[prt], ene_Ba_p[prt], sub_w[prt], sub_h[prt]);
+
+                    // 4. insert potential candidates
+                    insert_potential_candidates(oft0_p[prt], &ofGo_p[prt], queue_Go_p[prt], ene_Go_p[prt],
+                                                occ_Go_p[prt], sub_w[prt], sub_h[prt]);
+                    insert_potential_candidates(oft1_p[prt], &ofBa_p[prt], queue_Ba_p[prt], ene_Ba_p[prt],
+                                                occ_Ba_p[prt], sub_w[prt], sub_h[prt]);
+
+                    // 5. prepare data for growing
+                    prepare_data_for_growing(&ofGo_p[prt], ene_Go_p[prt], oft0_p[prt], sub_w[prt], sub_h[prt]);
+                    prepare_data_for_growing(&ofBa_p[prt], ene_Ba_p[prt], oft1_p[prt], sub_w[prt], sub_h[prt]);
+                }
 
             }
+            else if (i == 2)        // part. grid: v_parts x h_parts (previous one 'reversed' (transposed))
+            {
+                //#pragma omp parallel for
+                for (int prt = 0; prt < params.v_parts * params.h_parts; prt++) {
+                    // Temporal pointers to correct part of partition array (created above)
+                    // Frames
+                    /*float *i0n_p_r = get_subimage_partition(i0n_sub_r, prt, sub_w_r, sub_h_r, off_x_r, off_y_r, 1);
+                    float *i1n_p_r = get_subimage_partition(i1n_sub_r, prt, sub_w_r, sub_h_r, off_x_r, off_y_r, 1);
+                    float *i_1n_p_r = get_subimage_partition(i_1n_sub_r, prt, sub_w_r, sub_h_r, off_x_r, off_y_r, 1);
+                    float *i2n_p_r = get_subimage_partition(i2n_sub_r, prt, sub_w_r, sub_h_r, off_x_r, off_y_r, 1);
+                     */
+
+                    // Fwd and bwd OF
+                    oft0_p_r[prt] = get_subimage_partition(oft0_sub_r, prt, sub_w_r, sub_h_r, 1, off_x_r, off_y_r);
+                    oft1_p_r[prt] = get_subimage_partition(oft1_sub_r, prt, sub_w_r, sub_h_r, 1, off_x_r, off_y_r);
+
+                    // Fwd and bwd energy
+                    ene_Go_p_r[prt] = get_subimage_partition(ene_Go_sub_r, prt, sub_w_r, sub_h_r, 1, off_x_r, off_y_r);
+                    ene_Ba_p_r[prt] = get_subimage_partition(ene_Ba_sub_r, prt, sub_w_r, sub_h_r, 1, off_x_r, off_y_r);
+
+                    // Fwd and bwd occlusions
+                    occ_Go_p_r[prt] = get_subimage_partition(occ_Go_sub_r, prt, sub_w_r, sub_h_r, 1, off_x_r, off_y_r);
+                    occ_Ba_p_r[prt] = get_subimage_partition(occ_Ba_sub_r, prt, sub_w_r, sub_h_r, 1, off_x_r, off_y_r);
+
+
+                    // 1. Local growing based on updated oft0 and oft1 of the first iteration
+                    // FWD
+                    local_growing(i0n_p_r[prt], i1n_p_r[prt], i_1n_p_r[prt], &queue_Go_p_r[prt], &stuffGo_p_r[prt],
+                                  &ofGo_p_r[prt], i, ene_Go_p_r[prt], oft0_p_r[prt], occ_Go_p_r[prt], BiFilt_Go_p_r[prt],
+                                  true, sub_w_r[prt], sub_h_r[prt]);
+                    // BWD
+                    local_growing(i1n_p_r[prt], i0n_p_r[prt], i2n_p_r[prt], &queue_Ba_p_r[prt], &stuffBa_p_r[prt],
+                                  &ofBa_p_r[prt], i, ene_Ba_p_r[prt], oft1_p_r[prt], occ_Ba_p_r[prt], BiFilt_Ba_p_r[prt],
+                                  false, sub_w_r[prt], sub_h_r[prt]);
+
+                    // 2. Pruning
+                    pruning_method(i0n_p_r[prt], i1n_p_r[prt], sub_w_r[prt], sub_h_r[prt], tol, p, ofGo_p_r[prt].trust_points,
+                                   oft0_p_r[prt], ofBa_p_r[prt].trust_points, oft1_p_r[prt]);
+
+                    // 3. Delete non-trustable
+                    delete_not_trustable_candidates(&ofGo_p_r[prt], oft0_p_r[prt], ene_Go_p_r[prt], sub_w_r[prt], sub_h_r[prt]);
+                    delete_not_trustable_candidates(&ofBa_p_r[prt], oft1_p_r[prt], ene_Ba_p_r[prt], sub_w_r[prt], sub_h_r[prt]);
+
+                    // 4. insert potential candidates
+                    insert_potential_candidates(oft0_p_r[prt], &ofGo_p_r[prt], queue_Go_p_r[prt], ene_Go_p_r[prt],
+                                                occ_Go_p_r[prt], sub_w_r[prt], sub_h_r[prt]);
+                    insert_potential_candidates(oft1_p_r[prt], &ofBa_p_r[prt], queue_Ba_p[prt], ene_Ba_p_r[prt],
+                                                occ_Ba_p_r[prt], sub_w_r[prt], sub_h_r[prt]);
+
+                    // 5. prepare data for growing
+                    prepare_data_for_growing(&ofGo_p_r[prt], ene_Go_p_r[prt], oft0_p_r[prt], sub_w_r[prt], sub_h_r[prt]);
+                    prepare_data_for_growing(&ofBa_p_r[prt], ene_Ba_p_r[prt], oft1_p_r[prt], sub_w_r[prt], sub_h_r[prt]);
+
+
+                    // TODO: Merge subimages' results (if the last fwd growing works with the whole image)
+                    // Implement function that combines all the variables into a "image"-wise version
+
+
+                }
+            }
+
         }
     }
     //auto last_growing = system_clock::now();    //DEBUG
 
 
     printf("Last growing\n");
-    local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true);
+    local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h);
 
 
     /*auto clk_end = system_clock::now(); // DEBUG
@@ -1227,11 +1699,20 @@ int main(int argc, char *argv[]) {
 
 
     /*auto clk1 = system_clock::now(); // DEBUG*/
-    // Process input
+    // Process input optional parameters
     vector<string> args(argv, argv + argc);
-    auto windows_ratio = pick_option(args, "wr", "5");  // Windows ratio
-    auto var_reg = pick_option(args, "m", "8");         // Methods (8 is tvl1+occ)
-    auto file_params = pick_option(args, "p", "");      // File of parameters
+    auto windows_ratio = pick_option(args, "wr",
+                                     to_string(PAR_DEFAULT_WINSIZE));           // Windows ratio
+    auto var_reg = pick_option(args, "m", to_string(M_TVL1));                   // Methods (default: tvl1)
+    auto file_params = pick_option(args, "p", "");                              // File of parameters
+    auto local_iters = pick_option(args, "loc_it",
+                                   to_string(LOCAL_ITER));                      // Local Faldoi number of iterations
+    auto max_iters_patch = pick_option(args, "max_pch_it",
+                                       to_string(MAX_ITERATIONS_LOCAL));        // Iteration per patch of win_ratio
+    auto split_img = pick_option(args, "split_img", to_string(PARTITIONING));   // Whether to split into subimages or not
+    auto hor_parts = pick_option(args, "h_parts", to_string(HOR_PARTS));        // Number of horizontal slices (partition)
+    auto ver_parts = pick_option(args, "v_parts", to_string(VER_PARTS));        // "       " vertical      "        "
+
 
     // [F]: CHANGE: this does not work for methods without occlusions!
     //if (args.size() != 7 && args.size() != 9) {
@@ -1239,17 +1720,29 @@ int main(int argc, char *argv[]) {
         // Without occlusions
         fprintf(stderr, "Without occlusions (nº of params: 5 or 7 + 1 (own function name)):\n");
         fprintf(stderr, "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff"
-                " [-m method_id] [-wr windows_radio] [-p file of parameters]\n", args.size(), args[0].c_str());
+                " [-m method_id] [-wr windows_radio] [-p file of parameters]"
+                " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
+                " [-split_img split_image] [-h_parts horiz_parts]"
+                " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
         fprintf(stderr, "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff sal0.tiff sal1.tiff"
-                " [-m method_id] [-wr windows_radio] [-p file of parameters]\n", args.size(), args[0].c_str());
+                " [-m method_id] [-wr windows_radio] [-p file of parameters]"
+                " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
+                " [-split_img split_image] [-h_parts horiz_parts]"
+                " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
         fprintf(stderr, "\n");
         // With occlusions
         fprintf(stderr, "With occlusions (nº of params: 7 or 9 + 1 (own function name)):\n");
         fprintf(stderr, "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff occlusions.png"
-                " [-m method_id] [-wr windows_radio] [-p file of parameters]\n", args.size(), args[0].c_str());
+                " [-m method_id] [-wr windows_radio] [-p file of parameters]"
+                " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
+                " [-split_img split_image] [-h_parts horiz_parts]"
+                " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
         fprintf(stderr,
                 "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff occlusions.png sal0.tiff sal1.tiff"
-                        " [-m method_id] [-wr windows_radio] [-p file of parameters]\n", args.size(), args[0].c_str());
+                " [-m method_id] [-wr windows_radio] [-p file of parameters]"
+                " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
+                " [-split_img split_image] [-h_parts horiz_parts]"
+                " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
         return 1;
     }
 
@@ -1325,6 +1818,11 @@ int main(int argc, char *argv[]) {
     // Optional arguments
     int w_radio = stoi(windows_ratio);
     int val_method = stoi(var_reg);
+    int loc_it = stoi(local_iters);
+    int max_it_pch = stoi(max_iters_patch);
+    int sp_img = stoi(split_img);
+    int h_prts = stoi(hor_parts);
+    int v_prts = stoi(ver_parts);
 
     // Open input images and .flo
     // pd: number of channels
@@ -1402,10 +1900,11 @@ int main(int argc, char *argv[]) {
         }
     }
     //TODO: this for loop is redundant (the same one as in the 'else' above)
-    for (int i = 0; i < w[0] * h[0]; i++) {
+    /*for (int i = 0; i < w[0] * h[0]; i++) {
         sal0[i] = 1.0;
         sal1[i] = 1.0;
     }
+     */
     for (int i = 0; i < w[0] * h[0]; i++) {
         assert(isfinite(sal0[i]));
         assert(isfinite(sal1[i]));
@@ -1485,8 +1984,14 @@ int main(int argc, char *argv[]) {
     Parameters params = init_params(file_params, step_alg);
     params.w = w[0];
     params.h = h[0];
+    params.pd = pd[0];
     params.w_radio = w_radio;
     params.val_method = val_method;
+    params.iterations_of = loc_it;
+    params.max_iter_patch = max_it_pch;
+    params.split_img = sp_img;
+    params.h_parts = h_prts;
+    params.v_parts = v_prts;
     cerr << params;
 
 

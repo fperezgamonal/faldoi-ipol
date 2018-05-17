@@ -62,6 +62,13 @@
 #define LOCAL_ITER 3 //3
 #define TU_TOL 0.01
 #define FB_TOL 2
+#define PAR_DEFAULT_WINSIZE 5       // Default patch/window size
+
+// Whether to partition the image or not
+#define PARTITIONING 0          // Toggle on/off
+#define PARTS_CPU 0             // Whether the parts are conditioned on the num of cpus
+#define HOR_PARTS 3             // Def. nº of horizontal parts for the first partition
+#define VER_PARTS 2             // The same as above but for vertical parts
 
 // Parameters for bilateral filter
 #define PATCH_BILATERAL_FILTER 2

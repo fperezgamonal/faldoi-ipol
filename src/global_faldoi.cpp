@@ -1692,23 +1692,28 @@ int main(int argc, char *argv[]) {
     // process input
     std::vector<std::string> args(argv, argv + argc);
     auto warps_val = pick_option(args, "w",
-                                 to_string(PAR_DEFAULT_NWARPS_GLOBAL));  // Warpings
-    auto var_reg = pick_option(args, "m", "8");                          // Methods
-    auto file_params = pick_option(args, "p", "");                       // Params' file
+                                 to_string(PAR_DEFAULT_NWARPS_GLOBAL));     // Warpings
+    auto var_reg = pick_option(args, "m", "8");                             // Methods
+    auto file_params = pick_option(args, "p", "");                          // Params' file
+    auto global_iters = pick_option(args, "glb_iters",
+                                    to_string(MAX_ITERATIONS_GLOBAL));      // Faldoi global iterations
 
     if (args.size() != 6 && args.size() != 4) {
         fprintf(stderr, "Without occlusions:\n");
-        fprintf(stderr, "Usage: %lu  ims.txt in_flow.flo  out.flo [-m] val [-w] val \n", args.size());
+        fprintf(stderr, "Usage: %lu  ims.txt in_flow.flo  out.flo "
+                "[-m method_val] [-w num_warps] val [-glb_iters global_iters] \n", args.size());
         fprintf(stderr, "With occlusions:\n");
         fprintf(stderr, "Usage: %lu  ims.txt in_flow.flo  out.flo occl_input.png occl_out.png"
-                " [-m] val [-w] val \n", args.size());
+                " [-m method_val] [-w num_warps] val [-glb_iters global_iters] \n", args.size());
 
         return EXIT_FAILURE;
     }
 
     // O TV-l2 coupled 1 - ||Du + Du'||_{F}
+    // Optional input arguments
     int val_method = stoi(var_reg);
     int nwarps = stoi(warps_val);
+    int glb_it = stoi(global_iters);
 
 
     // Read the parameters
@@ -1772,7 +1777,7 @@ int main(int argc, char *argv[]) {
 
     float *occ = nullptr;
     if (val_method >= 8) {
-        float *occ = iio_read_image_float_split(occ_input.c_str(), w + 4, h + 4, pd + 4);
+        occ = iio_read_image_float_split(occ_input.c_str(), w + 4, h + 4, pd + 4);
     }
 
     // Ensure that dimensions match
@@ -1853,6 +1858,7 @@ int main(int argc, char *argv[]) {
     params.h = h[0];
     params.warps = nwarps;
     params.val_method = val_method;
+    params.iterations_of = glb_it;
     if (params.verbose)
         cerr << params;
 
@@ -1924,7 +1930,7 @@ int main(int argc, char *argv[]) {
             index.ej = h[0];
 
 
-            initialize_auxiliar_stuff(stuffOF, ofD);
+            initialize_auxiliar_stuff(stuffOF, ofD, params.w, params.h);
             // Derivatives of I0 to compute weight g
 
             xi11 = stuffOF.tvl2_occ.xi11;
@@ -1979,7 +1985,7 @@ int main(int argc, char *argv[]) {
         //fprintf(stderr, "TV-l2 occlusions\n");
         float ener_N;
 
-        guided_tvl2coupled_occ(i0n, i1n, i_1n, &ofD, &(stuffOF.tvl2_occ), &ener_N, index);
+        guided_tvl2coupled_occ(i0n, i1n, i_1n, &ofD, &(stuffOF.tvl2_occ), &ener_N, index, params.w, params.h);
 
     }
     iio_save_image_float_split(outfile.c_str(), u, w[0], h[0], 2);

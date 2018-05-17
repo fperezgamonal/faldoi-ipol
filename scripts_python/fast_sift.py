@@ -85,7 +85,7 @@ for i in range(len(data)):
 	#print("data[i]= " + data[i])
 
 # Save to tmp file
-tmp_filename = "tmp_absPaths.txt"
+#tmp_filename = "tmp_absPaths.txt"
 #with open(tmp_filename, 'w') as tmp_file:
 	# Store the modified image paths' file
 	#tmp_file.writelines(data)
@@ -147,6 +147,11 @@ with open(im_name1, 'rb') as f:
     image = Image.open(f)
     width_im = image.size[0]
     height_im = image.size[1]
+
+# Using imageMagick to get width and height (PIL is not in the IPOL server)
+#cmd = 'identify -ping -format "%w %h" ' + im_name1
+#tmp_out = subprocess.check_output(cmd, shell=True, universal_newlines=True)
+#width_im, height_im = tmp_out.split(' ')
 
 #os.chdir(binary_path)
 desc_name_1 = '%s%s_sift_desc_1.txt' % (f_path, core_name1)

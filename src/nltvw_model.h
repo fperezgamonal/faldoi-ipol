@@ -5,7 +5,7 @@
 
 void  intialize_stuff_nltvl1_w(
           SpecificOFStuff *ofStuff,
-          OpticalFlowData *ofCore);
+          OpticalFlowData *ofCore, int w, int h);
 
 
 
@@ -18,12 +18,12 @@ void eval_nltvl1_w(
     OpticalFlowData *ofD,
     NonLocalTVL1Stuff_W *nltvl1w,
     float *ener_N,
-    const int ii, // initial column
-    const int ij, // initial row
-    const int ei, // end column
-    const int ej, // end row
-    const float lambda,  // weight of the data term
-    const float theta
+    int ii, // initial column
+    int ij, // initial row
+    int ei, // end column
+    int ej, // end row
+    float lambda,  // weight of the data term
+    float theta
     );
 
 
@@ -33,16 +33,18 @@ void guided_nltvl1_w(
     OpticalFlowData *ofD,
     NonLocalTVL1Stuff_W *nltvl1w,
     float *ener_N,
-    const int ii, // initial column
-    const int ij, // initial row
-    const int ei, // end column
-    const int ej, // end row
-    const float lambda,  // weight of the data term
-    const float theta,   // weight of the data term
-    const float tau,     // time step
-    const float tol_OF,  // tol max allowed
-    const int   warps,   // number of warpings per scale
-    const bool  verbose  // enable/disable the verbose mode
+    int ii, // initial column
+    int ij, // initial row
+    int ei, // end column
+    int ej, // end row
+    float lambda,  // weight of the data term
+    float theta,   // weight of the data term
+    float tau,     // time step
+    float tol_OF,  // tol max allowed
+    int   warps,   // number of warpings per scale
+    bool  verbose, // enable/disable the verbose mode
+    int w,         // width of I0 (and I1)
+    int h          // height of I0 (and I1)
     );
 
 #endif //NLTVL1_MODEL_W

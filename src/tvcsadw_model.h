@@ -4,7 +4,7 @@
 
 void  intialize_stuff_tvcsad_w(
           SpecificOFStuff *ofStuff,
-          OpticalFlowData *ofCore);
+          OpticalFlowData *ofCore, int w, int h);
 
 
 void  free_stuff_tvcsad_w(SpecificOFStuff *ofStuff);
@@ -15,12 +15,12 @@ void eval_tvcsad_w(
     OpticalFlowData *ofD,
     TvCsadStuff_W *tvcsadw,
     float *ener_N,
-    const int ii,
-    const int ij,
-    const int ei,
-    const int ej,
-    const float lambda,
-    const float theta
+    int ii,
+    int ij,
+    int ei,
+    int ej,
+    float lambda,
+    float theta
     );
 
 
@@ -30,16 +30,18 @@ void guided_tvcsad_w(
     OpticalFlowData *ofD,
     TvCsadStuff_W *tvcsadw,
     float *ener_N,
-    const int ii, // initial column
-    const int ij, // initial row
-    const int ei, // end column
-    const int ej, // end row
-    const float lambda,  // weight of the data term
-    const float theta,   // weight of the data term
-    const float tau,     // time step
-    const float tol_OF,  // tol max allowed
-    const int   warps,   // number of warpings per scale
-    const bool  verbose  // enable/disable the verbose mode
+    int ii, // initial column
+    int ij, // initial row
+    int ei, // end column
+    int ej, // end row
+    float lambda,  // weight of the data term
+    float theta,   // weight of the data term
+    float tau,     // time step
+    float tol_OF,  // tol max allowed
+    int   warps,   // number of warpings per scale
+    bool  verbose, // enable/disable the verbose mode
+    int nx,        // width of I0 (and I1)
+    int ny         // height of I0 (and I1)
   );
 
 #endif //TVCSAD 

@@ -16,7 +16,7 @@
 ////INITIALIZATION OF EACH METHOD
 void intialize_stuff_tvl2coupled_occ(
         SpecificOFStuff& ofStuff,
-        const OpticalFlowData& ofCore);
+        const OpticalFlowData& ofCore, int w, int h);
 
 
 void free_stuff_tvl2coupled_occ(SpecificOFStuff *ofStuff);
@@ -28,11 +28,11 @@ void eval_tvl2coupled_occ(
         OpticalFlowData *ofD,
         Tvl2CoupledOFStuff_occ *tvl2_occ,
         float *ener_N,
-        const PatchIndexes index, // end row
-        const float lambda,  // weight of the data term
-        const float theta,
-        const float alpha,
-        const float beta
+        PatchIndexes index, // end row
+        float lambda,  // weight of the data term
+        float theta,
+        float alpha,
+        float beta
         );
 
 // Variational Optical flow method based on initial fixed values
@@ -48,7 +48,7 @@ void guided_tvl2coupled_occ(
         OpticalFlowData *ofD,
         Tvl2CoupledOFStuff_occ *tvl2_occ,
         float *ener_N,
-        const PatchIndexes index
+        PatchIndexes index,
         /*,
         const float lambda,  // weight of the data term
         const float theta,   // weight of the data term
@@ -60,6 +60,8 @@ void guided_tvl2coupled_occ(
         const float tol_OF,  // tol max allowed
         const int   warps,   // number of warpings
         const bool  verbose  // enable/disable the verbose mode*/
+        int nx,                 // width of I0 (and I1)
+        int ny                  // height of I0 (and I1)
         );
 
 void tvl2OF_occ(
@@ -73,6 +75,6 @@ void tvl2OF_occ(
         float *xi21,
         float *xi22,
         float *chi,
-        const Parameters params
+        Parameters params
         );
 #endif //TVL2-L1 functional with occlusions

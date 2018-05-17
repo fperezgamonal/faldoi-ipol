@@ -13,10 +13,13 @@ extern "C" {
 }
 void  intialize_stuff_nltvcsad(
           SpecificOFStuff *ofStuff,
-          OpticalFlowData *ofCore)
+          OpticalFlowData *ofCore,
+          const int w,
+          const int h)
 {
-  const int w = ofCore->params.w;
-  const int h = ofCore->params.h;
+  // w, h as params in the function call
+  //const int w = ofCore->params.w;
+  //const int h = ofCore->params.h;
   ofStuff->nltvcsad.p    = new DualVariables[w*h];
   ofStuff->nltvcsad.q    = new DualVariables[w*h];
   ofStuff->nltvcsad.pnei = new PosNei[w*h];
@@ -75,7 +78,9 @@ void eval_nltvcsad(
     const int ei, // end column
     const int ej, // end row
     const float lambda,  // weight of the data term
-    const float theta
+    const float theta,
+    const int w,
+    const int h
     )
 {
 
@@ -84,8 +89,8 @@ void eval_nltvcsad(
 
 
   //Columns and Rows
-  const int w = ofD->params.w;
-  const int h = ofD->params.h;
+  //const int w = ofD->params.w;
+  //const int h = ofD->params.h;
 
   float *I1w = nltvcsad->I1w;
   DualVariables *p = nltvcsad->p;
@@ -304,15 +309,17 @@ void guided_nltvcsad(
     const float tau,     // time step
     const float tol_OF,  // tol max allowed
     const int   warps,   // number of warpings per scale
-    const bool  verbose  // enable/disable the verbose mode
+    const bool  verbose, // enable/disable the verbose mode
+    const int w,         // width of I0 (and I1)
+    const int h          // height of I0 (and I1)
     )
 {
   float *u1 = ofD->u1;
   float *u2 = ofD->u2;
 
   //Columns and Rows
-  const int w = ofD->params.w;
-  const int h = ofD->params.h;
+  //const int w = ofD->params.w;
+  //const int h = ofD->params.h;
 
   DualVariables *p = nltvcsad->p;
   DualVariables *q = nltvcsad->q;
@@ -436,7 +443,7 @@ void guided_nltvcsad(
 
     int n = 0;
     float err_D = INFINITY;
-    while (err_D > tol_OF*tol_OF && n < MAX_ITERATIONS_LOCAL)
+    while (err_D > tol_OF*tol_OF && n < ofD->params.max_iter_patch)
     {
 
       n++;
@@ -506,6 +513,6 @@ void guided_nltvcsad(
     if (verbose)
       std::printf("Warping: %d,Iter: %d Error: %f\n", warpings,n, err_D);
   }
-  eval_nltvcsad(I0, I1, ofD, nltvcsad, ener_N, ii, ij, ei, ej, lambda, theta);
+  eval_nltvcsad(I0, I1, ofD, nltvcsad, ener_N, ii, ij, ei, ej, lambda, theta, w, h);
 }
 #endif

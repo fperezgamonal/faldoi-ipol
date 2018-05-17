@@ -29,10 +29,13 @@ extern "C" {
 ////INITIALIZATION OF EACH METHOD
 void  intialize_stuff_tvl2coupled_occ(
         SpecificOFStuff& ofStuff,
-        const OpticalFlowData& ofCore) {
+        const OpticalFlowData& ofCore,
+        const int w,
+        const int h) {
 
-    const int w = ofCore.params.w;
-    const int h = ofCore.params.h;
+    // w, h as params in the function call
+    //const int w = ofCore.params.w;
+    //const int h = ofCore.params.h;
 
     //Occlusion variable
     ofStuff.tvl2_occ.chix = new float[w*h];
@@ -182,7 +185,9 @@ float eval_tvl2coupled_occ(
         OpticalFlowData *ofD,
         Tvl2CoupledOFStuff_occ *tvl2_occ,
         const PatchIndexes index,
-        Parameters params
+        Parameters params,
+        const int nx,
+        const int ny
         ){
 
     const float *u1 = ofD->u1;
@@ -195,9 +200,10 @@ float eval_tvl2coupled_occ(
     float *chix = tvl2_occ->chix;
     float *chiy = tvl2_occ->chiy;
 
+    // Added changes for subimages
     //Columns and Rows
-    const int nx = ofD->params.w;
-    const int ny = ofD->params.h;
+    //const int nx = ofD->params.w;
+    //const int ny = ofD->params.h;
 
     //Optical flow derivatives
     const float *v1   = tvl2_occ->v1;
@@ -330,11 +336,13 @@ static void tvl2coupled_get_xi_patch(
         float *div_g_xi1,
         float *div_g_xi2,
         const PatchIndexes index,
-        const Parameters params
+        const Parameters params,
+        const int nx
         ){
+    // w, h as params in the function call
 
     float tau_theta = params.tau_u/params.theta;
-    int nx = params.w;
+    //int nx = params.w;
     for (int k = 1; k < ITER_XI; k++){
         //What goes inside gradient
         for (int l = index.ij; l < index.ej; l++){
@@ -418,9 +426,12 @@ static void tvl2coupled_get_chi_patch(
         float *g_eta2,
         float *div_g_eta,
         const PatchIndexes index,
-        Parameters params){
+        Parameters params,
+        const int nx
+){
 
-    int nx = params.w;
+    // Added changes for subimages
+    //int nx = params.w;
     for (int k = 1; k < ITER_CHI; k++){
 
         //Compute dual variable eta
@@ -487,7 +498,9 @@ void guided_tvl2coupled_occ(
         OpticalFlowData *ofD,
         Tvl2CoupledOFStuff_occ *tvl2_occ,
         float *ener_N,
-        const PatchIndexes index
+        const PatchIndexes index,
+        const int nx,
+        const int ny
         ) {
 
 
@@ -495,10 +508,11 @@ void guided_tvl2coupled_occ(
     float *u2 = ofD->u2;
     float *u1_ba = ofD->u1_ba;
     float *u2_ba = ofD->u2_ba;
+    // w, h as params in the function call
 
     //Columns and Rows
-    const int nx = ofD->params.w;
-    const int ny = ofD->params.h;
+    //const int nx = ofD->params.w;
+    //const int ny = ofD->params.h;
     const int size = nx*ny;
 
     float *diff_u_N = tvl2_occ->diff_u_N;
@@ -705,7 +719,7 @@ void guided_tvl2coupled_occ(
             tvl2coupled_get_xi_patch(xi11, xi12, xi21, xi22, g, v1, v2,
                                      chix, chiy, vi_div1, grad_x1, grad_y1, vi_div2, grad_x2, grad_y2,
                                      g_xi11, g_xi12, g_xi21, g_xi22, div_g_xi1, div_g_xi2,
-                                     index, ofD->params);
+                                     index, ofD->params, nx);
 
             //Compute several stuff
             //#pragma omp simd collapse(2)
@@ -739,7 +753,7 @@ void guided_tvl2coupled_occ(
             //Compute chi
             tvl2coupled_get_chi_patch(chi, chix, chiy, F, G,
                                       g, eta1, eta2, div_u, g_eta1, g_eta2,
-                                      div_g_eta, index, ofD->params);
+                                      div_g_eta, index, ofD->params, nx);
 
 
             //Get the max val
@@ -760,7 +774,7 @@ void guided_tvl2coupled_occ(
                         "Error: %f\n", warpings, n, err_D);
     }
     if (ofD->params.step_algorithm == LOCAL_STEP){
-        *ener_N = eval_tvl2coupled_occ(I0, I1, I_1, ofD, tvl2_occ, index, ofD->params);
+        *ener_N = eval_tvl2coupled_occ(I0, I1, I_1, ofD, tvl2_occ, index, ofD->params, nx, ny);
     }
 }
 

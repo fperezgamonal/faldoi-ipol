@@ -24,11 +24,14 @@ extern "C" {
 
 void  intialize_stuff_tvcsad_w(
           SpecificOFStuff *ofStuff,
-          OpticalFlowData *ofCore)
+          OpticalFlowData *ofCore,
+          const int w,
+          const int h)
 
 {
-  const int w = ofCore->params.w;
-  const int h = ofCore->params.h;
+  // w, h as params in the function call
+  //const int w = ofCore->params.w;
+  //const int h = ofCore->params.h;
   //fprintf(stderr, "W x H :%d x %d\n", w, h);
   ofStuff->tvcsadw.weight = new float[ofCore->params.w_radio*2 + 1];
   ofStuff->tvcsadw.pnei = new PosNei[w*h];
@@ -97,16 +100,19 @@ void eval_tvcsad_w(
     const int ei,
     const int ej,
     const float lambda,
-    const float theta
+    const float theta,
+    const int nx,
+    const int ny
     )
 {
   float *u1 = ofD->u1;
   float *u2 = ofD->u2;
 
+  // w, h as params in the function call
 
   //Columns and Rows
-  const int nx = ofD->params.w;
-  const int ny = ofD->params.h;
+  //const int nx = ofD->params.w;
+  //const int ny = ofD->params.h;
 
   //Optical flow derivatives
   float *v1   = tvcsadw->v1;
@@ -235,10 +241,10 @@ void tvcsad_w_getD(
       float *xi12, 
       float *xi21, 
       float *xi22, 
-      float *u1x, 
-      float *u1y, 
-      float *u2x, 
-      float *u2y,
+      const float *u1x,
+      const float *u1y,
+      const float *u2x,
+      const float *u2y,
       float tau,       
       const int ii, // initial column
       const int ij, // initial row
@@ -282,7 +288,9 @@ void guided_tvcsad_w(
     const float tau,     // time step
     const float tol_OF,  // tol max allowed
     const int   warps,   // number of warpings per scale
-    const bool  verbose  // enable/disable the verbose mode
+    const bool  verbose, // enable/disable the verbose mode
+    const int nx,        // width of I0 (and I1)
+    const int ny         // height of I0 (and I1)
   )
 {
 
@@ -291,12 +299,13 @@ void guided_tvcsad_w(
   const int ndt = DT_NEI;
 
 
+  // Added changes for subimages
 
   float *u1 = ofD->u1;
   float *u2 = ofD->u2;
   //Columns and Rows
-  const int nx = ofD->params.w;
-  const int ny = ofD->params.h;
+  //const int nx = ofD->params.w;
+  //const int ny = ofD->params.h;
 
   PosNei *pnei  = tvcsadw->pnei;
   float *u1_  = tvcsadw->u1_;
@@ -331,7 +340,7 @@ void guided_tvcsad_w(
   float *div_xi1 = tvcsadw->div_xi1;
   float *div_xi2 = tvcsadw->div_xi2;
 
-  //TODO:Pesos
+  //TODO:Weights
   const int iiw = tvcsadw->iiw;
   const int ijw = tvcsadw->ijw;
   float *weight = tvcsadw->weight;
@@ -401,7 +410,7 @@ void guided_tvcsad_w(
 
     int n = 0;
     float err_D = INFINITY;
-    while (err_D > tol_OF*tol_OF && n < MAX_ITERATIONS_LOCAL)
+    while (err_D > tol_OF*tol_OF && n < ofD->params.max_iter_patch)
     {
 
       n++;
@@ -439,7 +448,7 @@ void guided_tvcsad_w(
         std::sort(pnei[i].ba.begin(), pnei[i].ba.begin() + it);
         // v1[i] = u1[i] - l_t*I1wx[i]*pnei[i].ba[it/2+1]/grad[i];
         // v2[i] = u2[i] - l_t*I1wy[i]*pnei[i].ba[it/2+1]/grad[i];
-        //TODO: Posible error en la minimizacion
+        //TODO: Possible error in the minimization
         v1[i] = u1[i] - I1wx[i]*pnei[i].ba[it/2+1]/grad[i];
         v2[i] = u2[i] - I1wy[i]*pnei[i].ba[it/2+1]/grad[i];
       }
@@ -480,7 +489,7 @@ void guided_tvcsad_w(
       fprintf(stderr, "Warping: %d,Iter: %d "
       "Error: %f\n", warpings,n, err_D);
   }
-  eval_tvcsad_w(I0, I1, ofD, tvcsadw, ener_N, ii, ij, ei, ej, lambda, theta);
+  eval_tvcsad_w(I0, I1, ofD, tvcsadw, ener_N, ii, ij, ei, ej, lambda, theta, nx, ny);
 
 }
 

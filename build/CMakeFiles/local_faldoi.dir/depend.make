@@ -38,7 +38,6 @@ CMakeFiles/local_faldoi.dir/energy_model.cpp.o: /home/fperezgamonal/Documents/Pa
 CMakeFiles/local_faldoi.dir/energy_model.cpp.o: /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2w_model.h
 CMakeFiles/local_faldoi.dir/energy_model.cpp.o: /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.h
 
-CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o: /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o: /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o: /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/elap_recsep.h
 CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o: /home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_model.h

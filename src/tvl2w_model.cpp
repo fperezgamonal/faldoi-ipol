@@ -14,11 +14,15 @@ extern "C" {
 ////INITIALIZATION OF EACH METHOD
 void  intialize_stuff_tvl2coupled_w(
         SpecificOFStuff *ofStuff,
-        OpticalFlowData *ofCore)
+        OpticalFlowData *ofCore,
+        const int w,
+        const int h)
 
 {
-    const int w = ofCore->params.w;
-    const int h = ofCore->params.h;
+    // w, h as params in the function call
+
+    //const int w = ofCore->params.w;
+    //const int h = ofCore->params.h;
     //fprintf(stderr, "W x H :%d x %d\n", w, h);
     ofStuff->tvl2w.weight = new float[ofCore->params.w_radio*2 + 1];
     ofStuff->tvl2w.xi11 = new float[w*h];
@@ -181,17 +185,20 @@ void eval_tvl2coupled_w(
         const int ei, // end column
         const int ej, // end row
         const float lambda,  // weight of the data term
-        const float theta
+        const float theta,
+        const int nx,
+        const int ny
         )
 {
 
     float *u1 = ofD->u1;
     float *u2 = ofD->u2;
 
+    // Added changes for subimages
 
     //Columns and Rows
-    const int nx = ofD->params.w;
-    const int ny = ofD->params.h;
+    //const int nx = ofD->params.w;
+    //const int ny = ofD->params.h;
 
     //Optical flow derivatives
     float *v1   = tvl2w->v1;
@@ -249,29 +256,32 @@ void eval_tvl2coupled_w(
 // s.t u = u_0 for i.seeds
 // J(u) = (u_x, u_y; v_x, v_y)
 void guided_tvl2coupled_w(
-        const float *I0,           // source image
-        const float *I1,           // target image
+        const float *I0,                // source image
+        const float *I1,                // target image
         OpticalFlowData *ofD,
         Tvl2CoupledOFStuff_W *tvl2w,
         float *ener_N,
-        const int ii, // initial column
-        const int ij, // initial row
-        const int ei, // end column
-        const int ej, // end row
-        const float lambda,  // weight of the data term
-        const float theta,   // weight of the data term
-        const float tau,     // time step
-        const float tol_OF,  // tol max allowed
-        const int   warps,   // number of warpings per scale
-        const bool  verbose  // enable/disable the verbose mode
-        ){
+        const int ii,                   // initial column
+        const int ij,                   // initial row
+        const int ei,                   // end column
+        const int ej,                   // end row
+        const float lambda,             // weight of the data term
+        const float theta,              // weight of the data term
+        const float tau,                // time step
+        const float tol_OF,             // tol max allowed
+        const int   warps,              // number of warpings per scale
+        const bool  verbose,            // enable/disable the verbose mode
+        const int nx,
+        const int ny){
 
     float *u1 = ofD->u1;
     float *u2 = ofD->u2;
+    // w, h as params in the function call
+
 
     //Columns and Rows
-    const int nx = ofD->params.w;
-    const int ny = ofD->params.h;
+    //const int nx = ofD->params.w;
+    //const int ny = ofD->params.h;
 
 
     float *u1_  = tvl2w->u1_;
@@ -309,7 +319,7 @@ void guided_tvl2coupled_w(
     float *div_xi2 = tvl2w->div_xi2;
 
 
-    //TODO:Pesos
+    //TODO: Weights
     const int iiw = tvl2w->iiw;
     const int ijw = tvl2w->ijw;
     float *weight = tvl2w->weight;
@@ -362,7 +372,7 @@ void guided_tvl2coupled_w(
 
         int n = 0;
         float err_D = INFINITY;
-        while (err_D > tol_OF*tol_OF && n < MAX_ITERATIONS_LOCAL)
+        while (err_D > tol_OF*tol_OF && n < ofD->params.max_iter_patch)
         {
 
             n++;
@@ -444,7 +454,7 @@ void guided_tvl2coupled_w(
             std::printf("Warping: %d,Iter: %d "
                         "Error: %f\n", warpings,n, err_D);
     }
-    eval_tvl2coupled_w(I0, I1, ofD, tvl2w, ener_N, ii, ij, ei, ej, lambda, theta);
+    eval_tvl2coupled_w(I0, I1, ofD, tvl2w, ener_N, ii, ij, ei, ej, lambda, theta, nx, ny);
 }
 
 #endif //TVL2-L1 functional

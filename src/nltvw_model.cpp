@@ -11,11 +11,14 @@ extern "C" {
 }
 void  intialize_stuff_nltvl1_w(
           SpecificOFStuff *ofStuff,
-          OpticalFlowData *ofCore)
+          OpticalFlowData *ofCore,
+          const int w,
+          const int h)
 
 {
-  const int w = ofCore->params.w;
-  const int h = ofCore->params.h;
+  // w, h as params in the function call
+  //const int w = ofCore->params.w;
+  //const int h = ofCore->params.h;
   ofStuff->nltvl1w.weight = new float[ofCore->params.w_radio*2 + 1];
   ofStuff->nltvl1w.p = new DualVariables[w*h];
   ofStuff->nltvl1w.q = new DualVariables[w*h];
@@ -73,17 +76,19 @@ void eval_nltvl1_w(
     const int ei, // end column
     const int ej, // end row
     const float lambda,  // weight of the data term
-    const float theta
-    )
-{
+    const float theta,
+    const int w,
+    const int h
+){
 
   float *u1 = ofD->u1;
   float *u2 = ofD->u2;
 
+  // Added changes for subimages
 
   //Columns and Rows
-  const int w = ofD->params.w;
-  const int h = ofD->params.h;
+  //const int w = ofD->params.w;
+  //const int h = ofD->params.h;
 
   float *I1w = nltvl1w->I1w;
   DualVariables *p = nltvl1w->p;
@@ -288,15 +293,17 @@ void guided_nltvl1_w(
     const float tau,     // time step
     const float tol_OF,  // tol max allowed
     const int   warps,   // number of warpings per scale
-    const bool  verbose  // enable/disable the verbose mode
-    )
-{
+    const bool  verbose,  // enable/disable the verbose mode
+    const int w,
+    const int h
+) {
   float *u1 = ofD->u1;
   float *u2 = ofD->u2;
+  // w, h as params in the function call
 
   //Columns and Rows
-  const int w = ofD->params.w;
-  const int h = ofD->params.h;
+  //const int w = ofD->params.w;
+  //const int h = ofD->params.h;
 
   DualVariables *p = nltvl1w->p;
   DualVariables *q = nltvl1w->q;
@@ -327,7 +334,7 @@ void guided_nltvl1_w(
   const int n_d = NL_DUAL_VAR;
   const float l_t = lambda * theta;
 
-      //TODO:Pesos
+    //TODO:Weights
   const int iiw = nltvl1w->iiw;
   const int ijw = nltvl1w->ijw;
   float *weight = nltvl1w->weight;
@@ -404,7 +411,7 @@ void guided_nltvl1_w(
 
     int n = 0;
     float err_D = INFINITY;
-    while (err_D > tol_OF*tol_OF && n < MAX_ITERATIONS_LOCAL)
+    while (err_D > tol_OF*tol_OF && n < ofD->params.max_iter_patch)
     {
       n++;
       // estimate the values of the variable (v1, v2)
@@ -479,7 +486,7 @@ void guided_nltvl1_w(
       fprintf(stderr, "Warping: %d,Iter: %d "
       "Error: %f\n", warpings,n, err_D);
   }
-  eval_nltvl1_w(I0, I1, ofD, nltvl1w, ener_N, ii, ij, ei, ej, lambda, theta);
+  eval_nltvl1_w(I0, I1, ofD, nltvl1w, ener_N, ii, ij, ei, ej, lambda, theta, w, h);
 
 }
 

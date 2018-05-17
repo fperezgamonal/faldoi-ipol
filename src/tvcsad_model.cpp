@@ -24,11 +24,14 @@ extern "C" {
 
 void  intialize_stuff_tvcsad(
           SpecificOFStuff *ofStuff,
-          OpticalFlowData *ofCore)
+          OpticalFlowData *ofCore,
+          const int w,
+          const int h)
 
 {
-  const int w = ofCore->params.w;
-  const int h = ofCore->params.h;
+   // Added w, h as params in the function call
+  //const int w = ofCore->params.w;
+  //const int h = ofCore->params.h;
   //fprintf(stderr, "W x H :%d x %d\n", w, h);
   ofStuff->tvcsad.pnei = new PosNei[w*h];
   ofStuff->tvcsad.xi11 = new float[w*h];
@@ -95,7 +98,9 @@ void eval_tvcsad(
     const int ei,
     const int ej,
     const float lambda,
-    const float theta
+    const float theta,
+    const int nx,
+    const int ny
     )
 {
   float *u1 = ofD->u1;
@@ -103,8 +108,8 @@ void eval_tvcsad(
 
 
   //Columns and Rows
-  const int nx = ofD->params.w;
-  const int ny = ofD->params.h;
+  //const int nx = ofD->params.w;
+  //const int ny = ofD->params.h;
 
   //Optical flow derivatives
   float *v1   = tvcsad->v1;
@@ -275,7 +280,9 @@ void guided_tvcsad(
     const float tau,     // time step
     const float tol_OF,  // tol max allowed
     const int   warps,   // number of warpings per scale
-    const bool  verbose  // enable/disable the verbose mode
+    const bool  verbose, // enable/disable the verbose mode
+    const int nx,        // width of I0 (and I1)
+    const int ny         // height of I0 (and I1)
   )
 {
 
@@ -287,8 +294,9 @@ void guided_tvcsad(
   float *u2 = ofD->u2;
 
   //Columns and Rows
-  const int nx = ofD->params.w;
-  const int ny = ofD->params.h;
+  // Added changes for subimages
+  //const int nx = ofD->params.w;
+  //const int ny = ofD->params.h;
 
   PosNei *pnei  = tvcsad->pnei;
   float *u1_  = tvcsad->u1_;
@@ -389,7 +397,7 @@ void guided_tvcsad(
 
     int n = 0;
     float err_D = INFINITY;
-    while (err_D > tol_OF*tol_OF && n < MAX_ITERATIONS_LOCAL)
+    while (err_D > tol_OF*tol_OF && n < ofD->params.max_iter_patch)
     {
 
       n++;
@@ -465,7 +473,7 @@ void guided_tvcsad(
       fprintf(stderr, "Warping: %d,Iter: %d "
       "Error: %f\n", warpings,n, err_D);
   }
-  eval_tvcsad(I0, I1, ofD, tvcsad, ener_N, ii, ij, ei, ej, lambda, theta);
+  eval_tvcsad(I0, I1, ofD, tvcsad, ener_N, ii, ij, ei, ej, lambda, theta, nx, ny);
 
 }
 

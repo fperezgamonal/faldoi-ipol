@@ -38,7 +38,6 @@ CMakeFiles/local_faldoi.dir/energy_model.cpp.o: ../tvl2_model_occ.h
 CMakeFiles/local_faldoi.dir/energy_model.cpp.o: ../tvl2w_model.h
 CMakeFiles/local_faldoi.dir/energy_model.cpp.o: ../utils.h
 
-CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o: ../aux_energy_model.h
 CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o: ../bicubic_interpolation.h
 CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o: ../elap_recsep.h
 CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o: ../energy_model.h
