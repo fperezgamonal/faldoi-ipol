@@ -448,45 +448,50 @@ struct  SpecificOFStuff{
     Tvl2CoupledOFStuff_occ  tvl2_occ;
 
 };
+/*
+struct PartitionParams
+{
+    int h_parts;                // Number of horizontal parts for the partition
+    int v_parts;                // Number of vertical parts for the partition
+    int *sub_width;            // Width of each partition (may not be equal sized)
+    int *sub_height;           // Height of each partition ( "  "   "   "     "  )
+    int *offset_x;             // Offset in width (x-axis) for each partition
+    int *offset_y;             // Offset in height (y-axis) for each partition
+};
+*/
+
 
 // Struct to contain all the partition-specific variables (generalisation of the 1 partition (whole image) case...)
-struct PartitionParams {
-    int idx;
-    int width;
-    int height;
-    int off_x;
-    int off_y;
-    int n_ch;
-    float *i0n;
-    float *i1n;
-    float *i_1n;
-    float *i2n;
-    float *oft0;
-    float *oft1;
-    float *ene_Go;
-    float *ene_Ba;
-    float *occ_Go;
-    float *occ_Ba;
-    pq_cand *queue_Go;
-    pq_cand *queue_Ba;
-    SpecificOFStuff stuff_Go;
-    SpecificOFStuff stuff_Ba;
-    OpticalFlowData ofGo;
-    OpticalFlowData ofBa;
-    BilateralFilterData BiFilt_Go;
-    BilateralFilterData BiFilt_Ba;
-
-    // Not needed (??)
-    /*
-     * SpecificOFStuff stuff_Go; contains one struct per functional w. specific variables
-     * SpecificOFStuff stuff_Ba; same as above but for backwards' pass
-     * OpticalFlowData ofGo; common params for any functional (u1, u2, fixed_points, params (struct),...)
-     * OpticalFlowData ofBa; same as above but for backwards' pass
-     * BilateralFilterData BiFilt_Go; weights and indices of bilateral filter
-     * BilateralFilterData BiFilt_Ba; same as above but for backwards' pass
-     *
-     * Probably needed indeed (just because not every partition will necessary be equal! (diff width/height))
-     */
+struct PartitionData {
+        int idx;                            // Partition idx: from 0 to NUM_PART - 1
+        int width;                          // Partition idx's width
+        int height;                         //     "       "   height
+        int off_x;                          //     "       "   width offset
+        int off_y;                          //     "       "   height  "
+        float *i0;
+        float *i1;
+        float *i_1;
+        float *i2;
+        float *i0n;                         // Partition nº idx of normalized source image (time step 't')
+        float *i1n;                         //     "        "    "     "      second   "   (  "    "  t+1)
+        float *i_1n;                        //     "        "    "     "      previous "   (  "    "  t-1)
+        float *i2n;                         //     "        "    "     "      third    "   (  "    "  t+2)
+        float *oft0;                        // Forward 'trusted' optical flow
+        float *oft1;                        // Backward 'trusted' optical flow
+        float *ene_Go;                      // Forward energy
+        float *ene_Ba;                      // Backward energy
+        float *occ_Go;                      // Forward occlusion mask
+        float *occ_Ba;                      // Backward occlusion mask
+        float *sal_go;                      // Forward saliency (not used ATM but just in case)
+        float *sal_ba;                      // Backward saliency ( "   "   "   "   "    "   ")
+        pq_cand *queue_Go;                  // Forward candidates' queue
+        pq_cand *queue_Ba;                  // Backward candidates' queue
+        SpecificOFStuff stuffGo;           // Specific stuff for each functional (forward)
+        SpecificOFStuff stuffBa;           //     "      "    "    "      "     (backward)
+        OpticalFlowData ofGo;               // Common OF data (forward)
+        OpticalFlowData ofBa;               // Common OF data (backward)
+        BilateralFilterData* BiFilt_Go;      // Bilateral filter data (forward)
+        BilateralFilterData* BiFilt_Ba;      // Bilateral filter data (backward)
 };
 
 #endif// ENERGY_STRUCTURES_H

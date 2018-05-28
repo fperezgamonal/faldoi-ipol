@@ -266,8 +266,8 @@ void guided_tvl2coupled(
         const float tol_OF,         // tol max allowed
         const int warps,            // number of warpings per scale
         const bool verbose,         // enable/disable the verbose mode
-        const int nx,               // width of I0 (and I1)
-        const int ny                // height of I0 (and I1)
+        const int nx,               // width of I0 (I1 may have diff. size if we use partitions)
+        const int ny                // height of I0 ( " " " " " " " " ")
 ) {
 
     float *u1 = ofD->u1;

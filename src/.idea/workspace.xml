@@ -24,14 +24,14 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5725067">
+    <splitter split-orientation="horizontal" split-proportion="0.502965">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="energy_model.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/energy_model.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-6570">
-                  <caret line="274" column="5" lean-forward="false" selection-start-line="274" selection-start-column="5" selection-end-line="274" selection-end-column="5" />
+                <state relative-caret-position="-107">
+                  <caret line="124" column="0" lean-forward="false" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
                   <folding>
                     <element signature="e#577#595#0" expanded="true" />
                     <element signature="e#693#716#0" expanded="true" />
@@ -44,8 +44,8 @@
           <file leaf-file-name="local_faldoi.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/local_faldoi.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="306">
-                  <caret line="1102" column="0" lean-forward="false" selection-start-line="1102" selection-start-column="0" selection-end-line="1102" selection-end-column="0" />
+                <state relative-caret-position="314">
+                  <caret line="2012" column="33" lean-forward="false" selection-start-line="2012" selection-start-column="12" selection-end-line="2012" selection-end-column="33" />
                   <folding>
                     <element signature="e#481#499#0" expanded="true" />
                   </folding>
@@ -63,51 +63,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="mask.c" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/mask.c">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-673">
-                  <caret line="183" column="5" lean-forward="false" selection-start-line="183" selection-start-column="5" selection-end-line="183" selection-end-column="5" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="aux_energy_model.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/aux_energy_model.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="29">
-                  <caret line="111" column="5" lean-forward="false" selection-start-line="111" selection-start-column="5" selection-end-line="111" selection-end-column="5" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="tvl2w_model.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/tvl2w_model.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="594">
-                  <caret line="456" column="88" lean-forward="false" selection-start-line="456" selection-start-column="88" selection-end-line="456" selection-end-column="88" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="nltvcsadw_model.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/nltvcsadw_model.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="454">
-                  <caret line="533" column="85" lean-forward="false" selection-start-line="533" selection-start-column="85" selection-end-line="533" selection-end-column="85" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="nltvw_model.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/nltvw_model.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="418">
-                  <caret line="488" column="81" lean-forward="false" selection-start-line="488" selection-start-column="81" selection-end-line="488" selection-end-column="81" />
+                <state relative-caret-position="353">
+                  <caret line="129" column="56" lean-forward="false" selection-start-line="129" selection-start-column="56" selection-end-line="129" selection-end-column="56" />
                   <folding />
                 </state>
               </provider>
@@ -123,16 +83,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="nltv_model.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/nltv_model.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="594">
-                  <caret line="471" column="70" lean-forward="false" selection-start-line="471" selection-start-column="70" selection-end-line="471" selection-end-column="70" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
         </leaf>
       </split-first>
       <split-second>
@@ -140,28 +90,48 @@
           <file leaf-file-name="global_faldoi.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/global_faldoi.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="468">
-                  <caret line="1716" column="0" lean-forward="false" selection-start-line="1716" selection-start-column="0" selection-end-line="1716" selection-end-column="0" />
+                <state relative-caret-position="152">
+                  <caret line="1937" column="31" lean-forward="false" selection-start-line="1937" selection-start-column="27" selection-end-line="1937" selection-end-column="31" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="energy_structures.h" pinned="false" current-in-tab="true">
+          <file leaf-file-name="energy_structures.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/energy_structures.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-46">
-                  <caret line="52" column="7" lean-forward="false" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="7" />
+                <state relative-caret-position="-1948">
+                  <caret line="346" column="19" lean-forward="false" selection-start-line="346" selection-start-column="19" selection-end-line="346" selection-end-column="19" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="energy_model.h" pinned="false" current-in-tab="false">
+          <file leaf-file-name="nltv_model.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/nltv_model.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="200">
+                  <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="tvl2_model.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tvl2_model.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="343">
+                  <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="energy_model.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/energy_model.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="129">
-                  <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+                <state relative-caret-position="163">
+                  <caret line="14" column="21" lean-forward="false" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
                   <folding />
                 </state>
               </provider>
@@ -173,36 +143,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>guided_nltvl1</find>
-      <find>guided_</find>
-      <find>guided_nltvcsad</find>
-      <find>guided_tvcsad</find>
-      <find>guided_tvl2coupled</find>
-      <find>g</find>
-      <find>initialize_auxiliar_stuff</find>
-      <find>partition</find>
-      <find>insert_can</find>
-      <find>of_estimation</find>
-      <find>params.h</find>
-      <find>MAX_ITERATIONS_LOCAL</find>
-      <find>SpecificOFStuff</find>
-      <find>MAX_ITER</find>
-      <find>MAX_ITE</find>
-      <find>match_growin</find>
-      <find>insert</find>
-      <find>std::</find>
-      <find>tvl2-&gt;I1wx</find>
-      <find>insert_init</find>
+      <find>ene_</find>
+      <find>ene_Go</find>
+      <find>OpticalFlowData</find>
+      <find>params.</find>
+      <find>params-&gt;of</find>
+      <find>params.val_meth</find>
+      <find>ofD-&gt;params.val_</find>
+      <find>Specific</find>
+      <find>image_to</find>
+      <find>I0</find>
+      <find>Opti</find>
       <find>glb_it</find>
+      <find>case M_</find>
+      <find>val_method</find>
       <find>init_Optica</find>
-      <find>Parameters params</find>
-      <find>params.pd</find>
-      <find>params.w</find>
-      <find>init_Optical_Flow_Data</find>
-      <find>i0_p_r</find>
-      <find>oft0</find>
-      <find>match</find>
-      <find>pruning</find>
+      <find>init_Opt</find>
+      <find>trust_points</find>
+      <find>saliency</find>
+      <find>init_subima</find>
+      <find>p_data-&gt;at</find>
+      <find>update_tv</find>
+      <find>auxiliar_</find>
+      <find>offset_p</find>
+      <find>p_data</find>
+      <find>std::vector&lt;Partition</find>
+      <find>auxiliar_stuff</find>
+      <find>prepare_stuff</find>
+      <find>queue</find>
+      <find>tvl2</find>
+      <find>auxilia</find>
     </findStrings>
     <replaceStrings>
       <replace>//#pragma</replace>
@@ -225,6 +195,7 @@
       <replace>off_x</replace>
       <replace>off_y</replace>
       <replace>prt</replace>
+      <replace>t_pdata</replace>
     </replaceStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -238,7 +209,6 @@
         <option value="$PROJECT_DIR$/bicubic_interpolation.c" />
         <option value="$PROJECT_DIR$/utils.cpp" />
         <option value="$PROJECT_DIR$/utils_preprocess.cpp" />
-        <option value="$PROJECT_DIR$/energy_structures.h" />
         <option value="$PROJECT_DIR$/parameters.h" />
         <option value="$PROJECT_DIR$/nltv_model.h" />
         <option value="$PROJECT_DIR$/nltvw_model.h" />
@@ -255,12 +225,13 @@
         <option value="$PROJECT_DIR$/tvcsad_model.cpp" />
         <option value="$PROJECT_DIR$/tvcsadw_model.cpp" />
         <option value="$PROJECT_DIR$/nltv_model.cpp" />
-        <option value="$PROJECT_DIR$/tvl2_model.cpp" />
         <option value="$PROJECT_DIR$/tvl2w_model.cpp" />
         <option value="$PROJECT_DIR$/nltvcsadw_model.cpp" />
         <option value="$PROJECT_DIR$/nltvw_model.cpp" />
         <option value="$PROJECT_DIR$/tvl2_model_occ.cpp" />
         <option value="$PROJECT_DIR$/energy_model.cpp" />
+        <option value="$PROJECT_DIR$/tvl2_model.cpp" />
+        <option value="$PROJECT_DIR$/energy_structures.h" />
         <option value="$PROJECT_DIR$/local_faldoi.cpp" />
       </list>
     </option>
@@ -367,16 +338,15 @@
       <workItem from="1524212270511" duration="1422000" />
       <workItem from="1524215479218" duration="4366000" />
       <workItem from="1524555974480" duration="18047000" />
-      <workItem from="1525337586294" duration="83217000" />
+      <workItem from="1525337586294" duration="152569000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="274951000" />
+    <option name="totallyTimeSpent" value="344303000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20797414" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -389,7 +359,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3877551" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.47244897" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -428,21 +398,26 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/local_faldoi.cpp</url>
-          <line>1421</line>
-          <option name="timeStamp" value="5" />
+          <line>2578</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/local_faldoi.cpp</url>
-          <line>1088</line>
-          <option name="timeStamp" value="7" />
+          <line>1945</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/local_faldoi.cpp</url>
-          <line>1691</line>
-          <option name="timeStamp" value="8" />
+          <line>2012</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/local_faldoi.cpp</url>
+          <line>1864</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="10" />
+      <option name="time" value="17" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -456,35 +431,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/energy_model.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5418">
-          <caret line="301" column="18" lean-forward="false" selection-start-line="301" selection-start-column="18" selection-end-line="301" selection-end-column="18" />
-          <folding>
-            <element signature="e#577#595#0" expanded="true" />
-            <element signature="e#693#716#0" expanded="true" />
-            <element signature="e#818#842#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tvl2_model_occ.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12618">
-          <caret line="701" column="30" lean-forward="false" selection-start-line="701" selection-start-column="30" selection-end-line="701" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/local_faldoi.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#481#499#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/global_faldoi.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="26568">
@@ -596,25 +542,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bicubic_interpolation.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="762">
-          <caret line="253" column="4" lean-forward="false" selection-start-line="253" selection-start-column="4" selection-end-line="253" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils_preprocess.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="7" column="11" lean-forward="false" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mask.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="77" column="8" lean-forward="false" selection-start-line="77" selection-start-column="8" selection-end-line="77" selection-end-column="8" />
           <folding />
         </state>
       </provider>
@@ -631,14 +562,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="44" column="53" lean-forward="true" selection-start-line="44" selection-start-column="53" selection-end-line="44" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tvl2_model.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="54" column="50" lean-forward="true" selection-start-line="54" selection-start-column="50" selection-end-line="54" selection-end-column="50" />
           <folding />
         </state>
       </provider>
@@ -691,22 +614,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iio.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="3083" column="11" lean-forward="false" selection-start-line="3083" selection-start-column="11" selection-end-line="3083" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="35" column="20" lean-forward="true" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
@@ -747,22 +654,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nltv_model.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="471" column="70" lean-forward="false" selection-start-line="471" selection-start-column="70" selection-end-line="471" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tvl2_model.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="449" column="85" lean-forward="false" selection-start-line="449" selection-start-column="85" selection-end-line="449" selection-end-column="85" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tvl2w_model.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
@@ -795,26 +686,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/aux_energy_model.cpp">
+    <entry file="file://$PROJECT_DIR$/iio.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="111" column="5" lean-forward="false" selection-start-line="111" selection-start-column="5" selection-end-line="111" selection-end-column="5" />
+        <state relative-caret-position="317">
+          <caret line="32" column="12" lean-forward="true" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mask.c">
+    <entry file="file://$PROJECT_DIR$/iio.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-673">
-          <caret line="183" column="5" lean-forward="false" selection-start-line="183" selection-start-column="5" selection-end-line="183" selection-end-column="5" />
+        <state relative-caret-position="317">
+          <caret line="1037" column="12" lean-forward="false" selection-start-line="1037" selection-start-column="12" selection-end-line="1037" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/global_faldoi.cpp">
+    <entry file="file://$PROJECT_DIR$/bicubic_interpolation.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="1716" column="0" lean-forward="false" selection-start-line="1716" selection-start-column="0" selection-end-line="1716" selection-end-column="0" />
+        <state relative-caret-position="163">
+          <caret line="45" column="18" lean-forward="false" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bicubic_interpolation.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-86">
+          <caret line="275" column="5" lean-forward="false" selection-start-line="275" selection-start-column="5" selection-end-line="275" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -827,26 +726,98 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/energy_model.h">
+    <entry file="file://$PROJECT_DIR$/tvl2_model.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+        <state relative-caret-position="200">
+          <caret line="45" column="4" lean-forward="false" selection-start-line="45" selection-start-column="4" selection-end-line="45" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/aux_energy_model.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="129" column="56" lean-forward="false" selection-start-line="129" selection-start-column="56" selection-end-line="129" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nltv_model.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/global_faldoi.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="1937" column="31" lean-forward="false" selection-start-line="1937" selection-start-column="27" selection-end-line="1937" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/energy_structures.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-46">
-          <caret line="52" column="7" lean-forward="false" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="7" />
+        <state relative-caret-position="-1948">
+          <caret line="346" column="19" lean-forward="false" selection-start-line="346" selection-start-column="19" selection-end-line="346" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="376" column="0" lean-forward="false" selection-start-line="376" selection-start-column="0" selection-end-line="376" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mask.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="63" column="15" lean-forward="false" selection-start-line="63" selection-start-column="15" selection-end-line="63" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mask.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-539">
+          <caret line="183" column="5" lean-forward="false" selection-start-line="183" selection-start-column="5" selection-end-line="183" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/bits/stl_vector.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="823" column="0" lean-forward="false" selection-start-line="823" selection-start-column="0" selection-end-line="823" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tvl2_model.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/energy_model.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="14" column="21" lean-forward="false" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/energy_model.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6570">
-          <caret line="274" column="5" lean-forward="false" selection-start-line="274" selection-start-column="5" selection-end-line="274" selection-end-column="5" />
+        <state relative-caret-position="-107">
+          <caret line="124" column="0" lean-forward="false" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
           <folding>
             <element signature="e#577#595#0" expanded="true" />
             <element signature="e#693#716#0" expanded="true" />
@@ -857,8 +828,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/local_faldoi.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="1102" column="0" lean-forward="false" selection-start-line="1102" selection-start-column="0" selection-end-line="1102" selection-end-column="0" />
+        <state relative-caret-position="314">
+          <caret line="2012" column="33" lean-forward="false" selection-start-line="2012" selection-start-column="12" selection-end-line="2012" selection-end-column="33" />
           <folding>
             <element signature="e#481#499#0" expanded="true" />
           </folding>

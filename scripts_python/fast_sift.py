@@ -203,11 +203,14 @@ else:
 # Create a sparse flow from the sift matches.
 if sparse_flow:
 	param = '%s %s %s %s\n' % (cut(match_name_1), width_im, height_im, sparse_name_1)
+	print(param)	
 	command_line = '%s %s\n' % (sparse_flow, param)
+	print(command_line)	
 	os.system(command_line)
 	# Create a sparse flow from the sift matches (img I1).
 	param = '%s %s %s %s\n' % (cut(match_name_2), width_im, height_im, sparse_name_2)
 	command_line = '%s %s\n' % (sparse_flow, param)
+	print(command_line)	
 	os.system(command_line)
 	# Elapsed time (create sparse flow from SIFT matches)
 	sparse_timer = time.time()
@@ -236,9 +239,9 @@ if local_of:
 	options = '-m %s -wr %s' % (var_m, windows_radio)
 	param = '%s %s %s %s %s %s\n' % (args.file_images, sparse_name_1, sparse_name_2,
 			                    region_growing, sim_value, options)
-	# print param
+	print(param)
 	command_line = '%s %s\n' % (match_propagation, param)
-	#print("l_of cmd:\n{}\n".format(command_line))
+	print("l_of cmd:\n{}\n".format(command_line))
 	os.system(command_line)
 	# Elapsed time (dense flow from sparse set of initial seeds)
 	dense_timer = time.time()
