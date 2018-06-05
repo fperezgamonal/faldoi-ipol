@@ -23,7 +23,7 @@ void intialize_stuff_tvl2coupled(
     //const int w = ofCore->params.w;
     //const int h = ofCore->params.h;
     //fprintf(stderr, "W x H :%d x %d\n", w, h);
-
+    // Dual variables
     ofStuff->tvl2.xi11 = new float[w * h];
     ofStuff->tvl2.xi12 = new float[w * h];
     ofStuff->tvl2.xi21 = new float[w * h];
@@ -88,10 +88,10 @@ static void tvl2coupled_getD(
         float *xi12,
         float *xi21,
         float *xi22,
-        float *u1x,
-        float *u1y,
-        float *u2x,
-        float *u2y,
+        const float *u1x,
+        const float *u1y,
+        const float *u2x,
+        const float *u2y,
         float tau,
         const int ii,           // initial column
         const int ij,           // initial row
@@ -126,10 +126,10 @@ static void tvl2coupled_getD(
 static void tvl2coupled_getP(
         float *u1,
         float *u2,
-        float *v1,
-        float *v2,
-        float *div_xi1,
-        float *div_xi2,
+        const float *v1,
+        const float *v2,
+        const float *div_xi1,
+        const float *div_xi2,
         float *u_N,
         float theta,
         float tau,
@@ -218,7 +218,7 @@ void eval_tvl2coupled(
     bicubic_interpolation_warp_patch(I1, u1, u2, I1w,
                                      ii, ij, ei, ej, nx, ny, false);
 
-    // Energy for all the patch. Maybe it useful only the 8 pixel around the seed.
+    // Energy for all the patch. Maybe it is useful only the 8 pixel around the seed.
     int m = 0;
     for (int l = ij; l < ej; l++) {
         for (int k = ii; k < ei; k++) {

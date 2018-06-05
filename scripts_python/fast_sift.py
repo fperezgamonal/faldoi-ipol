@@ -23,23 +23,26 @@ parser = argparse.ArgumentParser(description='Faldoi Minimization')
 #parser.add_argument("i1", help="second image")
 parser.add_argument("file_images", help = "File with images path")
 
-method = 0
+def_method = 0
+def_split_img = 0
+def_hor_parts = 3
+def_ver_parts = 2
 descriptors = True
 matchings = True
 sparse_flow = True
 local_of = True
 global_of = True
 
-print("Code blocks activation value:\n" +\
-	"\tdescriptors =\t" + str(descriptors) + "\n" +\
-	"\tmatchings =\t" + str(matchings) + "\n" +\
-	"\tsparse_flow =\t" + str(sparse_flow) + "\n" +\
-	"\tlocal_of =\t" + str(local_of) + "\n" +\
-	"\tglobal_of =\t" + str(global_of) + "\n")
-	
+print('''Code blocks activation value:
+        descriptors =   {}
+        matchings =     {}
+        sparse_flow =   {}
+        local_of =      {}
+        global_of =     {}
+'''.format(descriptors, matchings, sparse_flow, local_of, global_of))
 
 # Energy model
-parser.add_argument("-vm", default=str(method),
+parser.add_argument("-vm", default=str(def_method),
                     help="Variational Method "
                          "(tv-l2 coupled: 0, ||Du+Du'||: 1, NLTVL1:3")
 # M_TVL1       0
@@ -54,21 +57,39 @@ parser.add_argument("-vm", default=str(method),
 
 
 # Local Wise Minimization
+# 	Window's radius
 parser.add_argument("-wr", default='5',
                     help="Windows Radio Local patch"
                          "1 -  3x3, 2 - 5x5,...")  # (2*r +1) x (2*r+1)
+
+# 	Whether to split the image into partitions or not
+parser.add_argument("-split_img", default=str(def_split_img),
+                    help="Enable local minimization w. subpartions instead of whole image"
+                         "1 - enabled, othewise - disabled.")  
+
+# 	Number of horizontal splits
+parser.add_argument("-h_parts", default=str(def_hor_parts),
+                    help="Number of horizontal parts"
+                         "An integer (>0). Default is 3")  
+
+#	Number of vertical splits
+parser.add_argument("-v_parts", default=str(def_ver_parts),
+                    help="Number of vertical parts"
+                         "An integer (>0). Default is 2") 
 # Global Mininization
 parser.add_argument("-warps", default='5',
                     help="Number of warps finest scale")
+
 # Initial seeds (SIFT parameters)
 parser.add_argument("-nsp", default='15',
                     help="Increase the sift matches")
 
 parser.add_argument("-m", default='0',
-                    help="It uses the Gaussian weight over the Data Term");
+                    help="It uses the Gaussian weight over the Data Term")
+
 # Results "sub"path (e.g.: /Results/experiment1/iter3/)
 parser.add_argument("-res_path", default='../Results/',
-		    help="Subfolder under '../Results/' where data is stored");
+		    help="Subfolder under '../Results/' where data is stored")
 
 #args = parser.parse_args()
 #core_name1 = args.i0.split('.')[-2].split('/')[-1]
@@ -96,12 +117,15 @@ core_name2 = data[1].split('.')[-2].split('/')[-1]
 
 var_m = args.vm
 warps = args.warps
-windows_radio = args.wr;
-gauss = args.m;
-nsp = args.nsp;
-r_path = args.res_path;
+windows_radio = args.wr
+split_image = args.split_img
+hor_parts = args.h_parts
+ver_parts = args.v_parts
+gauss = args.m
+nsp = args.nsp
+r_path = args.res_path
 
-param_sif = '-ss_nspo %s' % (nsp)
+param_sif = "-ss_nspo {}".format(nsp)
 
 feature_descriptor = "../build/sift_cli "
 match_comparison = "../build/match_cli"
@@ -111,12 +135,12 @@ of_var = "../build/global_faldoi"
 
 
 #Set the main directory that contains all the stuff
-root_path = '%s/'%(os.getcwd())
+root_path = "{}/".format(os.getcwd())
 #print(root_path)
 #binary_path = root_path + "bin/"
 binary_path = '../build/'
 #f_path = root_path + "Results/"
-f_path = r_path;
+f_path = r_path
 if not os.path.exists(f_path):
     os.makedirs(f_path)
 # Set the folder where the binaries are.
@@ -154,33 +178,33 @@ with open(im_name1, 'rb') as f:
 #width_im, height_im = tmp_out.split(' ')
 
 #os.chdir(binary_path)
-desc_name_1 = '%s%s_sift_desc_1.txt' % (f_path, core_name1)
-desc_name_2 = '%s%s_sift_desc_2.txt' % (f_path, core_name2)
+desc_name_1 = "{}{}_sift_desc_1.txt".format(f_path, core_name1)
+desc_name_2 = "{}{}_sift_desc_2.txt".format(f_path, core_name2)
 
-match_name_1 = '%s%s_sift_mt_1.txt' % (f_path, core_name1)
-match_name_2 = '%s%s_sift_mt_2.txt' % (f_path, core_name2)
+match_name_1 = "{}{}_sift_mt_1.txt".format(f_path, core_name1)
+match_name_2 = "{}{}_sift_mt_2.txt".format(f_path, core_name2)
 
-sparse_name_1 = '%s%s_sift_mt_1.flo' % (f_path, core_name1)
-sparse_name_2 = '%s%s_sift_mt_2.flo' % (f_path, core_name2)
+sparse_name_1 = "{}{}_sift_mt_1.flo".format(f_path, core_name1)
+sparse_name_2 = "{}{}_sift_mt_2.flo".format(f_path, core_name2)
 
-region_growing = '%s%s_sift_rg.flo' % (f_path, core_name1)
-sim_value = '%s%s_sift_sim.tiff' % (f_path, core_name1)
-var_flow = '%s%s_sift_var.flo' % (f_path, core_name1)
+region_growing = "{}{}_sift_rg.flo".format(f_path, core_name1)
+sim_value = "{}{}_sift_sim.tiff".format(f_path, core_name1)
+var_flow = "{}{}_sift_var.flo".format(f_path, core_name1)
 
 # Elapsed time (loadings)
 load_timer = time.time()
-print("Loading everything took " + str(load_timer - init_sift) + " secs.")
+print("Loading everything took {} secs.".format(load_timer - init_sift))
 
 # Obtain the matches' list for both (I0-I1 and I1-I0)
 # Initial seeds (SIFT descriptors)
 if descriptors:
-	command_line = '%s %s %s\n' % (feature_descriptor, im_name0, param_sif)
-	exe_prog(command_line, desc_name_1)
-	command_line = '%s %s %s\n' % (feature_descriptor, im_name1, param_sif)
-	exe_prog(command_line, desc_name_2)
-	# Elapsed time (computing SIFT descriptors)
-	desc_timer = time.time()
-	print("Computing the SIFT descriptors both I0 & I1 ('./sift_cli') took " + str(desc_timer - load_timer) + " secs.")
+	command_line = "{} {} {}".format(feature_descriptor, im_name0, param_sif)
+        exe_prog(command_line, desc_name_1)
+        command_line = "{} {} {}".format(feature_descriptor, im_name1, param_sif)
+        exe_prog(command_line, desc_name_2)
+        # Elapsed time (computing SIFT descriptors)
+        desc_timer = time.time()
+        print("Computing the SIFT descriptors both I0 & I1 ('./sift_cli') took {} secs.".format(desc_timer - load_timer))
 
 else:
 	# Need the timer anyway to compute the rest of relative values!
@@ -188,13 +212,14 @@ else:
 
 # Obtain the matches' list
 if matchings:
-	command_line = '%s %s %s\n' % (match_comparison, desc_name_1, desc_name_2)
-	exe_prog(command_line, match_name_1)
-	command_line = '%s %s %s\n' % (match_comparison, desc_name_2, desc_name_1)
-	exe_prog(command_line, match_name_2)
-	# Elapsed time (matches)
-	matches_timer = time.time()
-	print("Computing matches btw. I0 & I1 ('./match_cli') took " + str(matches_timer - desc_timer) + " secs.")
+	command_line = "{} {} {}".format(match_comparison, desc_name_1, desc_name_2)
+        exe_prog(command_line, match_name_1)
+        command_line = "{} {} {}".format(match_comparison, desc_name_2, desc_name_1)
+        exe_prog(command_line, match_name_2)
+
+        # Elapsed time (matches)
+        matches_timer = time.time()
+        print("Computing matches btw. I0 & I1 ('./match_cli') took {}".format(matches_timer - desc_timer))
 
 else:
 	# Need the timer anyway to compute the rest of relative values!
@@ -202,19 +227,16 @@ else:
 
 # Create a sparse flow from the sift matches.
 if sparse_flow:
-	param = '%s %s %s %s\n' % (cut(match_name_1), width_im, height_im, sparse_name_1)
-	print(param)	
-	command_line = '%s %s\n' % (sparse_flow, param)
-	print(command_line)	
-	os.system(command_line)
-	# Create a sparse flow from the sift matches (img I1).
-	param = '%s %s %s %s\n' % (cut(match_name_2), width_im, height_im, sparse_name_2)
-	command_line = '%s %s\n' % (sparse_flow, param)
-	print(command_line)	
-	os.system(command_line)
-	# Elapsed time (create sparse flow from SIFT matches)
-	sparse_timer = time.time()
-	print("Computing sparse flow from SIFT matches ('./sparse_flow') took " + str(sparse_timer - matches_timer) + " secs.")
+	param = "{} {} {} {}".format(cut(match_name_1), width_im, height_im, sparse_name_1)
+        command_line = "{} {}".format(sparse_flow, param)
+        os.system(command_line)
+        # Create a sparse flow from the sift matches (img I1).
+        param = "{} {} {} {}".format(cut(match_name_2), width_im, height_im, sparse_name_2)
+        command_line = "{} {}".format(sparse_flow, param)
+        os.system(command_line)
+        # Elapsed time (create sparse flow from SIFT matches)
+        sparse_timer = time.time()
+        print("Computing sparse flow from SIFT matches ('./sparse_flow') took {}".format(sparse_timer - matches_timer))
 
 else:
 	# Need the timer anyway to compute the rest of relative values!
@@ -236,16 +258,17 @@ else:
 
 # Create a dense flow from a sparse set of initial seeds
 if local_of:
-	options = '-m %s -wr %s' % (var_m, windows_radio)
-	param = '%s %s %s %s %s %s\n' % (args.file_images, sparse_name_1, sparse_name_2,
-			                    region_growing, sim_value, options)
+
+	options = "-m {} -wr {} -split_img {} -h_parts {} -v_parts {}".format(var_m, windows_radio, split_image, hor_parts, ver_parts)
+	param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
+			                     region_growing, sim_value, options)
 	print(param)
-	command_line = '%s %s\n' % (match_propagation, param)
+	command_line = "{} {}\n".format(match_propagation, param)
 	print("l_of cmd:\n{}\n".format(command_line))
 	os.system(command_line)
 	# Elapsed time (dense flow from sparse set of initial seeds)
 	dense_timer = time.time()
-	print("Computing dense flow from a sparse set of initial seeds ('./local_faldoi') took " + str(dense_timer - sparse_timer) + " secs.")
+	print("Computing dense flow from a sparse set of initial seeds ('./local_faldoi') took {}".format(dense_timer - sparse_timer))
 
 else:
 	# Need the timer anyway to compute the rest of relative values!
@@ -254,15 +277,15 @@ else:
 	# Put the dense flow as input for a variational method
 	# Tv-l2 coupled 0 Du 1
 if global_of:
-	options = '-m %s -w %s' % (var_m, warps)
-	param = '%s %s %s %s\n' % (args.file_images,
-			              region_growing, var_flow, options)
-	command_line = '%s %s\n' % (of_var, param)
+	options = "-m {} -w {}".format(var_m, warps)
+	param = "{} {} {} {}\n".format(args.file_images,
+			               region_growing, var_flow, options)
+	command_line = "{} {}\n".format(of_var, param)
 	os.system(command_line)
 	print(command_line)
 	# Elapsed time (Put the dense flow as input for a variational method)
 	denseInputVM_timer = time.time()
-	print("Putting dense flow as input for a variational method ('./global_faldoi') took " + str(denseInputVM_timer - dense_timer) + " secs.")
+	print("Putting dense flow as input for a variational method ('./global_faldoi') took {}".format(denseInputVM_timer - dense_timer))
 
 else:
 	# Need the timer anyway to compute the rest of relative values!
@@ -272,4 +295,5 @@ else:
 #os.remove(tmp_filename)
 # Elapsed time (whole script)
 end_sift = time.time()
-print("Computing everything took " + str(end_sift - init_sift) + " secs.")
+print("Computing everything took {} secs.".format(end_sift - init_sift))
+

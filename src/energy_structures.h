@@ -29,6 +29,13 @@ public:
 //Priority queue
 typedef std::priority_queue<SparseOF, std::vector<SparseOF>, CompareSparseOF> pq_cand;
 
+//Empty priority queue
+template< typename T >
+void makeEmpty( std::priority_queue<T>& q )
+{
+    std::priority_queue<T>empty;
+    std::swap( q, empty );
+}
 
 struct BilateralWeight{
     float wp[NL_DUAL_VAR]; // weight of non local
@@ -484,8 +491,8 @@ struct PartitionData {
         float *occ_Ba;                      // Backward occlusion mask
         float *sal_go;                      // Forward saliency (not used ATM but just in case)
         float *sal_ba;                      // Backward saliency ( "   "   "   "   "    "   ")
-        pq_cand *queue_Go;                  // Forward candidates' queue
-        pq_cand *queue_Ba;                  // Backward candidates' queue
+        pq_cand queue_Go;                  // Forward candidates' queue
+        pq_cand queue_Ba;                  // Backward candidates' queue
         SpecificOFStuff stuffGo;           // Specific stuff for each functional (forward)
         SpecificOFStuff stuffBa;           //     "      "    "    "      "     (backward)
         OpticalFlowData ofGo;               // Common OF data (forward)

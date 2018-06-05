@@ -16,12 +16,12 @@
 
 
 PatchIndexes get_index_patch(
-        const int wr,
-        const int w,
-        const int h,
-        const int i,
-        const int j,
-        const int factor
+        int wr,
+        int w,
+        int h,
+        int i,
+        int j,
+        int factor
         );
 
 
