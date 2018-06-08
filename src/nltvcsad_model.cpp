@@ -245,7 +245,7 @@ void nltvcsad_getP(
 )
 {
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2) // then this does work, for sure?
+//#pragma omp parallel for schedule(dynamic,1) collapse(2) // then this does work, for sure?
   for (int l = ij; l < ej; l++)
   for (int k = ii; k < ei; k++)
   {
@@ -362,7 +362,7 @@ void guided_nltvcsad(
     bicubic_interpolation_warp_patch(I1y, u1, u2, I1wy, 
                               ii, ij, ei, ej, w, h, false);
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++){
     for (int k = ii; k < ei; k++){
 
@@ -398,7 +398,7 @@ void guided_nltvcsad(
     }
 
 //Get the correct wt to force than the sum will be 1
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++){
     for (int k = ii; k < ei; k++){
       float wt1_tmp = 0.0;
@@ -432,7 +432,7 @@ void guided_nltvcsad(
     }
     }
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++){
     for (int k = ii; k < ei; k++){
       const int i = l*w + k;
@@ -449,7 +449,7 @@ void guided_nltvcsad(
       n++;
       // estimate the values of the variable (v1, v2)
       // (thresholding opterator TH)
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const int i = l*w + k;
@@ -484,7 +484,7 @@ void guided_nltvcsad(
       // Dual variables
       nltvcsad_getD(u1_, u2_, ii, ij, ei, ej, w, n_d, tau, p, q);
       // Save previous iteration
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const int i = l*w + k;
@@ -500,7 +500,7 @@ void guided_nltvcsad(
                         ii, ij, ei, ej, w, u1, u2, &err_D);
 
       // acceleration = 1
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const int i = l*w + k;

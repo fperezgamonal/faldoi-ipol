@@ -251,7 +251,7 @@ void bicubic_interpolation_warp(
 	const int    ny,        // image height
 	bool         border_out // if true, put zeros outside the region
 ){
-    #pragma omp parallel for schedule(dynamic,1) collapse(2)
+    //#pragma omp parallel for schedule(dynamic,1) collapse(2)
 	for(int i = 0; i < ny; i++)
 		for(int j = 0; j < nx; j++)
 		{
@@ -286,7 +286,7 @@ void bicubic_interpolation_warp_patch(
         const int    ny,        // image height
         bool         border_out // if true, put zeros outside the region
         ) {
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
 	for(int j = ij; j < ej; j++)
         for(int i = ii; i < ei; i++){
             const int   p  = j * nx + i;

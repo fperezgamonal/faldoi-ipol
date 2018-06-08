@@ -396,6 +396,7 @@ void  init_subimage_partitions(
                     // int idx = (offset_y[p] + j) * w_src + offset_x[p] + i; // equiv for 2D
                     //int idx = ((p_data->at(p)->off_y + j) * w_src + p_data->at(p)->off_x + i) * n_channels + k;  // " " 3D
                     int idx = (p_data->at(p)->off_y + j) * w_src + p_data->at(p)->off_x + i + k * w_src * h_src;
+
                     if (k == 0) {
                         i0_p[m] = i0[idx];
                         i1_p[m] = i1[idx];
@@ -1739,7 +1740,6 @@ static void add_neighbors(
 
     // Optical flow method on patch (2*wr x 2wr + 1)
     of_estimation(ofS, ofD, &ener_N, i0, i1, i_1, index, w, h);
-
     // Insert new candidates to the queue
     insert_candidates(*queue, ene_val, ofD, i, j, ener_N, w, h);
 
@@ -1959,9 +1959,9 @@ void local_growing(
                                     "_iter_" + to_string(iteration) + "_occ.png";
                             auto *out_occ_int = new int[w * h];
 
-                            for (int i = 0; i < w * h; i++) {
+                            for (int l = 0; l < w * h; l++) {
 
-                                out_occ_int[i] = out_occ[i];
+                                out_occ_int[l] = out_occ[l];
                             }
 
                             iio_save_image_int(filename_occ.c_str(), out_occ_int, w, h);
@@ -2067,16 +2067,27 @@ void match_growing_variational(
     // TODO: rewrite calls to 'insert_initial_seeds' with OpenMP syntax
     // We left occ_Go and occ_Ba as initialized to avoid further changes (just do not use
     // them)
-    auto future_nfixed_go = async(launch::async,
-                                  [&] {
-                                      return insert_initial_seeds(i0n, i1n, i_1n, go, &queue_Go, &ofGo, &stuffGo, ene_Go,
-                                                                  oft0, occ_Go, BiFilt_Go, w, h);
-                                  });
-
-    insert_initial_seeds(i1n, i0n, i2n, ba, &queue_Ba, &ofBa, &stuffBa, ene_Ba,
-                         oft1, occ_Ba, BiFilt_Ba, w, h);
-    future_nfixed_go.get();
-
+//    auto future_nfixed_go = async(launch::async,
+//                                  [&] {
+//                                      return insert_initial_seeds(i0n, i1n, i_1n, go, &queue_Go, &ofGo, &stuffGo, ene_Go,
+//                                                                  oft0, occ_Go, BiFilt_Go, w, h);
+//                                  });
+//
+//    insert_initial_seeds(i1n, i0n, i2n, ba, &queue_Ba, &ofBa, &stuffBa, ene_Ba,
+//                         oft1, occ_Ba, BiFilt_Ba, w, h);
+//    future_nfixed_go.get();
+#ifdef _OPENMP
+#pragma omp parallel for
+        for (int i = 0; i < 2; i++) {
+            if (i == 0) {
+                insert_initial_seeds(i0n, i1n, i_1n, go, &queue_Go, &ofGo, &stuffGo, ene_Go, oft0, occ_Go, BiFilt_Go,
+                                     w, h);
+            } else {
+                insert_initial_seeds(i1n, i0n, i2n, ba, &queue_Ba, &ofBa, &stuffBa, ene_Ba, oft1, occ_Ba, BiFilt_Ba,
+                                     w, h);
+            }
+        }
+#endif
 
 // OpenMP (tests to optimise performance at HPC)
 /*
@@ -2142,7 +2153,7 @@ void match_growing_variational(
     init_subimage_partitions(i0, i1, i_1, i2, i0n, i1n, i_1n, i2n, BiFilt_Go, BiFilt_Ba, sal_go, sal_ba, w, h,
                              params.v_parts, params.h_parts, &p_data_r, params);
 
-    // TODO: reformat calls to 'local_growing' with openmp (remove async)
+    // TODO: 're-activate' profiling prints
     for (int i = 0; i < iter; i++) {
         // auto clk4 = system_clock::now();  // DEBUG
         printf("Iteration: %d\n", i);
@@ -2151,26 +2162,40 @@ void match_growing_variational(
         // First iteration work on the whole image
         if (params.split_img == 0 || (params.split_img == 1 && i == 0))
         {
-            auto growing_fwd = async(launch::async,
-                                     [&] {
-                                         local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, i, ene_Go, oft0,
-                                                       occ_Go, BiFilt_Go, true, w, h);
-                                     });
+//            auto growing_fwd = async(launch::async,
+//                                     [&] {
+//                                         local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, i, ene_Go, oft0,
+//                                                       occ_Go, BiFilt_Go, true, w, h);
+//                                     });
+//
+//            // auto clk5 = system_clock::now(); // DEBUG
+//            //duration<double> elapsed_secs4 = clk5- clk4; // DEBUG
+//            //cout << "(match growing) ASYNCH NOT TRUELocal iteration " << i << " => local_growing (I0-I1) took "
+//            //   << elapsed_secs4.count() << endl;
+//
+//
+//            // Estimate local minimization (I1-I0)
+//            local_growing(i1n, i0n, i2n, &queue_Ba, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, BiFilt_Ba, false, w, h);
+//            //auto clk5 = system_clock::now(); // DEBUG
+//            //duration<double> elapsed_secs5 = clk5- clk4; // DEBUG
+//            //cout << "(match growing) Local iteration " << i << " => local_growing (I1-I0) took "
+//            //     << elapsed_secs5.count() << endl;
+//
+//            growing_fwd.get();  // HERE the first growing is retrieved
 
-            // auto clk5 = system_clock::now(); // DEBUG
-            //duration<double> elapsed_secs4 = clk5- clk4; // DEBUG
-            //cout << "(match growing) ASYNCH NOT TRUELocal iteration " << i << " => local_growing (I0-I1) took "
-            //   << elapsed_secs4.count() << endl;
+//            #ifdef _OPENMP
+//            #pragma omp parallel for
+            for (int k = 0; k < 2; k++) {
+                if (k == 0) {
+                    local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, i, ene_Go, oft0, occ_Go, BiFilt_Go,
+                                  true, w, h);
+                } else {
+                    local_growing(i1n, i0n, i2n, &queue_Ba, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, BiFilt_Ba,
+                                  false, w, h);
 
-
-            // Estimate local minimization (I1-I0)
-            local_growing(i1n, i0n, i2n, &queue_Ba, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, BiFilt_Ba, false, w, h);
-            //auto clk5 = system_clock::now(); // DEBUG
-            //duration<double> elapsed_secs5 = clk5- clk4; // DEBUG
-            //cout << "(match growing) Local iteration " << i << " => local_growing (I1-I0) took "
-            //     << elapsed_secs5.count() << endl;
-
-            growing_fwd.get();  // HERE the first growing is retrieved
+                }
+            }
+//            #endif
             //auto clk_extra = system_clock::now();
             //duration<double> elapsed_extra = clk_extra- clk4; // DEBUG
             //cout << "(match growing) ASYNC Local iteration " << i << " => local_growing (I0-I1) took "
@@ -2279,10 +2304,11 @@ void match_growing_variational(
 
                 // Otherwise, the partition-specific variables already contain the most-recent-updated values
 
-                //#pragma omp parallel for
+                #ifdef _OPENMP
+                #pragma omp parallel for
                 for (unsigned n = 0; n < n_partitions; n++)
                 {
-                    std::cout << "Local growing partition " << n << std::endl;
+                    std::cout << "Local growing partition (h x v) => " << n << std::endl;
                     // 1. Local growing based on updated oft0 and oft1 of the odd iterations
                     // FWD
                     local_growing(p_data.at(n)->i0n, p_data.at(n)->i1n, p_data.at(n)->i_1n, &(p_data.at(n)->queue_Go),//p_data.at(n)->(queue_Go),
@@ -2296,6 +2322,7 @@ void match_growing_variational(
                                   p_data.at(n)->width, p_data.at(n)->height);
 
                 }
+                #endif
 
                 // Copy partition growing information back to image-wise variables for pruning
                 image_to_partitions(oft0, oft1, ene_Go, ene_Ba, occ_Go, occ_Ba, &ofGo, &ofBa, &stuffGo, &stuffBa,
@@ -2323,8 +2350,10 @@ void match_growing_variational(
                 image_to_partitions(oft0, oft1, ene_Go, ene_Ba, occ_Go, occ_Ba, &ofGo, &ofBa, &stuffGo, &stuffBa,
                                     queue_Go, queue_Ba, n_partitions, w, h, &p_data_r, true);
 
-                //#pragma omp parallel for
+                #ifdef _OPENMP
+                #pragma omp parallel for
                 for (unsigned n = 0; n < n_partitions; n++) {
+                    std::cout << "Local growing partition (v x h) => " << n << std::endl;
                     // 1. Local growing based on updated oft0 and oft1 of the even iterations (i > 0)
                     // FWD
                     local_growing(p_data_r.at(n)->i0n, p_data_r.at(n)->i1n, p_data_r.at(n)->i_1n, &(p_data_r.at(n)->queue_Go),
@@ -2338,6 +2367,7 @@ void match_growing_variational(
                                   p_data_r.at(n)->width, p_data_r.at(n)->height);
 
                 }
+                #endif
 
                 // Copy partition growing information back to image-wise variables for pruning
                 image_to_partitions(oft0, oft1, ene_Go, ene_Ba, occ_Go, occ_Ba, &ofGo, &ofBa, &stuffGo, &stuffBa,
@@ -2626,12 +2656,12 @@ int main(int argc, char *argv[]) {
             sal1[i] = 1.0;
         }
     }
-    //TODO: this for loop is redundant (the same one as in the 'else' above)
-    /*for (int i = 0; i < w[0] * h[0]; i++) {
+
+    for (int i = 0; i < w[0] * h[0]; i++) {
         sal0[i] = 1.0;
         sal1[i] = 1.0;
     }
-     */
+
     for (int i = 0; i < w[0] * h[0]; i++) {
         assert(isfinite(sal0[i]));
         assert(isfinite(sal1[i]));

@@ -223,7 +223,7 @@ inline void nltvl1_getD(
         )
 {
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++)
         for (int k = ii; k < ei; k++)
         {
@@ -335,7 +335,7 @@ void guided_nltvl1(
         bicubic_interpolation_warp_patch(I1y, u1, u2, I1wy,
                                          index.ii, index.ij, index.ei, index.ej, w, h, false);
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
         for (int l = index.ij; l < index.ej; l++)
             for (int k = index.ii; k < index.ei; k++)
             {
@@ -350,7 +350,7 @@ void guided_nltvl1(
                             - I1wy[i] * u2[i] - I0[i]);
             }
         // Get the correct wt to force than the sum will be 1
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
         for (int l = index.ij; l < index.ej; l++)
             for (int k = index.ii; k < index.ei; k++)
             {
@@ -384,7 +384,7 @@ void guided_nltvl1(
                 q[i].wt = wt2_tmp;
             }
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
         for (int l = index.ij; l < index.ej; l++)
             for (int k = index.ii; k < index.ei; k++)
             {
@@ -400,7 +400,7 @@ void guided_nltvl1(
             n++;
             // estimate the values of the variable (v1, v2)
             // (thresholding opterator TH)
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
             for (int l = index.ij; l < index.ej; l++){
                 for (int k = index.ii; k < index.ei; k++){
                     const int i = l*w + k;
@@ -440,7 +440,7 @@ void guided_nltvl1(
             //Dual variables
             nltvl1_getD(u1_, u2_, index.ii, index.ij, index.ei, index.ej, w, n_d, tau, p, q);
             //Almacenamos la iteracion anterior
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
             for (int l = index.ij; l < index.ej; l++){
                 for (int k = index.ii; k < index.ei; k++){
                     const int i = l*w + k;
@@ -456,7 +456,7 @@ void guided_nltvl1(
                         index.ii, index.ij, index.ei, index.ej, w, u1, u2, &err_D);
 
             //aceleration = 1
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
             for (int l = index.ij; l < index.ej; l++){
                 for (int k = index.ii; k < index.ei; k++){
                     const int i = l*w + k;

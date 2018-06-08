@@ -99,7 +99,7 @@ inline void tvl2coupled_w_getD(
         const int ej, // end row
         const int nx
         ){
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++){
         for (int k = ii; k < ei; k++){
             const int i = l*nx + k;
@@ -140,7 +140,7 @@ inline void tvl2coupled_w_getP(
         float *err
         ){
     float err_D = 0.0;
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++)
         for (int k = ii; k < ei; k++){
             const int i = l*nx + k;
@@ -326,7 +326,7 @@ void guided_tvl2coupled_w(
 
     const float l_t = lambda * theta;
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++){
         for (int k = ii; k < ei; k++){
             const int  i = l*nx + k;
@@ -377,7 +377,7 @@ void guided_tvl2coupled_w(
 
             n++;
             // estimate the values of the variable (v1, v2)
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
             for (int l = ij; l < ej; l++){
                 for (int k = ii; k < ei; k++){
                     const float l_t_w = l_t * weight[l-ij + ijw]*weight[k-ii + iiw];
@@ -426,7 +426,7 @@ void guided_tvl2coupled_w(
             divergence_patch(xi21,xi22,div_xi2,ii,ij,ei,ej,nx);
 
             //Almacenamos la iteracion anterior
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
             for (int l = ij; l < ej; l++){
                 for (int k = ii; k < ei; k++){
                     const int i = l*nx + k;
@@ -439,7 +439,7 @@ void guided_tvl2coupled_w(
                                 theta, tau, ii, ij, ei, ej, nx, &err_D);
             //(aceleration = 1);
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
             for (int l = ij; l < ej; l++){
                 for (int k = ii; k < ei; k++){
                     const int i = l*nx + k;

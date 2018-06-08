@@ -253,7 +253,7 @@ void tvcsad_w_getD(
       const int nx
 ){
 //#pragma omp parallel for
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
   for (int l = ij; l < ej; l++){
   for (int k = ii; k < ei; k++){
     const int i = l*nx + k;
@@ -345,7 +345,7 @@ void guided_tvcsad_w(
   const int ijw = tvcsadw->ijw;
   float *weight = tvcsadw->weight;
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
   for (int l = ij; l < ej; l++){
   for (int k = ii; k < ei; k++){
     const int  i = l*nx + k;
@@ -364,7 +364,7 @@ void guided_tvcsad_w(
     bicubic_interpolation_warp_patch(I1y, u1, u2, I1wy, 
                               ii, ij, ei, ej, nx, ny, false);
 // #pragma omp parallel for
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++){
     for (int k = ii; k < ei; k++){
 
@@ -399,7 +399,7 @@ void guided_tvcsad_w(
     }
     }
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++){
     for (int k = ii; k < ei; k++){
       const int i = l*nx + k;
@@ -417,7 +417,7 @@ void guided_tvcsad_w(
       // estimate the values of the variable (v1, v2)
       // (thresholding opterator TH)
 // #pragma omp parallel for
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const float l_t_w = l_t * weight[l-ij + ijw]*weight[k-ii + iiw];
@@ -464,7 +464,7 @@ void guided_tvcsad_w(
       divergence_patch(xi21,xi22,div_xi2,ii,ij,ei,ej,nx);
 
       //Almacenamos la iteracion anterior
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const int i = l*nx + k;
@@ -476,7 +476,7 @@ void guided_tvcsad_w(
           ii, ij, ei, ej, nx, &err_D);
 
       //(aceleration = 1);
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const int i = l*nx + k;

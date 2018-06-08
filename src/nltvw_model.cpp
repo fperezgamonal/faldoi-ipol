@@ -229,7 +229,7 @@ void nltvl1_w_getP(
 )
 {
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
   for (int l = ij; l < ej; l++)
   for (int k = ii; k < ei; k++)
   {
@@ -349,7 +349,7 @@ void guided_nltvl1_w(
     bicubic_interpolation_warp_patch(I1y, u1, u2, I1wy, 
                                 ii, ij, ei, ej, w, h, false);
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++)
     for (int k = ii; k < ei; k++)
     {
@@ -366,7 +366,7 @@ void guided_nltvl1_w(
     }
 
     //Get the correct wt to force than the sum will be 1
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++)
     for (int k = ii; k < ei; k++)
     {
@@ -400,7 +400,7 @@ void guided_nltvl1_w(
       q[i].wt = wt2_tmp;
     }
 
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
     for (int l = ij; l < ej; l++)
     for (int k = ii; k < ei; k++)
     {
@@ -416,7 +416,7 @@ void guided_nltvl1_w(
       n++;
       // estimate the values of the variable (v1, v2)
       // (thresholding opterator TH)
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const float l_t_w = l_t * weight[l-ij + ijw]*weight[k-ii + iiw];
@@ -457,7 +457,7 @@ void guided_nltvl1_w(
       //Dual variables
       nltvl1_w_getD(u1_, u2_, ii, ij, ei, ej, w, n_d, tau, p, q);
       //Almacenamos la iteracion anterior
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const int i = l*w + k;
@@ -473,7 +473,7 @@ void guided_nltvl1_w(
                         ii, ij, ei, ej, w, u1, u2, &err_D);
 
       //aceleration = 1
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const int i = l*w + k;

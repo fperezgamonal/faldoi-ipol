@@ -5,13 +5,14 @@
 """
 import argparse
 import os
-import sys
-import subprocess
 import shlex
+import subprocess
+import sys
 import time  # added for 'profiling'
+
 from auxiliar_faldoi_functions import cut_matching_list as cut
-from auxiliar_faldoi_functions import execute_shell_program as exe_prog
 from auxiliar_faldoi_functions import delete_outliers as delete
+from auxiliar_faldoi_functions import execute_shell_program as exe_prog
 
 # Start global timer
 init_sift = time.time()
@@ -19,9 +20,9 @@ init_sift = time.time()
 parser = argparse.ArgumentParser(description='Faldoi Minimization')
 # Need to change this to fully integrate the original faldoi's functionality and
 # the TFM's into one project (currently there are some bugs that do not allow this)
-#parser.add_argument("i0", help="first image")
-#parser.add_argument("i1", help="second image")
-parser.add_argument("file_images", help = "File with images path")
+# parser.add_argument("i0", help="first image")
+# parser.add_argument("i1", help="second image")
+parser.add_argument("file_images", help="File with images path")
 
 def_method = 0
 def_split_img = 0
@@ -65,17 +66,17 @@ parser.add_argument("-wr", default='5',
 # 	Whether to split the image into partitions or not
 parser.add_argument("-split_img", default=str(def_split_img),
                     help="Enable local minimization w. subpartions instead of whole image"
-                         "1 - enabled, othewise - disabled.")  
+                         "1 - enabled, othewise - disabled.")
 
 # 	Number of horizontal splits
 parser.add_argument("-h_parts", default=str(def_hor_parts),
                     help="Number of horizontal parts"
-                         "An integer (>0). Default is 3")  
+                         "An integer (>0). Default is 3")
 
 #	Number of vertical splits
 parser.add_argument("-v_parts", default=str(def_ver_parts),
                     help="Number of vertical parts"
-                         "An integer (>0). Default is 2") 
+                         "An integer (>0). Default is 2")
 # Global Mininization
 parser.add_argument("-warps", default='5',
                     help="Number of warps finest scale")
@@ -89,27 +90,27 @@ parser.add_argument("-m", default='0',
 
 # Results "sub"path (e.g.: /Results/experiment1/iter3/)
 parser.add_argument("-res_path", default='../Results/',
-		    help="Subfolder under '../Results/' where data is stored")
+                    help="Subfolder under '../Results/' where data is stored")
 
-#args = parser.parse_args()
-#core_name1 = args.i0.split('.')[-2].split('/')[-1]
-#core_name2 = args.i1.split('.')[-2].split('/')[-1]
+# args = parser.parse_args()
+# core_name1 = args.i0.split('.')[-2].split('/')[-1]
+# core_name2 = args.i1.split('.')[-2].split('/')[-1]
 
 args = parser.parse_args()
 with open(args.file_images, 'r') as file:
-	# read a list of lines into data
-	data = file.readlines()
+    # read a list of lines into data
+    data = file.readlines()
 for i in range(len(data)):
-	data[i] = data[i][:-1]
-	#tmp = data[i][:-1]
-	#data[i] = os.path.expanduser(tmp)
-	#print("data[i]= " + data[i])
+    data[i] = data[i][:-1]
+# tmp = data[i][:-1]
+# data[i] = os.path.expanduser(tmp)
+# print("data[i]= " + data[i])
 
 # Save to tmp file
-#tmp_filename = "tmp_absPaths.txt"
-#with open(tmp_filename, 'w') as tmp_file:
-	# Store the modified image paths' file
-	#tmp_file.writelines(data)
+# tmp_filename = "tmp_absPaths.txt"
+# with open(tmp_filename, 'w') as tmp_file:
+# Store the modified image paths' file
+# tmp_file.writelines(data)
 #	tmp_file.writelines(["%s\n" % item  for item in data])
 sequence = data[0].split('.')[-2].split('/')[-2]  # not used
 core_name1 = data[0].split('.')[-2].split('/')[-1]
@@ -133,51 +134,51 @@ sparse_flow = "../build/sparse_flow"
 match_propagation = "../build/local_faldoi"
 of_var = "../build/global_faldoi"
 
-
-#Set the main directory that contains all the stuff
+# Set the main directory that contains all the stuff
 root_path = "{}/".format(os.getcwd())
-#print(root_path)
-#binary_path = root_path + "bin/"
+# print(root_path)
+# binary_path = root_path + "bin/"
 binary_path = '../build/'
-#f_path = root_path + "Results/"
+# f_path = root_path + "Results/"
 f_path = r_path
 if not os.path.exists(f_path):
     os.makedirs(f_path)
 # Set the folder where the binaries are.
 # Set the images input.
-#im_name1 = os.path.abspath(args.i0)
-#im_name2 = os.path.abspath(args.i1)
+# im_name1 = os.path.abspath(args.i0)
+# im_name2 = os.path.abspath(args.i1)
 # Get the image size
-#from PIL import Image
+# from PIL import Image
 
-#with open(im_name1, 'r') as f:
+# with open(im_name1, 'r') as f:
 #    image = Image.open(f)
 #    width_im = image.size[0]
 #    height_im = image.size[1]
 
-#Set the images input.
+# Set the images input.
 # Included changes to make the reading not user-dependent even if
 # we use paths such as "~/Folder/subfolder/subsubfolder/.../i0.png"
 # relative paths w.r.t current dir work also fine (e.g.: "../example/i0.png")
-#im_name0 = os.path.abspath(data[0])
-#im_name1 = os.path.abspath(data[1])
+# im_name0 = os.path.abspath(data[0])
+# im_name1 = os.path.abspath(data[1])
 im_name0 = os.path.expanduser(data[0])  # does nothing if no "~/folder..."
 im_name1 = os.path.expanduser(data[1])
 
 # To avoid doing the same preprocessing inside
-#Get the image size
+# Get the image size
 from PIL import Image
+
 with open(im_name1, 'rb') as f:
     image = Image.open(f)
     width_im = image.size[0]
     height_im = image.size[1]
 
 # Using imageMagick to get width and height (PIL is not in the IPOL server)
-#cmd = 'identify -ping -format "%w %h" ' + im_name1
-#tmp_out = subprocess.check_output(cmd, shell=True, universal_newlines=True)
-#width_im, height_im = tmp_out.split(' ')
+# cmd = 'identify -ping -format "%w %h" ' + im_name1
+# tmp_out = subprocess.check_output(cmd, shell=True, universal_newlines=True)
+# width_im, height_im = tmp_out.split(' ')
 
-#os.chdir(binary_path)
+# os.chdir(binary_path)
 desc_name_1 = "{}{}_sift_desc_1.txt".format(f_path, core_name1)
 desc_name_2 = "{}{}_sift_desc_2.txt".format(f_path, core_name2)
 
@@ -198,102 +199,104 @@ print("Loading everything took {} secs.".format(load_timer - init_sift))
 # Obtain the matches' list for both (I0-I1 and I1-I0)
 # Initial seeds (SIFT descriptors)
 if descriptors:
-	command_line = "{} {} {}".format(feature_descriptor, im_name0, param_sif)
-        exe_prog(command_line, desc_name_1)
-        command_line = "{} {} {}".format(feature_descriptor, im_name1, param_sif)
-        exe_prog(command_line, desc_name_2)
-        # Elapsed time (computing SIFT descriptors)
-        desc_timer = time.time()
-        print("Computing the SIFT descriptors both I0 & I1 ('./sift_cli') took {} secs.".format(desc_timer - load_timer))
+    command_line = "{} {} {}".format(feature_descriptor, im_name0, param_sif)
+    exe_prog(command_line, desc_name_1)
+    command_line = "{} {} {}".format(feature_descriptor, im_name1, param_sif)
+    exe_prog(command_line, desc_name_2)
+    # Elapsed time (computing SIFT descriptors)
+    desc_timer = time.time()
+    print("Computing the SIFT descriptors both I0 & I1 ('./sift_cli') took {} secs.".format(desc_timer - load_timer))
 
 else:
-	# Need the timer anyway to compute the rest of relative values!
-	desc_timer = time.time()	# it will add nothing to the previous clock (only time to check 'if')
+    # Need the timer anyway to compute the rest of relative values!
+    desc_timer = time.time()  # it will add nothing to the previous clock (only time to check 'if')
 
 # Obtain the matches' list
 if matchings:
-	command_line = "{} {} {}".format(match_comparison, desc_name_1, desc_name_2)
-        exe_prog(command_line, match_name_1)
-        command_line = "{} {} {}".format(match_comparison, desc_name_2, desc_name_1)
-        exe_prog(command_line, match_name_2)
+    command_line = "{} {} {}".format(match_comparison, desc_name_1, desc_name_2)
+    exe_prog(command_line, match_name_1)
+    command_line = "{} {} {}".format(match_comparison, desc_name_2, desc_name_1)
+    exe_prog(command_line, match_name_2)
 
-        # Elapsed time (matches)
-        matches_timer = time.time()
-        print("Computing matches btw. I0 & I1 ('./match_cli') took {}".format(matches_timer - desc_timer))
+    # Elapsed time (matches)
+    matches_timer = time.time()
+    print("Computing matches btw. I0 & I1 ('./match_cli') took {}".format(matches_timer - desc_timer))
 
 else:
-	# Need the timer anyway to compute the rest of relative values!
-	matches_timer = time.time()
+    # Need the timer anyway to compute the rest of relative values!
+    matches_timer = time.time()
 
 # Create a sparse flow from the sift matches.
 if sparse_flow:
-	param = "{} {} {} {}".format(cut(match_name_1), width_im, height_im, sparse_name_1)
-        command_line = "{} {}".format(sparse_flow, param)
-        os.system(command_line)
-        # Create a sparse flow from the sift matches (img I1).
-        param = "{} {} {} {}".format(cut(match_name_2), width_im, height_im, sparse_name_2)
-        command_line = "{} {}".format(sparse_flow, param)
-        os.system(command_line)
-        # Elapsed time (create sparse flow from SIFT matches)
-        sparse_timer = time.time()
-        print("Computing sparse flow from SIFT matches ('./sparse_flow') took {}".format(sparse_timer - matches_timer))
+    param = "{} {} {} {}".format(cut(match_name_1), width_im, height_im, sparse_name_1)
+    command_line = "{} {}".format(sparse_flow, param)
+    os.system(command_line)
+    # Create a sparse flow from the sift matches (img I1).
+    param = "{} {} {} {}".format(cut(match_name_2), width_im, height_im, sparse_name_2)
+    command_line = "{} {}".format(sparse_flow, param)
+    os.system(command_line)
+    # Elapsed time (create sparse flow from SIFT matches)
+    sparse_timer = time.time()
+    print("Computing sparse flow from SIFT matches ('./sparse_flow') took {}".format(sparse_timer - matches_timer))
 
 else:
-	# Need the timer anyway to compute the rest of relative values!
-	sparse_timer = time.time()
+    # Need the timer anyway to compute the rest of relative values!
+    sparse_timer = time.time()
 
 # Load absolute paths (hacky*, maybe there is a better way!)
 # * converted original path files to absolute equivalents and store it (since loc_faldoi only accepts .txt input)
-#print("we are at: " + os.getcwd())
-#print("List of files at current directory: ")
-#print(os.listdir('.'))
-#print(tmp_filename)
-#print(os.path.join(os.getcwd(), tmp_filename))
-#print("is file (directly file): " + str(os.path.isfile(tmp_filename)))
-#print("is file (abs path): " + str(os.path.isfile(os.path.join(os.getcwd(), tmp_filename))))
-#print(os.path.abspath(tmp_filename))
-#print(os.path.join(os.path.abspath(__file__), tmp_filename))
-#os.chdir(root_path)
-#with open(r"/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/scripts_python/tmp_absPaths.txt", 'r') as tmp_file: # Closed at the end
+# print("we are at: " + os.getcwd())
+# print("List of files at current directory: ")
+# print(os.listdir('.'))
+# print(tmp_filename)
+# print(os.path.join(os.getcwd(), tmp_filename))
+# print("is file (directly file): " + str(os.path.isfile(tmp_filename)))
+# print("is file (abs path): " + str(os.path.isfile(os.path.join(os.getcwd(), tmp_filename))))
+# print(os.path.abspath(tmp_filename))
+# print(os.path.join(os.path.abspath(__file__), tmp_filename))
+# os.chdir(root_path)
+# with open(r"/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/scripts_python/tmp_absPaths.txt", 'r') as tmp_file: # Closed at the end
 
 # Create a dense flow from a sparse set of initial seeds
 if local_of:
 
-	options = "-m {} -wr {} -split_img {} -h_parts {} -v_parts {}".format(var_m, windows_radio, split_image, hor_parts, ver_parts)
-	param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
-			                     region_growing, sim_value, options)
-	print(param)
-	command_line = "{} {}\n".format(match_propagation, param)
-	print("l_of cmd:\n{}\n".format(command_line))
-	os.system(command_line)
-	# Elapsed time (dense flow from sparse set of initial seeds)
-	dense_timer = time.time()
-	print("Computing dense flow from a sparse set of initial seeds ('./local_faldoi') took {}".format(dense_timer - sparse_timer))
+    options = "-m {} -wr {} -split_img {} -h_parts {} -v_parts {}".format(var_m, windows_radio, split_image, hor_parts,
+                                                                          ver_parts)
+    param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
+                                         region_growing, sim_value, options)
+    print(param)
+    command_line = "{} {}\n".format(match_propagation, param)
+    print("l_of cmd:\n{}\n".format(command_line))
+    os.system(command_line)
+    # Elapsed time (dense flow from sparse set of initial seeds)
+    dense_timer = time.time()
+    print("Computing dense flow from a sparse set of initial seeds ('./local_faldoi') took {}".format(
+        dense_timer - sparse_timer))
 
 else:
-	# Need the timer anyway to compute the rest of relative values!
-	dense_timer = time.time()
+    # Need the timer anyway to compute the rest of relative values!
+    dense_timer = time.time()
 
-	# Put the dense flow as input for a variational method
-	# Tv-l2 coupled 0 Du 1
+# Put the dense flow as input for a variational method
+# Tv-l2 coupled 0 Du 1
 if global_of:
-	options = "-m {} -w {}".format(var_m, warps)
-	param = "{} {} {} {}\n".format(args.file_images,
-			               region_growing, var_flow, options)
-	command_line = "{} {}\n".format(of_var, param)
-	os.system(command_line)
-	print(command_line)
-	# Elapsed time (Put the dense flow as input for a variational method)
-	denseInputVM_timer = time.time()
-	print("Putting dense flow as input for a variational method ('./global_faldoi') took {}".format(denseInputVM_timer - dense_timer))
+    options = "-m {} -w {}".format(var_m, warps)
+    param = "{} {} {} {}\n".format(args.file_images,
+                                   region_growing, var_flow, options)
+    command_line = "{} {}\n".format(of_var, param)
+    os.system(command_line)
+    print(command_line)
+    # Elapsed time (Put the dense flow as input for a variational method)
+    denseInputVM_timer = time.time()
+    print("Putting dense flow as input for a variational method ('./global_faldoi') took {}".format(
+        denseInputVM_timer - dense_timer))
 
 else:
-	# Need the timer anyway to compute the rest of relative values!
-	denseInputVM_timer = time.time()
+    # Need the timer anyway to compute the rest of relative values!
+    denseInputVM_timer = time.time()
 # File is closed here
 # Delete temporal absolute paths file
-#os.remove(tmp_filename)
+# os.remove(tmp_filename)
 # Elapsed time (whole script)
 end_sift = time.time()
 print("Computing everything took {} secs.".format(end_sift - init_sift))
-

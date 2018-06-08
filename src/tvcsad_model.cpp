@@ -404,7 +404,7 @@ void guided_tvcsad(
       // estimate the values of the variable (v1, v2)
       // (thresholding opterator TH)
 // #pragma omp parallel for
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const int i = l*nx + k;
@@ -448,7 +448,7 @@ void guided_tvcsad(
       divergence_patch(xi21,xi22,div_xi2,ii,ij,ei,ej,nx);
 
       //Almacenamos la iteracion anterior
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const int i = l*nx + k;
@@ -460,7 +460,7 @@ void guided_tvcsad(
           ii, ij, ei, ej, nx, &err_D);
 
       //(aceleration = 1);
-#pragma omp parallel for schedule(dynamic,1) collapse(2)
+//#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){
         const int i = l*nx + k;

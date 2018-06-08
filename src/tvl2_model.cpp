@@ -100,7 +100,7 @@ static void tvl2coupled_getD(
         const int nx
 ) {
     // Compute the value of xi
-#pragma omp parallel for schedule(dynamic, 1) collapse(2)
+//#pragma omp parallel for schedule(dynamic, 1) collapse(2)
     for (int l = ij; l < ej; l++) {
         for (int k = ii; k < ei; k++) {
             const int i = l * nx + k;
@@ -142,7 +142,7 @@ static void tvl2coupled_getP(
 ) {
     float err_D = 0.0;
 
-#pragma omp parallel for schedule(dynamic, 1) collapse(2)
+//#pragma omp parallel for schedule(dynamic, 1) collapse(2)
     for (int l = ij; l < ej; l++)
         for (int k = ii; k < ei; k++) {
             const int i = l * nx + k;
@@ -336,17 +336,12 @@ void guided_tvl2coupled(
                                          ii, ij, ei, ej, nx, ny, false);
 
         //Compute values that will not change during the whole wraping
-#pragma omp parallel for schedule(dynamic, 1) collapse(2)
+//#pragma omp parallel for schedule(dynamic, 1) collapse(2)
         for (int l = ij; l < ej; l++)
             for (int k = ii; k < ei; k++) {
                 /*
                 ++tmp_count;
                 printf("Combination of warping, l and k nº= %d\n", tmp_count);
-                // Sanity check for OpenMP
-                int tid = omp_get_thread_num();
-                printf("warp=%d, (l=%d,k=%d)\n"
-                               "========= (line 336) Hello World from thread nº"
-                               " %d===========\n", warpings, l, k, tid);
                 */
                 const int i = l * nx + k;
                 const float Ix2 = I1wx[i] * I1wx[i];
@@ -360,7 +355,7 @@ void guided_tvl2coupled(
                             - I1wy[i] * u2[i] - I0[i]);
             }
 
-#pragma omp parallel for schedule(dynamic, 1) collapse(2)
+//#pragma omp parallel for schedule(dynamic, 1) collapse(2)
         for (int l = ij; l < ej; l++) {
             for (int k = ii; k < ei; k++) {
                 const int i = l * nx + k;
@@ -376,7 +371,7 @@ void guided_tvl2coupled(
             n++;
             // Estimate the values of the variable (v1, v2)
             // (thresholding opterator TH)
-#pragma omp parallel for schedule(dynamic, 1) collapse(2)
+//#pragma omp parallel for schedule(dynamic, 1) collapse(2)
             for (int l = ij; l < ej; l++) {
                 for (int k = ii; k < ei; k++) {
                     const int i = l * nx + k;
@@ -419,7 +414,7 @@ void guided_tvl2coupled(
             divergence_patch(xi21, xi22, div_xi2, ii, ij, ei, ej, nx);
 
             // Save previous iteration
-#pragma omp parallel for schedule(dynamic, 1) collapse(2)
+//#pragma omp parallel for schedule(dynamic, 1) collapse(2)
             for (int l = ij; l < ej; l++) {
                 for (int k = ii; k < ei; k++) {
                     const int i = l * nx + k;
@@ -432,7 +427,7 @@ void guided_tvl2coupled(
                              theta, tau, ii, ij, ei, ej, nx, &err_D);
 
             // (acceleration = 1);
-#pragma omp parallel for schedule(dynamic, 1) collapse(2)
+//#pragma omp parallel for schedule(dynamic, 1) collapse(2)
             for (int l = ij; l < ej; l++) {
                 for (int k = ii; k < ei; k++) {
                     const int i = l * nx + k;
