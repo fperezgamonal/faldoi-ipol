@@ -266,7 +266,6 @@ if local_of:
                                          region_growing, sim_value, options)
     print(param)
     command_line = "{} {}\n".format(match_propagation, param)
-    print("l_of cmd:\n{}\n".format(command_line))
     os.system(command_line)
     # Elapsed time (dense flow from sparse set of initial seeds)
     dense_timer = time.time()
@@ -285,7 +284,6 @@ if global_of:
                                    region_growing, var_flow, options)
     command_line = "{} {}\n".format(of_var, param)
     os.system(command_line)
-    print(command_line)
     # Elapsed time (Put the dense flow as input for a variational method)
     denseInputVM_timer = time.time()
     print("Putting dense flow as input for a variational method ('./global_faldoi') took {}".format(
