@@ -311,10 +311,10 @@ void ofDu_getD(
 void ofTVl2_getP(
         float *u1,
         float *u2,
-        float *v1,
-        float *v2,
-        float *div_xi1,
-        float *div_xi2,
+        const float *v1,
+        const float *v2,
+        const float *div_xi1,
+        const float *div_xi2,
         float *u_N,
         float theta,
         float tau,
@@ -324,6 +324,7 @@ void ofTVl2_getP(
     float err_D = 0.0;
     float min, max;
 
+//#ifdef _OPENMP
 //#pragma omp parallel for
     for (int i = 0; i < size; i++) {
 
@@ -336,6 +337,7 @@ void ofTVl2_getP(
         u_N[i] = (u1[i] - u1k) * (u1[i] - u1k) +
                  (u2[i] - u2k) * (u2[i] - u2k);
     }
+//#endif
 
     getminmax(&min, &max, u_N, size);
 
@@ -353,14 +355,15 @@ void ofTVl2_getD(
         float *xi12,
         float *xi21,
         float *xi22,
-        float *u1x,
-        float *u1y,
-        float *u2x,
-        float *u2y,
+        const float *u1x,
+        const float *u1y,
+        const float *u2x,
+        const float *u2y,
         float tau,
         int size
 ) {
 
+//#ifdef _OPENMP
 //#pragma omp parallel for
     for (int i = 0; i < size; i++) {
 
@@ -378,11 +381,12 @@ void ofTVl2_getD(
         xi21[i] = (xi21[i] + tau * u2x[i]) / xi_N;
         xi22[i] = (xi22[i] + tau * u2y[i]) / xi_N;
     }
+//#endif
 }
 
 
 void duOF(
-        float *I0,              // source image
+        const float *I0,        // source image
         float *I1,              // target image
         float *u1,              // x component of the optical flow
         float *u2,              // y component of the optical flow
@@ -554,7 +558,7 @@ void duOF(
 }
 
 void tvl2OF(
-        float *I0,              // source image
+        const float *I0,              // source image
         float *I1,              // target image
         float *u1,              // x component of the optical flow
         float *u2,              // y component of the optical flow
@@ -615,7 +619,8 @@ void tvl2OF(
         bicubic_interpolation_warp(I1x, u1, u2, I1wx, nx, ny, true);
         bicubic_interpolation_warp(I1y, u1, u2, I1wy, nx, ny, true);
 
-//#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
         for (int i = 0; i < size; i++) {
             const float Ix2 = I1wx[i] * I1wx[i];
             const float Iy2 = I1wy[i] * I1wy[i];
@@ -627,6 +632,7 @@ void tvl2OF(
             rho_c[i] = (I1w[i] - I1wx[i] * u1[i]
                         - I1wy[i] * u2[i] - I0[i]);
         }
+#endif
 
         memcpy(u1_, u1, size * sizeof(float));
         memcpy(u2_, u2, size * sizeof(float));
@@ -642,7 +648,8 @@ void tvl2OF(
             n++;
             // Estimate the values of the variable (v1, v2)
             // (thresholding opterator TH)
-//#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
             for (int i = 0; i < size; i++) {
                 const float rho = rho_c[i]
                                   + (I1wx[i] * u1[i] + I1wy[i] * u2[i]);
@@ -669,6 +676,7 @@ void tvl2OF(
                 v1[i] = u1[i] + d1;
                 v2[i] = u2[i] + d2;
             }
+#endif
 
             // Dual variables
             forward_gradient(u1_, u1x, u1y, nx, ny);
@@ -1836,7 +1844,7 @@ int main(int argc, char *argv[]) {
                 case M_TVCSAD_W:    // TV-CSAD with weights
                     fprintf(stderr, "TV-CSAD Weights\n");
                     break;
-                default:            //TV-l2 coupled
+                default:            // TV-l2 coupled
                     fprintf(stderr, "TV-l2 coupled\n");
             }
         } else {
@@ -1956,30 +1964,32 @@ int main(int argc, char *argv[]) {
     // 0 - TVl2 coupled, otherwise Du
     if (val_method == M_TVL1 || val_method == M_TVL1_W) {
         //printf("TV-l2 coupled\n");
-        tvl2OF(i0n, i1n, u, v, xi11, xi12, xi21, xi22,
-               params.lambda, params.theta, params.tau, params.tol_OF, w[0], h[0], params.warps, params.verbose);
+        tvl2OF(i0n, i1n, u, v, xi11, xi12, xi21, xi22, params.lambda, params.theta, params.tau, params.tol_OF, w[0],
+               h[0], params.warps, params.verbose);
+
     } else if (val_method == M_NLTVCSAD || val_method == M_NLTVCSAD_W) {
         params.lambda = 0.85;
         params.theta = 0.3;
         params.tau = 0.1;
         //printf("NLTV-CSAD\n");
-        nltvcsad_PD(i0n, i1n, a, pd[0], params.lambda, params.theta, params.tau,
-                    w[0], h[0], params.warps, params.verbose, u, v);
+        nltvcsad_PD(i0n, i1n, a, pd[0], params.lambda, params.theta, params.tau, w[0], h[0], params.warps,
+                    params.verbose, u, v);
+
     } else if (val_method == M_NLTVL1 || val_method == M_NLTVL1_W) {
         params.lambda = 2.0;
         params.theta = 0.3;
         params.tau = 0.1;
         //printf("NLTV-L1\n");
-        nltvl1_PD(i0n, i1n, a, pd[0], params.lambda, params.theta, params.tau,
-                  w[0], h[0], params.warps, params.verbose, u, v);
+        nltvl1_PD(i0n, i1n, a, pd[0], params.lambda, params.theta, params.tau, w[0], h[0], params.warps,
+                  params.verbose, u, v);
+
     } else if (val_method == M_TVCSAD || val_method == M_TVCSAD_W) {
         params.lambda = 0.85;
         params.theta = 0.3;
         params.tau = 0.125;
         //printf("TV-CSAD\n");
-        tvcsad_PD(i0n, i1n, xi11, xi12, xi21, xi22,
-                  params.lambda, params.theta, params.tau, params.tol_OF, w[0], h[0], params.warps, params.verbose, u,
-                  v);
+        tvcsad_PD(i0n, i1n, xi11, xi12, xi21, xi22, params.lambda, params.theta, params.tau, params.tol_OF, w[0], h[0],
+                  params.warps, params.verbose, u, v);
 
     } else if (val_method == M_TVL1_OCC) {
         //fprintf(stderr, "TV-l2 occlusions\n");

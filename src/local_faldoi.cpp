@@ -1256,13 +1256,6 @@ void image_to_partitions(
             for (int j = 0; j < p_data->at(p)->height; j++)
                 for (int i = 0; i < p_data->at(p)->width; i++)
                 {
-                    // NOTE: offset_p had no meaning, the offset of the partition is already acounted for with off_x/y
-//                    int offset_p = 0;
-//                    if (p > 0)
-//                    {
-//                        offset_p = p * p_data->at(p-1)->width * p_data->at(p-1)->height;
-//                    }
-
                     // 'Mapping' indices
                     // NOTE: we have to be careful, we stored multiple channel variables in the usual manner:
                     //  each channel is side by side, with alternate values
@@ -1284,8 +1277,6 @@ void image_to_partitions(
                             oft0_p[m] = oft0[idx];
                             oft1_p[m] = oft1[idx];
 
-//                            p_data->at(p)->ofGo.params = ofGo->params;
-//                            p_data->at(p)->ofBa.params = ofBa->params;
                         } else {
                             // Only update variables with more than a channel
                             oft0_p[m] = oft0[idx];
@@ -1301,10 +1292,8 @@ void image_to_partitions(
                             oft0[idx] = p_data->at(p)->oft0[m];
                             oft1[idx] = p_data->at(p)->oft1[m];
 
-//                            ofGo->params = p_data->at(p)->ofGo.params;
-//                            ofBa->params = p_data->at(p)->ofBa.params;
-                        }
-                        else {
+                        } else {
+
                             oft0[idx] = p_data->at(p)->oft0[m];
                             oft1[idx] = p_data->at(p)->oft1[m];
                         }
@@ -1313,7 +1302,6 @@ void image_to_partitions(
                     // Only update the values for the functional used (faster)
                     // Being independent of the nº of channels, we can call it outside the if
                     // It also updates in the 'inverse' direction: from partitions to image
-                    //std::cout << "Indices for orig imag and partition num. " << p << ": orig=" << idx << ", " << m << std::endl;
                     update_partitions_structures(ofGo, ofBa, stuffGo, stuffBa, p_data->at(p), k, idx, m, img_to_part);
                 }
 
@@ -1339,9 +1327,6 @@ void image_to_partitions(
         update_candidate_queues(queue_Go, queue_Ba, n_partitions, p_data);
     } else {
         // Otherwise, empty image-wise queues so only the new candidates are inserted!
-        // For now it does not seem to work (done, almost 2000x faster than .pop())
-//        while (!queue_Go.empty()) queue_Go.pop(); // This has a complexity of O(num_elems)
-//        while (!queue_Ba.empty()) queue_Ba.pop(); //   "   "  "     "       " "    "
         pq_cand empty_queue_Go, empty_queue_Ba;
         std::swap(queue_Go, empty_queue_Go);
         std::swap(queue_Ba, empty_queue_Ba);
@@ -1906,7 +1891,6 @@ void local_growing(
         int j = element.j;
         // While the queue is not empty, take an element to process
         queue->pop();
-
         if (!ofD->fixed_points[j * w + i]) {
             fixed++;
             assert(isfinite(element.sim_node));
@@ -2043,7 +2027,7 @@ void match_growing_variational(
     float *i1n = nullptr;
     float *i_1n = nullptr;
     float *i2n = nullptr;
-    
+
     // Prepare data based on the functional chosen (energy_model.cpp)
     prepare_stuff(&stuffGo, &ofGo, &stuffBa, &ofBa, i0, i1, i_1, i2, params.pd, &i0n, &i1n, &i_1n, &i2n, w, h);
 
@@ -2063,18 +2047,18 @@ void match_growing_variational(
     printf("Inserting initial seeds\n");
 
     auto clk_seeds = system_clock::now(); // PROFILING
-    #ifdef _OPENMP
-    #pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
     for (int i = 0; i < 2; i++) {
         if (i == 0) {
-	    insert_initial_seeds(i0n, i1n, i_1n, go, &queue_Go, &ofGo, &stuffGo, ene_Go, oft0, occ_Go, BiFilt_Go,
-                                     w, h);
-	} else {
-	    insert_initial_seeds(i1n, i0n, i2n, ba, &queue_Ba, &ofBa, &stuffBa, ene_Ba, oft1, occ_Ba, BiFilt_Ba,
-                                     w, h);
+            insert_initial_seeds(i0n, i1n, i_1n, go, &queue_Go, &ofGo, &stuffGo, ene_Go, oft0, occ_Go, BiFilt_Go,
+                                 w, h);
+        } else {
+            insert_initial_seeds(i1n, i0n, i2n, ba, &queue_Ba, &ofBa, &stuffBa, ene_Ba, oft1, occ_Ba, BiFilt_Ba,
+                                 w, h);
         }
     }
-    #endif
+#endif
     printf("Finished inserting initial seeds\n");
 
     auto clk_seeds_end = system_clock::now(); // PROFILING
@@ -2092,19 +2076,19 @@ void match_growing_variational(
     std::vector<PartitionData*> p_data_r;
 
     if (params.split_img == 1) {
-	auto clk_init_part = system_clock::now(); // PROFILING
-    	// Odd iterations (i == 1, 3, 5, ...)
-    	init_subimage_partitions(i0, i1, i_1, i2, i0n, i1n, i_1n, i2n, BiFilt_Go, BiFilt_Ba, sal_go, sal_ba, w, h,
-                             params.h_parts, params.v_parts, &p_data, params);
+        auto clk_init_part = system_clock::now(); // PROFILING
+        // Odd iterations (i == 1, 3, 5, ...)
+        init_subimage_partitions(i0, i1, i_1, i2, i0n, i1n, i_1n, i2n, BiFilt_Go, BiFilt_Ba, sal_go, sal_ba, w, h,
+                                 params.h_parts, params.v_parts, &p_data, params);
 
-    	// Even iterations (i == 2, 4, 6, ...) ==> v_parts x h_parts
-    	init_subimage_partitions(i0, i1, i_1, i2, i0n, i1n, i_1n, i2n, BiFilt_Go, BiFilt_Ba, sal_go, sal_ba, w, h,
-                             params.v_parts, params.h_parts, &p_data_r, params);
+        // Even iterations (i == 2, 4, 6, ...) ==> v_parts x h_parts
+        init_subimage_partitions(i0, i1, i_1, i2, i0n, i1n, i_1n, i2n, BiFilt_Go, BiFilt_Ba, sal_go, sal_ba, w, h,
+                                 params.v_parts, params.h_parts, &p_data_r, params);
 
-    	auto clk_init_part_end = system_clock::now(); // PROFILING
-	duration<double> elapsed_secs_init_part = clk_init_part_end - clk_init_part;  // PROFILING
-	cout << "(match growing) initialising partitions took "
-        << elapsed_secs_init_part.count() << endl;
+        auto clk_init_part_end = system_clock::now(); // PROFILING
+        duration<double> elapsed_secs_init_part = clk_init_part_end - clk_init_part;  // PROFILING
+        cout << "(match growing) initialising partitions took "
+             << elapsed_secs_init_part.count() << endl;
     }
 
     // TODO: 're-activate' profiling prints
@@ -2116,33 +2100,35 @@ void match_growing_variational(
         // First iteration work on the whole image
         if (params.split_img == 0 || (params.split_img == 1 && i == 0))
         {
-	    #ifdef _OPENMP
-	    #pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
             for (int k = 0; k < 2; k++) {
                 if (k == 0) {
+                    auto clk_start_fwd = system_clock::now();
                     local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, i, ene_Go, oft0, occ_Go, BiFilt_Go,
                                   true, w, h);
-		    auto clk_fwd_grow = system_clock::now();  // PROFILING
-		    duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_init_iter;  // PROFILING
-        	    cout << "(match growing) FWD local growing (it=" << i << ") took "
-        	    << elapsed_secs_fwd_grow.count() << endl;
-	        } else {
+                    auto clk_fwd_grow = system_clock::now();  // PROFILING
+                    duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd;  // PROFILING
+                    cout << "(match growing) FWD local growing (it=" << i << ") took "
+                         << elapsed_secs_fwd_grow.count() << endl;
+                } else {
+                    auto clk_start_bwd = system_clock::now();
                     local_growing(i1n, i0n, i2n, &queue_Ba, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, BiFilt_Ba,
                                   false, w, h);
-		    auto clk_bwd_grow = system_clock::now();  // PROFILING
-                    duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_init_iter;  // PROFILING
+                    auto clk_bwd_grow = system_clock::now();  // PROFILING
+                    duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd;  // PROFILING
                     cout << "(match growing) BWD local growing (it=" << i << ") took "
-                    << elapsed_secs_bwd_grow.count() << endl;
+                         << elapsed_secs_bwd_grow.count() << endl;
 
                 }
-	    }
-	    #endif
+            }
+#endif
 
-	    auto clk_loc_grow_end = system_clock::now(); // PROFILING
+            auto clk_loc_grow_end = system_clock::now(); // PROFILING
             duration<double> elapsed_secs_loc_grow = clk_loc_grow_end - clk_init_iter;  // PROFILING
             cout << "(match growing) FWD + BWD local growing (it=" << i << ") took "
-            << elapsed_secs_loc_grow.count() << endl;
-            
+                 << elapsed_secs_loc_grow.count() << endl;
+
             // Pruning method
             pruning_method(i0n, i1n, w, h, tol, p, ofGo.trust_points, oft0, ofBa.trust_points, oft1);
 
@@ -2158,7 +2144,7 @@ void match_growing_variational(
             auto clk_delete_non_trust = system_clock::now(); // PROFILING
             duration<double> elapsed_secs_delete = clk_delete_non_trust - clk_pruning; // PROFILING
             cout << "(match growing) Local iteration " << i << " => delete non-trustable candidates "
-                     << elapsed_secs_delete.count() << endl;
+                 << elapsed_secs_delete.count() << endl;
 
             // Insert each pixel into the queue as possible candidate
             insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, occ_Go, w, h);
@@ -2168,7 +2154,7 @@ void match_growing_variational(
             duration<double> elapsed_secs_insert_cand = clk_insert_cand - clk_delete_non_trust; // PROFILING
             cout << "(match growing) Local iteration " << i << " => insert potential candidates "
                  << elapsed_secs_insert_cand.count() << endl;
-     
+
             prepare_data_for_growing(&ofGo, ene_Go, oft0, w, h);
             prepare_data_for_growing(&ofBa, ene_Ba, oft1, w, h);
 
@@ -2189,63 +2175,65 @@ void match_growing_variational(
 
             if (i % 2 != 0 && i <= iter - 1)           // part. grid: h_parts (cols) x v_parts (rows)
             {
-		auto clk_odd_start = system_clock::now();  // PROFILING 
+                auto clk_odd_start = system_clock::now();  // PROFILING
                 // Update partition-specific variables with the image-specific values from the first iteration
                 image_to_partitions(oft0, oft1, ene_Go, ene_Ba, occ_Go, occ_Ba, &ofGo, &ofBa, &stuffGo, &stuffBa,
                                     queue_Go, queue_Ba, n_partitions, w, h, &p_data, true);
-	
-	        auto clk_update_part = system_clock::now(); // PROFILING
+
+                auto clk_update_part = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_update_part = clk_update_part - clk_odd_start; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Update partitions (image => part) took "
                      << elapsed_secs_update_part.count() << endl;
 
-                #ifdef _OPENMP
-                #pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
                 for (unsigned n = 0; n < n_partitions; n++)
                 {
                     std::cout << "Local growing partition (h x v) => " << n << std::endl;
                     // 1. Local growing based on updated oft0 and oft1 of the odd iterations
                     // FWD
+                    auto clk_start_fwd = system_clock::now();
                     local_growing(p_data.at(n)->i0n, p_data.at(n)->i1n, p_data.at(n)->i_1n, &(p_data.at(n)->queue_Go),
                                   &(p_data.at(n)->stuffGo), &(p_data.at(n)->ofGo), i, p_data.at(n)->ene_Go,
                                   p_data.at(n)->oft0, p_data.at(n)->occ_Go, p_data.at(n)->BiFilt_Go, true,
                                   p_data.at(n)->width, p_data.at(n)->height);
-		    
-		    auto clk_fwd_grow = system_clock::now(); // PROFILING
-            	    duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_update_part; // PROFILING
-            	    cout << "(match growing) Local iteration " << i << ", partition " << n << " => FWD growing took "
+
+                    auto clk_fwd_grow = system_clock::now(); // PROFILING
+                    duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd; // PROFILING
+                    cout << "(match growing) Local iteration " << i << ", partition " << n << " => FWD growing took "
                          << elapsed_secs_fwd_grow.count() << endl;
                     // BWD
+                    auto clk_start_bwd = system_clock::now();
                     local_growing(p_data.at(n)->i1n, p_data.at(n)->i0n, p_data.at(n)->i2n, &(p_data.at(n)->queue_Ba),
                                   &(p_data.at(n)->stuffBa), &(p_data.at(n)->ofBa), i, p_data.at(n)->ene_Ba,
                                   p_data.at(n)->oft1, p_data.at(n)->occ_Ba, p_data.at(n)->BiFilt_Ba, false,
                                   p_data.at(n)->width, p_data.at(n)->height);
 
                     auto clk_bwd_grow = system_clock::now(); // PROFILING
-                    duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_fwd_grow; // PROFILING
+                    duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd; // PROFILING
                     cout << "(match growing) Local iteration " << i << ", partition " << n << " => BWD growing took "
                          << elapsed_secs_bwd_grow.count() << endl;
-		}
-                #endif
+                }
+#endif
 
-		auto clk_grow = system_clock::now(); // PROFILING
-                    duration<double> elapsed_secs_grow = clk_grow - clk_update_part; // PROFILING
-                    cout << "(match growing) Local iteration " << i <<" => All FWD + BWD growings took "
-                         << elapsed_secs_grow.count() << endl;
+                auto clk_grow = system_clock::now(); // PROFILING
+                duration<double> elapsed_secs_grow = clk_grow - clk_update_part; // PROFILING
+                cout << "(match growing) Local iteration " << i <<" => All FWD + BWD growings took "
+                     << elapsed_secs_grow.count() << endl;
 
                 // Copy partition growing information back to image-wise variables for pruning
                 image_to_partitions(oft0, oft1, ene_Go, ene_Ba, occ_Go, occ_Ba, &ofGo, &ofBa, &stuffGo, &stuffBa,
                                     queue_Go, queue_Ba, n_partitions, w, h, &p_data, false);
 
-		auto clk_update_image = system_clock::now(); // PROFILING
+                auto clk_update_image = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_update_image = clk_update_image - clk_grow; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Update partitions (part => image) took "
                      << elapsed_secs_update_image.count() << endl;
-		
-		// 2. Pruning
+
+                // 2. Pruning
                 pruning_method(i0n, i1n, w, h, tol, p, ofGo.trust_points, oft0, ofBa.trust_points, oft1);
 
-		auto clk_pruning = system_clock::now(); // PROFILING
+                auto clk_pruning = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_pruning = clk_pruning - clk_update_image; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Pruning method took "
                      << elapsed_secs_pruning.count() << endl;
@@ -2254,7 +2242,7 @@ void match_growing_variational(
                 delete_not_trustable_candidates(&ofGo, oft0, ene_Go, w, h);
                 delete_not_trustable_candidates(&ofBa, oft1, ene_Ba, w, h);
 
-		auto clk_delete = system_clock::now(); // PROFILING
+                auto clk_delete = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_delete = clk_delete - clk_pruning; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Deleting non-trustable candidates took "
                      << elapsed_secs_delete.count() << endl;
@@ -2263,7 +2251,7 @@ void match_growing_variational(
                 insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, occ_Go, w, h);
                 insert_potential_candidates(oft1, &ofBa, queue_Ba, ene_Ba, occ_Ba, w, h);
 
-		auto clk_insert_cand = system_clock::now(); // PROFILING
+                auto clk_insert_cand = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_insert_cand = clk_insert_cand - clk_delete; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Inserting potential candidates took "
                      << elapsed_secs_insert_cand.count() << endl;
@@ -2272,12 +2260,12 @@ void match_growing_variational(
                 prepare_data_for_growing(&ofGo, ene_Go, oft0, w, h);
                 prepare_data_for_growing(&ofBa, ene_Ba, oft1, w, h);
 
-		auto clk_prepare_grow = system_clock::now(); // PROFILING
+                auto clk_prepare_grow = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_prepare_grow = clk_prepare_grow - clk_insert_cand; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Preparing data for grwing took "
                      << elapsed_secs_prepare_grow.count() << endl;
 
-		auto clk_all_tasks = system_clock::now(); // PROFILING
+                auto clk_all_tasks = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_all_tasks = clk_all_tasks - clk_odd_start; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => All iteration's tasks took "
                      << elapsed_secs_all_tasks.count() << endl;
@@ -2285,46 +2273,48 @@ void match_growing_variational(
             else if (i % 2 == 0 && i <= iter - 1)        // part. grid: v_parts (cols) x h_parts (rows)
             {
                 auto clk_even_start = system_clock::now(); // PROFILING
-		// NOTE: need to update here THIS specific-partition (p_data_r) info by using the image-wise info
+                // NOTE: need to update here THIS specific-partition (p_data_r) info by using the image-wise info
                 // updated by the other partition type p_data (which has different sizes, etc.)
                 image_to_partitions(oft0, oft1, ene_Go, ene_Ba, occ_Go, occ_Ba, &ofGo, &ofBa, &stuffGo, &stuffBa,
                                     queue_Go, queue_Ba, n_partitions, w, h, &p_data_r, true);
 
-		auto clk_update_part = system_clock::now(); // PROFILING
+                auto clk_update_part = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_update_part = clk_update_part - clk_even_start; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Update partitions (image => part) took "
                      << elapsed_secs_update_part.count() << endl;
 
-                #ifdef _OPENMP
-                #pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
                 for (unsigned n = 0; n < n_partitions; n++) {
                     std::cout << "Local growing partition (v x h) => " << n << std::endl;
                     // 1. Local growing based on updated oft0 and oft1 of the even iterations (i > 0)
                     // FWD
+                    auto clk_start_fwd = system_clock::now();
                     local_growing(p_data_r.at(n)->i0n, p_data_r.at(n)->i1n, p_data_r.at(n)->i_1n, &(p_data_r.at(n)->queue_Go),
                                   &(p_data_r.at(n)->stuffGo), &(p_data_r.at(n)->ofGo), i, p_data_r.at(n)->ene_Go,
                                   p_data_r.at(n)->oft0, p_data_r.at(n)->occ_Go, p_data_r.at(n)->BiFilt_Go, true,
                                   p_data_r.at(n)->width, p_data_r.at(n)->height);
 
-		    auto clk_fwd_grow = system_clock::now(); // PROFILING
-                    duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_update_part; // PROFILING
+                    auto clk_fwd_grow = system_clock::now(); // PROFILING
+                    duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd; // PROFILING
                     cout << "(match growing) Local iteration " << i << ", partition " << n << " => FWD growing took "
                          << elapsed_secs_fwd_grow.count() << endl;
 
                     // BWD
+                    auto clk_start_bwd = system_clock::now();
                     local_growing(p_data_r.at(n)->i1n, p_data_r.at(n)->i0n, p_data_r.at(n)->i2n, &(p_data_r.at(n)->queue_Ba),
                                   &(p_data_r.at(n)->stuffBa), &(p_data_r.at(n)->ofBa), i, p_data_r.at(n)->ene_Ba,
                                   p_data_r.at(n)->oft1, p_data_r.at(n)->occ_Ba, p_data_r.at(n)->BiFilt_Ba, false,
                                   p_data_r.at(n)->width, p_data_r.at(n)->height);
 
-		    auto clk_bwd_grow = system_clock::now(); // PROFILING
-                    duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_fwd_grow; // PROFILING
+                    auto clk_bwd_grow = system_clock::now(); // PROFILING
+                    duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd; // PROFILING
                     cout << "(match growing) Local iteration " << i << ", partition " << n << " => BWD growing took "
                          << elapsed_secs_bwd_grow.count() << endl;
                 }
-                #endif
+#endif
 
-		auto clk_grow = system_clock::now(); // PROFILING
+                auto clk_grow = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_grow = clk_grow - clk_update_part; // PROFILING
                 cout << "(match growing) Local iteration " << i <<" => All FWD + BWD growings took "
                      << elapsed_secs_grow.count() << endl;
@@ -2333,7 +2323,7 @@ void match_growing_variational(
                 image_to_partitions(oft0, oft1, ene_Go, ene_Ba, occ_Go, occ_Ba, &ofGo, &ofBa, &stuffGo, &stuffBa,
                                     queue_Go, queue_Ba, n_partitions, w, h, &p_data_r, false);
 
-		auto clk_update_image = system_clock::now(); // PROFILING
+                auto clk_update_image = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_update_image = clk_update_image - clk_grow; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Update partitions (part => image) took "
                      << elapsed_secs_update_image.count() << endl;
@@ -2342,7 +2332,7 @@ void match_growing_variational(
                 // 2. Pruning
                 pruning_method(i0n, i1n, w, h, tol, p, ofGo.trust_points, oft0, ofBa.trust_points, oft1);
 
-		auto clk_pruning = system_clock::now(); // PROFILING
+                auto clk_pruning = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_pruning = clk_pruning - clk_update_image; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Pruning method took "
                      << elapsed_secs_pruning.count() << endl;
@@ -2351,7 +2341,7 @@ void match_growing_variational(
                 delete_not_trustable_candidates(&ofGo, oft0, ene_Go, w, h);
                 delete_not_trustable_candidates(&ofBa, oft1, ene_Ba, w, h);
 
-		auto clk_delete = system_clock::now(); // PROFILING
+                auto clk_delete = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_delete = clk_delete - clk_pruning; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Deleting non-trustable candidates took "
                      << elapsed_secs_delete.count() << endl;
@@ -2360,7 +2350,7 @@ void match_growing_variational(
                 insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, occ_Go, w, h);
                 insert_potential_candidates(oft1, &ofBa, queue_Ba, ene_Ba, occ_Ba, w, h);
 
-		auto clk_insert_cand = system_clock::now(); // PROFILING
+                auto clk_insert_cand = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_insert_cand = clk_insert_cand - clk_delete; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Inserting potential candidates took "
                      << elapsed_secs_insert_cand.count() << endl;
@@ -2369,7 +2359,7 @@ void match_growing_variational(
                 prepare_data_for_growing(&ofGo, ene_Go, oft0, w, h);
                 prepare_data_for_growing(&ofBa, ene_Ba, oft1, w, h);
 
-		auto clk_prepare_grow = system_clock::now(); // PROFILING
+                auto clk_prepare_grow = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_prepare_grow = clk_prepare_grow - clk_insert_cand; // PROFILING
                 cout << "(match growing) Local iteration " << i << " => Preparing data for grwing took "
                      << elapsed_secs_prepare_grow.count() << endl;
@@ -2394,7 +2384,7 @@ void match_growing_variational(
     duration<double> elapsed_secs = clk_end - last_growing; // PROFILING
     cout << "(match growing) Last growing (FWD only) took "
          << elapsed_secs.count() << endl;
-   
+
     // Copy the result t, t+1 as output.
     memcpy(out_flow, oft0, sizeof(float) * w * h * 2);
     memcpy(ene_val, ene_Go, sizeof(float) * w * h);
