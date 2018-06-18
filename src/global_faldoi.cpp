@@ -324,8 +324,8 @@ void ofTVl2_getP(
     float err_D = 0.0;
     float min, max;
 
-//#ifdef _OPENMP
-//#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
     for (int i = 0; i < size; i++) {
 
         const float u1k = u1[i];
@@ -337,7 +337,7 @@ void ofTVl2_getP(
         u_N[i] = (u1[i] - u1k) * (u1[i] - u1k) +
                  (u2[i] - u2k) * (u2[i] - u2k);
     }
-//#endif
+#endif
 
     getminmax(&min, &max, u_N, size);
 
@@ -363,8 +363,8 @@ void ofTVl2_getD(
         int size
 ) {
 
-//#ifdef _OPENMP
-//#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
     for (int i = 0; i < size; i++) {
 
         const float g11 = xi11[i] * xi11[i];
@@ -381,7 +381,7 @@ void ofTVl2_getD(
         xi21[i] = (xi21[i] + tau * u2x[i]) / xi_N;
         xi22[i] = (xi22[i] + tau * u2y[i]) / xi_N;
     }
-//#endif
+#endif
 }
 
 
@@ -558,7 +558,7 @@ void duOF(
 }
 
 void tvl2OF(
-        const float *I0,              // source image
+        const float *I0,        // source image
         float *I1,              // target image
         float *u1,              // x component of the optical flow
         float *u2,              // y component of the optical flow
@@ -575,6 +575,8 @@ void tvl2OF(
         const int warps,        // number of warpings per scale
         const bool verbose      // enable/disable the verbose mode
 ) {
+    using namespace std::chrono;
+    auto clk_tvl2OF = system_clock::now();
 
     const float l_t = lambda * theta;
     const int size = nx * ny;
@@ -612,15 +614,34 @@ void tvl2OF(
 
     centered_gradient(I1, I1x, I1y, nx, ny);
 
+    auto clk_init_end = system_clock::now(); // PROFILING
+    duration<double> elapsed_secs_init = clk_init_end - clk_tvl2OF; // PROFILING
+    cout << "(tvl2OF) initialising everything took "
+         << elapsed_secs_init.count() << endl;
+
+    double total_v1v2 = 0.0;
+    double total_fwd_grad = 0.0;
+    double total_getD = 0.0;
+    double total_divergence = 0.0;
+    double total_memcpy = 0.0;
+    double total_getP = 0.0;
+    double total_copy_u1u2 = 0.0;
+
+
+
     for (int warpings = 0; warpings < warps; warpings++) {
         //printf("warpings:%d\n", warpings);
+	auto clk_warp_start = system_clock::now();
         // Compute the warping of the Right image and its derivatives Ir(x + u1o), Irx (x + u1o) and Iry (x + u2o)
         bicubic_interpolation_warp(I1, u1, u2, I1w, nx, ny, true);
         bicubic_interpolation_warp(I1x, u1, u2, I1wx, nx, ny, true);
         bicubic_interpolation_warp(I1y, u1, u2, I1wy, nx, ny, true);
 
-#ifdef _OPENMP
-#pragma omp parallel for
+	auto clk_bicubic_end = system_clock::now(); // PROFILING
+        duration<double> elapsed_secs_bicubic = clk_bicubic_end - clk_warp_start; // PROFILING
+        cout << "(tvl2OF) Bicubic interpolation took "
+             << elapsed_secs_bicubic.count() << endl;
+
         for (int i = 0; i < size; i++) {
             const float Ix2 = I1wx[i] * I1wx[i];
             const float Iy2 = I1wy[i] * I1wy[i];
@@ -632,7 +653,6 @@ void tvl2OF(
             rho_c[i] = (I1w[i] - I1wx[i] * u1[i]
                         - I1wy[i] * u2[i] - I0[i]);
         }
-#endif
 
         memcpy(u1_, u1, size * sizeof(float));
         memcpy(u2_, u2, size * sizeof(float));
@@ -641,6 +661,19 @@ void tvl2OF(
         //   u2_[i] = u2[i];
         // }
 
+	auto clk_constants = system_clock::now(); // PROFILING
+        duration<double> elapsed_secs_constants = clk_constants - clk_bicubic_end; // PROFILING
+        cout << "(tvl2OF) Computing constant part of functions & auxiliar variables (grad, rho_c, u1_, u2_) took "
+             << elapsed_secs_constants.count() << endl;
+/*
+	double total_v1v2 = 0.0;
+	double total_fwd_grad = 0.0;
+	double total_getD = 0.0;
+	double total_divergence = 0.0;
+	double total_memcpy = 0.0;
+	double total_getP = 0.0;
+	double total_copy_u1u2 = 0.0;
+*/
         int n = 0;
         float err_D = INFINITY;
         while (err_D > tol_OF * tol_OF && n < MAX_ITERATIONS_GLOBAL) {
@@ -648,6 +681,7 @@ void tvl2OF(
             n++;
             // Estimate the values of the variable (v1, v2)
             // (thresholding opterator TH)
+	    auto clk_v1v2 = system_clock::now();
 #ifdef _OPENMP
 #pragma omp parallel for
             for (int i = 0; i < size; i++) {
@@ -678,14 +712,31 @@ void tvl2OF(
             }
 #endif
 
+	    auto clk_v1v2_end = system_clock::now(); // PROFILING
+	    duration<double> elapsed_secs_v1v2 = clk_v1v2_end - clk_v1v2;  // PROFILING
+	    total_v1v2 += elapsed_secs_v1v2.count();
+
             // Dual variables
             forward_gradient(u1_, u1x, u1y, nx, ny);
             forward_gradient(u2_, u2x, u2y, nx, ny);
+
+            auto clk_fwd_grad_end = system_clock::now(); // PROFILING
+            duration<double> elapsed_secs_fwd_grad = clk_fwd_grad_end - clk_v1v2_end;  // PROFILING
+            total_fwd_grad += elapsed_secs_fwd_grad.count();
+
             ofTVl2_getD(xi11, xi12, xi21, xi22, u1x, u1y, u2x, u2y, tau, size);
+
+            auto clk_getD_end = system_clock::now(); // PROFILING
+            duration<double> elapsed_secs_getD = clk_getD_end - clk_fwd_grad_end;  // PROFILING
+            total_getD += elapsed_secs_getD.count();
 
             // Primal variables
             divergence(xi11, xi12, div_xi1, nx, ny);
             divergence(xi21, xi22, div_xi2, nx, ny);
+
+            auto clk_divergence_end = system_clock::now(); // PROFILING
+            duration<double> elapsed_secs_divergence = clk_divergence_end - clk_getD_end;  // PROFILING
+            total_divergence += elapsed_secs_divergence.count();
 
             // Store previous iteration
             memcpy(u1Aux, u1, size * sizeof(float));
@@ -695,20 +746,70 @@ void tvl2OF(
             //   u2Aux[i] = u2[i];
             // }
 
+            auto clk_memcpy_end = system_clock::now(); // PROFILING
+            duration<double> elapsed_secs_memcpy = clk_memcpy_end - clk_divergence_end;  // PROFILING
+            total_memcpy += elapsed_secs_memcpy.count();
+
             ofTVl2_getP(u1, u2, v1, v2, div_xi1, div_xi2, u_N, theta, tau, size, &err_D);
+
+            auto clk_getP_end = system_clock::now(); // PROFILING
+            duration<double> elapsed_secs_getP = clk_getP_end - clk_memcpy_end;  // PROFILING
+            total_getP += elapsed_secs_getP.count();
 
             // (aceleration = 1);
             for (int i = 0; i < size; i++) {
                 u1_[i] = 2 * u1[i] - u1Aux[i];
                 u2_[i] = 2 * u2[i] - u2Aux[i];
-
             }
 
+            auto clk_copy_u1u2_end = system_clock::now(); // PROFILING
+            duration<double> elapsed_secs_copy_u1u2 = clk_copy_u1u2_end - clk_getP_end;  // PROFILING
+            total_copy_u1u2 += elapsed_secs_copy_u1u2.count();
+
         }
+
+	auto clk_while_end = system_clock::now(); // PROFILING
+        duration<double> elapsed_secs_while = clk_while_end - clk_constants; // PROFILING
+        cout << "(tvl2OF) While loop (with 400 it) took "
+             << elapsed_secs_while.count() << endl;
+
         if (verbose)
             fprintf(stderr, "Warping: %d,Iter: %d "
                     "Error: %f\n", warpings, n, err_D);
+	
+	auto clk_warp_end = system_clock::now(); // PROFILING
+   	duration<double> elapsed_secs_warp = clk_warp_end - clk_warp_start; // PROFILING
+    	cout << "(tvl2OF) Warping num. " << warpings;
+	cout << " took " << elapsed_secs_warp.count() << endl;
+
     }
+    
+    auto clk_all_warps_end = system_clock::now(); // PROFILING
+    duration<double> elapsed_secs_all_warps = clk_all_warps_end - clk_init_end; // PROFILING
+    cout << "(tvl2OF) All warpings took "
+         << elapsed_secs_all_warps.count() << endl;
+
+    // PROFILING
+    cout << "\n\n" << std::endl;
+    cout << "Warpings loop profiling (total and %)" << endl;
+    cout << "\t(v1-v2 loop) total: " << total_v1v2 << ", perc.: " <<
+	    100 * (total_v1v2 / elapsed_secs_all_warps.count()) << "%" << endl;
+    cout << "\t(fwd_grad) total: " << total_fwd_grad << ", perc.: " <<
+            100 * (total_fwd_grad / elapsed_secs_all_warps.count()) << "%" << endl;
+    cout << "\t(getD) total: " << total_getD << ", perc.: " <<
+            100 * (total_getD / elapsed_secs_all_warps.count()) << "%" << endl; 
+    cout << "\t(divergence) total: " << total_divergence << ", perc.: " <<
+            100 * (total_divergence / elapsed_secs_all_warps.count()) << "%" << endl;
+    cout << "\t(memcpy) total: " << total_memcpy << ", perc.: " <<
+            100 * (total_memcpy / elapsed_secs_all_warps.count()) << "%" << endl;
+    cout << "\t(getP) total: " << total_getP << ", perc.: " <<
+            100 * (total_getP / elapsed_secs_all_warps.count()) << "%" << endl;
+    cout << "\t(copy_u1u2) total: " << total_copy_u1u2 << ", perc.: " <<
+            100 * (total_copy_u1u2 / elapsed_secs_all_warps.count()) << "%" << endl;
+
+    cout << "\n\n" << std::endl;
+
+
 
     free(u1x);
     free(u1y);
@@ -738,6 +839,12 @@ void tvl2OF(
     free(div_xi2);
 
     free(u_N);
+
+    auto clk_tvl2OF_end = system_clock::now(); // PROFILING
+    duration<double> elapsed_secs_tvl2OF = clk_tvl2OF_end - clk_tvl2OF; // PROFILING
+    cout << "(tvl2OF) All tasks took "
+         << elapsed_secs_tvl2OF.count() << endl;
+
 }
 
 ////////////////////////////////////NLTVL1//////////////////////////////////////
@@ -1915,6 +2022,7 @@ int main(int argc, char *argv[]) {
     float *v = ofD.u2;
     float *chi = ofD.chi;
 
+    auto clk_init_start = system_clock::now();
     // Initialize flow with flow from local faldoi
     for (int i = 0; i < size; i++) {
         u[i] = flow[i];
@@ -1961,6 +2069,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    auto clk_init_end = system_clock::now(); // PROFILING
+    duration<double> elapsed_secs_init = clk_init_end - clk_init_start; // PROFILING
+    cout << "(global_faldoi.cpp) initialising everything took "
+         << elapsed_secs_init.count() << endl;
+
     // 0 - TVl2 coupled, otherwise Du
     if (val_method == M_TVL1 || val_method == M_TVL1_W) {
         //printf("TV-l2 coupled\n");
@@ -1998,6 +2111,7 @@ int main(int argc, char *argv[]) {
         guided_tvl2coupled_occ(i0n, i1n, i_1n, &ofD, &(stuffOF.tvl2_occ), &ener_N, index, params.w, params.h);
 
     }
+
     iio_save_image_float_split(outfile.c_str(), u, w[0], h[0], 2);
 
 
@@ -2033,6 +2147,12 @@ int main(int argc, char *argv[]) {
     tt = system_clock::to_time_t(today);
     std::cerr << "today is: " << ctime(&tt);
     return EXIT_SUCCESS;
+
+    auto clk_global_min_end = system_clock::now(); // PROFILING
+    duration<double> elapsed_secs_global_min = clk_global_min_end - clk_init_end; // PROFILING
+    cout << "(global_faldoi.cpp) global minimisation (functional-specific) took "
+         << elapsed_secs_global_min.count() << endl;
+
 }
 
 #endif//GLOBAL_FALDOI

@@ -24,15 +24,22 @@ parser = argparse.ArgumentParser(description='Faldoi Minimization')
 # parser.add_argument("i1", help="second image")
 parser.add_argument("file_images", help="File with images path")
 
+# Define default values
+descriptors = True
+matchings = True
+
+sparse_flow = True
+
+local_of = True
 def_method = 0
+def_local_iter = 3
+def_patch_iter = 4
 def_split_img = 0
 def_hor_parts = 3
 def_ver_parts = 2
-descriptors = True
-matchings = True
-sparse_flow = True
-local_of = True
+
 global_of = True
+def_global_iter = 400
 
 print('''Code blocks activation value:
         descriptors =   {}
@@ -62,6 +69,13 @@ parser.add_argument("-vm", default=str(def_method),
 parser.add_argument("-wr", default='5',
                     help="Windows Radio Local patch"
                          "1 -  3x3, 2 - 5x5,...")  # (2*r +1) x (2*r+1)
+#       Number of local faldoi iterations
+parser.add_argument("-local_iter", default=str(def_local_iter),
+                    help="Number of iterations of the local minimisation (def.=3)")
+
+#       Number of iterations per patch (for each local iteration)
+parser.add_argument("-patch_iter", default=str(def_patch_iter),
+                    help="Number of iterations per patch (in each local minimisation iteration) (def.=4)")
 
 # 	Whether to split the image into partitions or not
 parser.add_argument("-split_img", default=str(def_split_img),
@@ -80,6 +94,10 @@ parser.add_argument("-v_parts", default=str(def_ver_parts),
 # Global Mininization
 parser.add_argument("-warps", default='5',
                     help="Number of warps finest scale")
+
+#       Number of global faldoi iterations
+parser.add_argument("-glob_iter", default=str(def_global_iter),
+                    help="Number of iterations of the global minimisation (def.=400)")
 
 # Initial seeds (SIFT parameters)
 parser.add_argument("-nsp", default='15',
@@ -119,9 +137,12 @@ core_name2 = data[1].split('.')[-2].split('/')[-1]
 var_m = args.vm
 warps = args.warps
 windows_radio = args.wr
+loc_iter = args.local_iter
+pch_iter = args.patch_iter
 split_image = args.split_img
 hor_parts = args.h_parts
 ver_parts = args.v_parts
+glb_iter = args.glob_iter
 gauss = args.m
 nsp = args.nsp
 r_path = args.res_path
@@ -260,11 +281,10 @@ else:
 # Create a dense flow from a sparse set of initial seeds
 if local_of:
 
-    options = "-m {} -wr {} -split_img {} -h_parts {} -v_parts {}".format(var_m, windows_radio, split_image, hor_parts,
-                                                                          ver_parts)
+    options = "-m {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {}".format(var_m,
+            windows_radio, loc_iter, pch_iter, split_image, hor_parts, ver_parts)
     param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
                                          region_growing, sim_value, options)
-    print(param)
     command_line = "{} {}\n".format(match_propagation, param)
     os.system(command_line)
     # Elapsed time (dense flow from sparse set of initial seeds)
@@ -279,7 +299,7 @@ else:
 # Put the dense flow as input for a variational method
 # Tv-l2 coupled 0 Du 1
 if global_of:
-    options = "-m {} -w {}".format(var_m, warps)
+    options = "-m {} -w {} -glb_iters {}".format(var_m, warps, glb_iter)
     param = "{} {} {} {}\n".format(args.file_images,
                                    region_growing, var_flow, options)
     command_line = "{} {}\n".format(of_var, param)

@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.cpp
 vector
 -
 cmath
@@ -16,19 +16,19 @@ cassert
 cstdio
 -
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 stdbool.h
 -
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/elap_recsep.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/elap_recsep.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_model.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_model.cpp
 cmath
 -
 cstdio
@@ -40,47 +40,47 @@ cstring
 algorithm
 -
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 utils.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils.h
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_model.h
 tvl2_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvl2_model.h
 nltv_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltv_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltv_model.h
 tvcsad_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsad_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvcsad_model.h
 nltvcsad_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsad_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltvcsad_model.h
 tvl2w_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2w_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvl2w_model.h
 nltvw_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvw_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltvw_model.h
 nltvcsadw_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsadw_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltvcsadw_model.h
 tvcsadw_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsadw_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvcsadw_model.h
 tvl2_model_occ.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model_occ.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvl2_model_occ.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_model.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 vector
 -
 parameters.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/parameters.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/parameters.h
 iostream
 -
 queue
 -
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/iio.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/iio.h
 stddef.h
 -
 stdbool.h
@@ -88,7 +88,7 @@ stdbool.h
 stdint.h
 -
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/local_faldoi.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/local_faldoi.cpp
 cassert
 -
 cstdlib
@@ -110,17 +110,17 @@ future
 algorithm
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_model.h
 utils_preprocess.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils_preprocess.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils_preprocess.h
 iio.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/iio.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/iio.h
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 elap_recsep.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/elap_recsep.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/elap_recsep.h
 omp.h
 -
 iostream
@@ -130,13 +130,13 @@ fstream
 string
 -
 utils.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils.h
 parameters.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/parameters.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/parameters.h
 ctime
 -
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltv_model.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltv_model.cpp
 cmath
 -
 cstdio
@@ -144,15 +144,15 @@ cstdio
 cassert
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 omp.h
 -
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltv_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltv_model.h
 cmath
 -
 cstdio
@@ -160,29 +160,11 @@ cstdio
 cassert
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsad_model.cpp
-cmath
--
-cstdio
--
-cassert
--
-algorithm
--
-energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
-aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
-bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
-
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsad_model.h
-
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsadw_model.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltvcsad_model.cpp
 cmath
 -
 cstdio
@@ -192,33 +174,15 @@ cassert
 algorithm
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvcsadw_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltvcsad_model.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvw_model.cpp
-cmath
--
-cstdio
--
-cassert
--
-energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
-aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
-bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
-
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/nltvw_model.h
-
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/parameters.h
-
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsad_model.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltvcsadw_model.cpp
 cmath
 -
 cstdio
@@ -228,17 +192,53 @@ cassert
 algorithm
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltvcsadw_model.h
+
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltvw_model.cpp
+cmath
+-
+cstdio
+-
+cassert
+-
+energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/nltvw_model.h
+
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/parameters.h
+
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvcsad_model.cpp
+cmath
+-
+cstdio
+-
+cassert
+-
+algorithm
+-
+energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 utils.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils.h
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsad_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvcsad_model.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsadw_model.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvcsadw_model.cpp
 cmath
 -
 cstdio
@@ -248,17 +248,17 @@ cassert
 algorithm
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 utils.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils.h
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvcsadw_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvcsadw_model.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvl2_model.cpp
 cmath
 -
 cstdio
@@ -266,23 +266,23 @@ cstdio
 cassert
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 utils.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils.h
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 omp.h
 -
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvl2_model.h
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model_occ.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvl2_model_occ.cpp
 cmath
 -
 cstdio
@@ -292,25 +292,25 @@ cstdlib
 cassert
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 parameters.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/parameters.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/parameters.h
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 utils.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils.h
 iostream
 -
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2_model_occ.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvl2_model_occ.h
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2w_model.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvl2w_model.cpp
 cmath
 -
 cstdio
@@ -318,17 +318,17 @@ cstdio
 cassert
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 aux_energy_model.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/aux_energy_model.h
 utils.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils.h
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/tvl2w_model.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/tvl2w_model.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils.cpp
 stdlib.h
 -
 stdio.h
@@ -344,15 +344,15 @@ cassert
 cstdio
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 bicubic_interpolation.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/bicubic_interpolation.h
 xmalloc.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/xmalloc.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/xmalloc.h
 omp.h
 -
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils.h
 chrono
 -
 iostream
@@ -360,15 +360,15 @@ iostream
 utility
 -
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils_preprocess.cpp
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils_preprocess.cpp
 string
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/string
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/string
 parameters.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/parameters.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/parameters.h
 energy_structures.h
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/energy_structures.h
 wordexp.h
 -
 sstream
@@ -378,11 +378,11 @@ fstream
 algorithm
 -
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/utils_preprocess.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/utils_preprocess.h
 string
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/string
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/string
 
-/home/fperezgamonal/Documents/Papers_code/faldoi-ipol/src/xmalloc.h
+/home/fperez/Documents/Papers_code/faldoi-ipol/src/xmalloc.h
 stdio.h
 -
 stdlib.h

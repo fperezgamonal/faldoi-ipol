@@ -2185,34 +2185,41 @@ void match_growing_variational(
                 cout << "(match growing) Local iteration " << i << " => Update partitions (image => part) took "
                      << elapsed_secs_update_part.count() << endl;
 
+		// TODO: try to boost parallelization by combining fwd and bwd (odd/even)
 #ifdef _OPENMP
 #pragma omp parallel for
-                for (unsigned n = 0; n < n_partitions; n++)
+                for (unsigned n = 0; n < n_partitions * 2; n++)
                 {
-                    std::cout << "Local growing partition (h x v) => " << n << std::endl;
                     // 1. Local growing based on updated oft0 and oft1 of the odd iterations
-                    // FWD
-                    auto clk_start_fwd = system_clock::now();
-                    local_growing(p_data.at(n)->i0n, p_data.at(n)->i1n, p_data.at(n)->i_1n, &(p_data.at(n)->queue_Go),
-                                  &(p_data.at(n)->stuffGo), &(p_data.at(n)->ofGo), i, p_data.at(n)->ene_Go,
-                                  p_data.at(n)->oft0, p_data.at(n)->occ_Go, p_data.at(n)->BiFilt_Go, true,
-                                  p_data.at(n)->width, p_data.at(n)->height);
+                    if (n % 2 == 0) {
+		    	// FWD
+			unsigned m = n/2;
+			std::cout << "(FWD) Local growing partition (h x v) => " << m << std::endl;
+                    	auto clk_start_fwd = system_clock::now();
+                    	local_growing(p_data.at(m)->i0n, p_data.at(m)->i1n, p_data.at(m)->i_1n, &(p_data.at(m)->queue_Go),
+				       	&(p_data.at(m)->stuffGo), &(p_data.at(m)->ofGo), i, p_data.at(m)->ene_Go,
+                                  	p_data.at(m)->oft0, p_data.at(m)->occ_Go, p_data.at(m)->BiFilt_Go, true,
+                                  	p_data.at(m)->width, p_data.at(m)->height);
 
-                    auto clk_fwd_grow = system_clock::now(); // PROFILING
-                    duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd; // PROFILING
-                    cout << "(match growing) Local iteration " << i << ", partition " << n << " => FWD growing took "
-                         << elapsed_secs_fwd_grow.count() << endl;
-                    // BWD
-                    auto clk_start_bwd = system_clock::now();
-                    local_growing(p_data.at(n)->i1n, p_data.at(n)->i0n, p_data.at(n)->i2n, &(p_data.at(n)->queue_Ba),
-                                  &(p_data.at(n)->stuffBa), &(p_data.at(n)->ofBa), i, p_data.at(n)->ene_Ba,
-                                  p_data.at(n)->oft1, p_data.at(n)->occ_Ba, p_data.at(n)->BiFilt_Ba, false,
-                                  p_data.at(n)->width, p_data.at(n)->height);
+                    	auto clk_fwd_grow = system_clock::now(); // PROFILING
+                    	duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd; // PROFILING
+                    	cout << "(match growing) Local iteration " << i << ", partition " << m << " => FWD growing took "
+                             << elapsed_secs_fwd_grow.count() << endl;
+		    } else {
+                    	// BWD
+			unsigned m = n/2;  // taking advantage of integer division (otherwise we'd have wrote ==> m = (n-1)/2)
+                    	std::cout << "(BWD) Local growing partition (h x v) => " << m << std::endl;
+			auto clk_start_bwd = system_clock::now();
+                    	local_growing(p_data.at(m)->i1n, p_data.at(m)->i0n, p_data.at(m)->i2n, &(p_data.at(m)->queue_Ba),
+                                  	&(p_data.at(m)->stuffBa), &(p_data.at(m)->ofBa), i, p_data.at(m)->ene_Ba,
+                                  	p_data.at(m)->oft1, p_data.at(m)->occ_Ba, p_data.at(m)->BiFilt_Ba, false,
+                                  	p_data.at(m)->width, p_data.at(m)->height);
 
-                    auto clk_bwd_grow = system_clock::now(); // PROFILING
-                    duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd; // PROFILING
-                    cout << "(match growing) Local iteration " << i << ", partition " << n << " => BWD growing took "
-                         << elapsed_secs_bwd_grow.count() << endl;
+                    	auto clk_bwd_grow = system_clock::now(); // PROFILING
+                    	duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd; // PROFILING
+                    	cout << "(match growing) Local iteration " << i << ", partition " << m << " => BWD growing took "
+                             << elapsed_secs_bwd_grow.count() << endl;
+		    }
                 }
 #endif
 
@@ -2285,32 +2292,37 @@ void match_growing_variational(
 
 #ifdef _OPENMP
 #pragma omp parallel for
-                for (unsigned n = 0; n < n_partitions; n++) {
-                    std::cout << "Local growing partition (v x h) => " << n << std::endl;
-                    // 1. Local growing based on updated oft0 and oft1 of the even iterations (i > 0)
-                    // FWD
-                    auto clk_start_fwd = system_clock::now();
-                    local_growing(p_data_r.at(n)->i0n, p_data_r.at(n)->i1n, p_data_r.at(n)->i_1n, &(p_data_r.at(n)->queue_Go),
-                                  &(p_data_r.at(n)->stuffGo), &(p_data_r.at(n)->ofGo), i, p_data_r.at(n)->ene_Go,
-                                  p_data_r.at(n)->oft0, p_data_r.at(n)->occ_Go, p_data_r.at(n)->BiFilt_Go, true,
-                                  p_data_r.at(n)->width, p_data_r.at(n)->height);
+                for (unsigned n = 0; n < n_partitions * 2; n++) {
+                    if (n % 2 == 0) {
+                        // 1. Local growing based on updated oft0 and oft1 of the even iterations (i > 0)
+	                // FWD
+                        unsigned m = n/2;
+                        std::cout << "(FWD) Local growing partition (v x h) => " << m << std::endl;
+                    	auto clk_start_fwd = system_clock::now();
+                    	local_growing(p_data_r.at(m)->i0n, p_data_r.at(m)->i1n, p_data_r.at(m)->i_1n, &(p_data_r.at(m)->queue_Go),
+                                  	&(p_data_r.at(m)->stuffGo), &(p_data_r.at(m)->ofGo), i, p_data_r.at(m)->ene_Go,
+                                  	p_data_r.at(m)->oft0, p_data_r.at(m)->occ_Go, p_data_r.at(m)->BiFilt_Go, true,
+                                  	p_data_r.at(m)->width, p_data_r.at(m)->height);
 
-                    auto clk_fwd_grow = system_clock::now(); // PROFILING
-                    duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd; // PROFILING
-                    cout << "(match growing) Local iteration " << i << ", partition " << n << " => FWD growing took "
-                         << elapsed_secs_fwd_grow.count() << endl;
+                    	auto clk_fwd_grow = system_clock::now(); // PROFILING
+                    	duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd; // PROFILING
+                    	cout << "(match growing) Local iteration " << i << ", partition " << m << " => FWD growing took "
+                             << elapsed_secs_fwd_grow.count() << endl;
+		    } else {
+                    	// BWD
+			unsigned m = n/2;  // Valid because the integer division is applied (otherwise m = (n-1)/2 would be used)
+                    	std::cout << "(BWD) Local growing partition (v x h) => " << m << std::endl;
+			auto clk_start_bwd = system_clock::now();
+                    	local_growing(p_data_r.at(m)->i1n, p_data_r.at(m)->i0n, p_data_r.at(m)->i2n, &(p_data_r.at(m)->queue_Ba),
+                                  	&(p_data_r.at(m)->stuffBa), &(p_data_r.at(m)->ofBa), i, p_data_r.at(m)->ene_Ba,
+                                  	p_data_r.at(m)->oft1, p_data_r.at(m)->occ_Ba, p_data_r.at(m)->BiFilt_Ba, false,
+                                  	p_data_r.at(m)->width, p_data_r.at(m)->height);
 
-                    // BWD
-                    auto clk_start_bwd = system_clock::now();
-                    local_growing(p_data_r.at(n)->i1n, p_data_r.at(n)->i0n, p_data_r.at(n)->i2n, &(p_data_r.at(n)->queue_Ba),
-                                  &(p_data_r.at(n)->stuffBa), &(p_data_r.at(n)->ofBa), i, p_data_r.at(n)->ene_Ba,
-                                  p_data_r.at(n)->oft1, p_data_r.at(n)->occ_Ba, p_data_r.at(n)->BiFilt_Ba, false,
-                                  p_data_r.at(n)->width, p_data_r.at(n)->height);
-
-                    auto clk_bwd_grow = system_clock::now(); // PROFILING
-                    duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd; // PROFILING
-                    cout << "(match growing) Local iteration " << i << ", partition " << n << " => BWD growing took "
-                         << elapsed_secs_bwd_grow.count() << endl;
+                    	auto clk_bwd_grow = system_clock::now(); // PROFILING
+                    	duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd; // PROFILING
+                    	cout << "(match growing) Local iteration " << i << ", partition " << m << " => BWD growing took "
+                             << elapsed_secs_bwd_grow.count() << endl;
+		    }
                 }
 #endif
 
