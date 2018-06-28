@@ -181,7 +181,7 @@ OpticalFlowData init_Optical_Flow_Data(
 ) {
     //int w = params.w;
     //int h = params.h;
-    OpticalFlowData of;
+    OpticalFlowData of{};
     of.u1 = new float[w * h * 2];
     of.u2 = of.u1 + w * h;
     of.u1_ba = new float[w * h * 2];

@@ -21,6 +21,7 @@
 #include <random>
 #include <future>
 #include <algorithm>
+#include <unistd.h>  // DEBUG (UNIX' sleep cmd)
 
 #include "energy_structures.h"
 #include "energy_model.h"
@@ -651,20 +652,20 @@ void update_of_data(
             // Only update variables with 2 channels
             // OF fields
             p_data->ofGo.u1[idx_par] = ofGo->u1[idx_img];
-            p_data->ofGo.u2[idx_par] = ofGo->u2[idx_img];
+            //p_data->ofGo.u2[idx_par] = ofGo->u2[idx_img];  // access out of range (only w*h elems)
             p_data->ofBa.u1[idx_par] = ofBa->u1[idx_img];
-            p_data->ofBa.u2[idx_par] = ofBa->u2[idx_img];
+            //p_data->ofBa.u2[idx_par] = ofBa->u2[idx_img];  // access out of range (only w*h elems)
 
             p_data->ofGo.u1_ba[idx_par] = ofGo->u1_ba[idx_img];
-            p_data->ofGo.u2_ba[idx_par] = ofGo->u2_ba[idx_img];
+            //p_data->ofGo.u2_ba[idx_par] = ofGo->u2_ba[idx_img];  // access out of range (only w*h elems)
             p_data->ofBa.u1_ba[idx_par] = ofBa->u1_ba[idx_img];
-            p_data->ofBa.u2_ba[idx_par] = ofBa->u2_ba[idx_img];
+            //p_data->ofBa.u2_ba[idx_par] = ofBa->u2_ba[idx_img];  // access out of range (only w*h elems)
 
             // Filters
             p_data->ofGo.u1_filter[idx_par] = ofGo->u1_filter[idx_img];
-            p_data->ofGo.u2_filter[idx_par] = ofGo->u2_filter[idx_img];
+            //p_data->ofGo.u2_filter[idx_par] = ofGo->u2_filter[idx_img];  // access out of range (only w*h elems)
             p_data->ofBa.u1_filter[idx_par] = ofBa->u1_filter[idx_img];
-            p_data->ofBa.u2_filter[idx_par] = ofBa->u2_filter[idx_img];
+            //p_data->ofBa.u2_filter[idx_par] = ofBa->u2_filter[idx_img];  // access out of range (only w*h elems)
         }
     }
     else
@@ -707,20 +708,20 @@ void update_of_data(
             // Only update variables with 2 channels
             // OF fields
             ofGo->u1[idx_img] = p_data->ofGo.u1[idx_par];
-            ofGo->u2[idx_img] = p_data->ofGo.u2[idx_par];
+            //ofGo->u2[idx_img] = p_data->ofGo.u2[idx_par];  // access out of range (only w*h elems)
             ofBa->u1[idx_img] = p_data->ofBa.u1[idx_par];
-            ofBa->u2[idx_img] = p_data->ofBa.u2[idx_par];
+            //ofBa->u2[idx_img] = p_data->ofBa.u2[idx_par];  // "   "   "   "
 
             ofGo->u1_ba[idx_img] = p_data->ofGo.u1_ba[idx_par];
-            ofGo->u2_ba[idx_img] = p_data->ofGo.u2_ba[idx_par];
+            //ofGo->u2_ba[idx_img] = p_data->ofGo.u2_ba[idx_par];  // "   "   "   "
             ofBa->u1_ba[idx_img] = p_data->ofBa.u1_ba[idx_par];
-            ofBa->u2_ba[idx_img] = p_data->ofBa.u2_ba[idx_par];
+            //ofBa->u2_ba[idx_img] = p_data->ofBa.u2_ba[idx_par];  // "   "   "   "
 
             // Filters
             ofGo->u1_filter[idx_img] = p_data->ofGo.u1_filter[idx_par];
-            ofGo->u2_filter[idx_img] = p_data->ofGo.u2_filter[idx_par];
+            //ofGo->u2_filter[idx_img] = p_data->ofGo.u2_filter[idx_par];  // "   "   "   "
             ofBa->u1_filter[idx_img] = p_data->ofBa.u1_filter[idx_par];
-            ofBa->u2_filter[idx_img] = p_data->ofBa.u2_filter[idx_par];
+            //ofBa->u2_filter[idx_img] = p_data->ofBa.u2_filter[idx_par];  // "   "   "   "
         }
 
     }
@@ -1302,6 +1303,29 @@ void image_to_partitions(
                     // Only update the values for the functional used (faster)
                     // Being independent of the nº of channels, we can call it outside the if
                     // It also updates in the 'inverse' direction: from partitions to image
+//                    std::cout << "(DEBUG) Partition p = " << p << ", n_ch = " << k << ", row idx = "
+//                              << j << "col idx = " << i << std::endl;
+//                    std::cout << "(DEBUG) image-wise index 'idx' = " << idx << ", partiton-wise index 'm' = "
+//                              << m << std::endl;
+                    // Check range
+                    // idx
+//                    if ((idx < 0 || idx > (k + 1) * w_src * h_src - 1) ||
+//                            (m < 0 || m > (k + 1) * p_data->at(p)->width * p_data->at(p)->height - 1)) {
+//                        std::cerr << "(DEBUG) Image-wise index 'idx' or partition-wise index 'm' is out of range!"
+//                                  << std::endl;
+//                        std::cerr << "(DEBUG) Values: idx = " << idx << ", m = " << m << std::endl;
+//                        std::cerr << "(DEBUG) A memory leak is likely to occur in the next update" << std::endl;
+//                        unsigned int microseconds = 5000000;
+//                        usleep(microseconds);
+//                    }
+                    // m
+//                    if (m < 0 || m > (k + 1) * p_data->at(p)->width * p_data->at(p)->height - 1) {
+//                        std::cerr << "(DEBUG) Image-wise index 'm' is out of range! Value = " << m << std::endl;
+//                        std::cerr << "(DEBUG) A memory leak is likely to occur in the next update" << std::endl;
+//                        unsigned int microseconds = 5000000;
+//                        usleep(microseconds);
+//                    }
+
                     update_partitions_structures(ofGo, ofBa, stuffGo, stuffBa, p_data->at(p), k, idx, m, img_to_part);
                 }
 
@@ -1553,7 +1577,7 @@ void insert_candidates(
             if (!ofD->fixed_points[py * w + px] && new_ener < ene_val[py * w + px]) {
 
                 ene_val[py * w + px] = ener_N;
-                SparseOF element;
+                SparseOF element{};
                 element.i = px;  // column
                 element.j = py;  // row
                 element.u = ofD->u1[py * w + px];
@@ -1821,7 +1845,7 @@ void insert_potential_candidates(
             // Indicates the initial seed in the similarity map
             if (isfinite(in[j * w + i]) && isfinite(in[w * h + j * w + i])) {
 
-                SparseOF element;
+                SparseOF element{};
                 element.i = i;      // column
                 element.j = j;      // row
                 element.u = in[j * w + i];
@@ -2017,8 +2041,8 @@ void match_growing_variational(
     pq_cand queue_Ba;
 
     // Initialize all the auxiliar data.
-    SpecificOFStuff stuffGo;
-    SpecificOFStuff stuffBa;
+    SpecificOFStuff stuffGo{};
+    SpecificOFStuff stuffBa{};
     initialize_auxiliar_stuff(stuffGo, ofGo, w, h);
     initialize_auxiliar_stuff(stuffBa, ofBa, w, h);
 
@@ -2290,8 +2314,8 @@ void match_growing_variational(
                 cout << "(match growing) Local iteration " << i << " => Update partitions (image => part) took "
                      << elapsed_secs_update_part.count() << endl;
 
-#ifdef _OPENMP
-#pragma omp parallel for
+//#ifdef _OPENMP
+//#pragma omp parallel for
                 for (unsigned n = 0; n < n_partitions * 2; n++) {
                     if (n % 2 == 0) {
                         // 1. Local growing based on updated oft0 and oft1 of the even iterations (i > 0)
@@ -2324,7 +2348,7 @@ void match_growing_variational(
                              << elapsed_secs_bwd_grow.count() << endl;
 		    }
                 }
-#endif
+//#endif
 
                 auto clk_grow = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_grow = clk_grow - clk_update_part; // PROFILING
@@ -2412,7 +2436,8 @@ void match_growing_variational(
     delete[] i0n;
     delete[] i_1n;
 
-    delete[] ofGo.u1;
+    delete[] ofGo.u1;  // Here it breaks with 4x3, check why it does not with 3x2
+    // (analyse ofGo.u1 ranges and allocated mem)
     delete[] ofBa.u1;
 
     delete[] ofGo.fixed_points;

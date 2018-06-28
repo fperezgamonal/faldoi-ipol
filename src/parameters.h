@@ -30,7 +30,7 @@
 
 #define PAR_DEFAULT_TOL_D   0.01
 #define PAR_DEFAULT_VERBOSE 0  //0
-#define SAVE_RESULTS        1//1 ==> segmentation fault (debug although was
+#define SAVE_RESULTS        0//1 ==> segmentation fault (debug although was
 //                          used to show partial progress only)
 
 // Best params TFM for TVL1+OCC:

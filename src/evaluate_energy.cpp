@@ -128,7 +128,7 @@ void eval_nltvcsad(
     float lambda,
     int w_rd_nltv,
     int w_csad,
-    float *ener_N,
+    float *ener_N
     )
 {
 
@@ -219,7 +219,7 @@ void eval_tvl2coupled(
     const int w,
     const int h,
     const float lambda,
-    float *ener_N,
+    float *ener_N
     )
 {
 
