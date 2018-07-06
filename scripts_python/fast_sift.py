@@ -24,22 +24,29 @@ parser = argparse.ArgumentParser(description='Faldoi Minimization')
 # parser.add_argument("i1", help="second image")
 parser.add_argument("file_images", help="File with images path")
 
-# Define default values
+# Default values
+#	SIFT
 descriptors = True
 matchings = True
+def_num_scales_octave = 15
 
+#	Sparse flow
 sparse_flow = True
 
+#	Local minimisation
 local_of = True
 def_method = 0
+def_winsize = 5
 def_local_iter = 3
 def_patch_iter = 4
 def_split_img = 0
 def_hor_parts = 3
 def_ver_parts = 2
 
+#	Global minimisation
 global_of = True
 def_global_iter = 400
+def_global_warps = 5
 
 print('''Code blocks activation value:
         descriptors =   {}
@@ -66,7 +73,7 @@ parser.add_argument("-vm", default=str(def_method),
 
 # Local Wise Minimization
 # 	Window's radius
-parser.add_argument("-wr", default='5',
+parser.add_argument("-wr", default= str(def_winsize),
                     help="Windows Radio Local patch"
                          "1 -  3x3, 2 - 5x5,...")  # (2*r +1) x (2*r+1)
 #       Number of local faldoi iterations
@@ -92,7 +99,7 @@ parser.add_argument("-v_parts", default=str(def_ver_parts),
                     help="Number of vertical parts"
                          "An integer (>0). Default is 2")
 # Global Mininization
-parser.add_argument("-warps", default='5',
+parser.add_argument("-warps", default=str(def_global_warps),
                     help="Number of warps finest scale")
 
 #       Number of global faldoi iterations
@@ -100,10 +107,10 @@ parser.add_argument("-glob_iter", default=str(def_global_iter),
                     help="Number of iterations of the global minimisation (def.=400)")
 
 # Initial seeds (SIFT parameters)
-parser.add_argument("-nsp", default='15',
+parser.add_argument("-nsp", default=str(def_num_scales_octave),
                     help="Increase the sift matches")
 
-parser.add_argument("-m", default='0',
+parser.add_argument("-m", 		default='0',
                     help="It uses the Gaussian weight over the Data Term")
 
 # Results "sub"path (e.g.: /Results/experiment1/iter3/)

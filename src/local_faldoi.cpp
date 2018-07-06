@@ -2314,8 +2314,8 @@ void match_growing_variational(
                 cout << "(match growing) Local iteration " << i << " => Update partitions (image => part) took "
                      << elapsed_secs_update_part.count() << endl;
 
-//#ifdef _OPENMP
-//#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
                 for (unsigned n = 0; n < n_partitions * 2; n++) {
                     if (n % 2 == 0) {
                         // 1. Local growing based on updated oft0 and oft1 of the even iterations (i > 0)
@@ -2348,7 +2348,7 @@ void match_growing_variational(
                              << elapsed_secs_bwd_grow.count() << endl;
 		    }
                 }
-//#endif
+#endif
 
                 auto clk_grow = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_grow = clk_grow - clk_update_part; // PROFILING
@@ -2409,17 +2409,63 @@ void match_growing_variational(
 
         }
     }
-    auto last_growing = system_clock::now();  // PROFILING
-
 
     printf("Last growing (FWD only)\n");
-    local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h);
+    
+    if (params.split_img == 1) {
+    	const int n_partitions = params.h_parts * params.v_parts;
 
+    	auto clk_update_last_start = system_clock::now(); // PROFILING
+    	// NOTE: need to update partition
+    	image_to_partitions(oft0, oft1, ene_Go, ene_Ba, occ_Go, occ_Ba, &ofGo, &ofBa, &stuffGo, &stuffBa,
+		    	queue_Go, queue_Ba, n_partitions, w, h, &p_data, true);
 
+    	auto clk_update_last = system_clock::now(); // PROFILING
+    	duration<double> elapsed_secs_update_part = clk_update_last - clk_update_last_start; // PROFILING
+   	cout << "(match growing) Last local iteration " << iter << " => Update partitions (image => part) took "
+         	<< elapsed_secs_update_part.count() << endl;
+
+    	auto last_growing = system_clock::now();
+    
+    	#ifdef _OPENMP
+    	#pragma omp parallel for
+    	for (unsigned m = 0; m < n_partitions; m++) {
+		std::cout << "Last local growing partition (h x v) => " << m << std::endl;
+        	auto clk_start_fwd = system_clock::now();
+        	local_growing(p_data.at(m)->i0n, p_data.at(m)->i1n, p_data.at(m)->i_1n, &(p_data.at(m)->queue_Go),
+				&(p_data.at(m)->stuffGo), &(p_data.at(m)->ofGo), iter, p_data.at(m)->ene_Go,
+				p_data.at(m)->oft0, p_data.at(m)->occ_Go, p_data.at(m)->BiFilt_Go, true,
+				p_data.at(m)->width, p_data.at(m)->height);
+
+        	auto clk_fwd_grow = system_clock::now(); // PROFILING
+        	duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd; // PROFILING
+        	cout << "(match growing) Last local iteration " << iter << ", partition " << m 
+	     	<< " => FWD growing took " << elapsed_secs_fwd_grow.count() << endl;	
+    	}
+    	#endif
+	auto clk_end = system_clock::now(); // PROFILING
+    	duration<double> elapsed_secs = clk_end - last_growing; // PROFILING
+    	cout << "(match growing) Last growing (FWD only) took "
+        	<< elapsed_secs.count() << endl;
+
+	// Copy partition growing information back to image-wise variables for pruning
+        image_to_partitions(oft0, oft1, ene_Go, ene_Ba, occ_Go, occ_Ba, &ofGo, &ofBa, &stuffGo, &stuffBa,
+			queue_Go, queue_Ba, n_partitions, w, h, &p_data, false);
+
+        auto clk_update_image = system_clock::now(); // PROFILING
+        duration<double> elapsed_secs_update_image = clk_update_image - clk_end; // PROFILING
+        cout << "(match growing) Last local iteration " << iter << " => Update partitions (part => image) took "
+        	<< elapsed_secs_update_image.count() << endl;
+
+    } else {
+	auto last_growing = system_clock::now();  // PROFILING
+    	local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h);
+        
     auto clk_end = system_clock::now(); // PROFILING
     duration<double> elapsed_secs = clk_end - last_growing; // PROFILING
     cout << "(match growing) Last growing (FWD only) took "
-         << elapsed_secs.count() << endl;
+    	<< elapsed_secs.count() << endl;
+    }
 
     // Copy the result t, t+1 as output.
     memcpy(out_flow, oft0, sizeof(float) * w * h * 2);
