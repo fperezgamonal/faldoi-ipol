@@ -9,6 +9,7 @@ import shlex
 import subprocess
 import sys
 import time  # added for 'profiling'
+import multiprocessing
 
 from auxiliar_faldoi_functions import cut_matching_list as cut
 from auxiliar_faldoi_functions import delete_outliers as delete
@@ -31,10 +32,10 @@ matchings = True
 def_num_scales_octave = 15
 
 #	Sparse flow
-sparse_flow = True
+sparse_flow = False#True
 
 #	Local minimisation
-local_of = True
+local_of = False#True
 def_method = 0
 def_winsize = 5
 def_local_iter = 3
@@ -44,7 +45,7 @@ def_hor_parts = 3
 def_ver_parts = 2
 
 #	Global minimisation
-global_of = True
+global_of = False#True
 def_global_iter = 400
 def_global_warps = 5
 
@@ -156,6 +157,11 @@ r_path = args.res_path
 
 param_sif = "-ss_nspo {}".format(nsp)
 
+# Auxiliary function to parallelise calls to sift functions
+def run_process(process):#, fname):
+    os.system("{}".format(process))
+    #exe_prog("{} {}".format(process, fname))
+
 feature_descriptor = "../build/sift_cli "
 match_comparison = "../build/match_cli"
 sparse_flow = "../build/sparse_flow"
@@ -227,10 +233,17 @@ print("Loading everything took {} secs.".format(load_timer - init_sift))
 # Obtain the matches' list for both (I0-I1 and I1-I0)
 # Initial seeds (SIFT descriptors)
 if descriptors:
-    command_line = "{} {} {}".format(feature_descriptor, im_name0, param_sif)
-    exe_prog(command_line, desc_name_1)
-    command_line = "{} {} {}".format(feature_descriptor, im_name1, param_sif)
-    exe_prog(command_line, desc_name_2)
+    command_line_fwd = "{} {} {} > {}".format(feature_descriptor, im_name0, param_sif, desc_name_1)
+    #exe_prog(command_line_bwd, desc_name_1)
+    command_line_bwd = "{} {} {} > {}".format(feature_descriptor, im_name1, param_sif, desc_name_2)
+    #exe_prog(command_line, desc_name_2)
+    
+    # Define processes to be run in parallel
+    commands = (command_line_fwd, command_line_bwd)
+    # Create pool of processes to be executed and map them to a thread
+    pool = multiprocessing.Pool(processes=2)
+    pool.map(run_process, commands)
+
     # Elapsed time (computing SIFT descriptors)
     desc_timer = time.time()
     print("Computing the SIFT descriptors both I0 & I1 ('./sift_cli') took {} secs.".format(desc_timer - load_timer))
@@ -241,10 +254,16 @@ else:
 
 # Obtain the matches' list
 if matchings:
-    command_line = "{} {} {}".format(match_comparison, desc_name_1, desc_name_2)
-    exe_prog(command_line, match_name_1)
-    command_line = "{} {} {}".format(match_comparison, desc_name_2, desc_name_1)
-    exe_prog(command_line, match_name_2)
+    command_line_fwd = "{} {} {} > {}".format(match_comparison, desc_name_1, desc_name_2, match_name_1)
+    #exe_prog(command_line, match_name_1)
+    command_line_bwd = "{} {} {} > {}".format(match_comparison, desc_name_2, desc_name_1, match_name_2)
+    #exe_prog(command_line, match_name_2)
+
+    # Define processes to be run in parallel
+    commands = (command_line_fwd, command_line_bwd)
+    # Create pool of processes to be executed and map them to a thread
+    pool = multiprocessing.Pool(processes=2)
+    pool.map(run_process, commands)
 
     # Elapsed time (matches)
     matches_timer = time.time()

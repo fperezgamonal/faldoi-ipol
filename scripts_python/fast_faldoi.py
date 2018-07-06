@@ -8,6 +8,7 @@ import math
 import os
 import shlex
 import subprocess
+import multiprocessing
 import time  # added for 'profiling'
 
 from auxiliar_faldoi_functions import cut_deep_list as cut
@@ -34,10 +35,10 @@ def_rot_range_minus = 45
 def_threshold = 0.45
 
 #	Sparse flow
-sparse_flow = True
+sparse_flow = False#True
 
 #	Local minimisation
-local_of = True
+local_of = False#True
 def_method = 0
 def_winsize = 5
 def_local_iter = 3
@@ -47,7 +48,7 @@ def_hor_parts = 3
 def_ver_parts = 2
 
 #	Global minimisation
-global_of = True
+global_of = False#True
 def_global_iter = 400
 def_global_warps = 5
 
@@ -147,9 +148,14 @@ r_path = args.res_path
 num_threads = args.nt
 
 # Deep matching (at least in IPOL's server) is not faster when using 16 cpu's or more
-if (int(num_threads) > 16):
-    num_threads = '16'
+#if (int(num_threads) > 16):
+#    num_threads = '16'
     # Otherwise, use as much cpu's as possible or the number inputted by the user
+
+# Auxiliar function to handle multiprocessing (parallel calls to functions in native Python)
+def run_process(process):
+    os.system("{}".format(process))
+
 
 # C++ program names
 match_comparison = "../build/deepmatching"
@@ -198,21 +204,53 @@ print("Loading everything took {} secs.".format(load_timer - init_faldoi))
 
 # Obtain the matches' list for both (I0-I1 and I1-I0)
 if matchings:
+        # Compute number of threads available for each matching call
+        #print("Available n_cpus = {}".format(multiprocessing.cpu_count()))
+        nt_bwd = int(int(num_threads)/2)
+        nt_fwd = int(num_threads) - nt_bwd
+        nt_bwd = str(nt_bwd)
+        nt_fwd = str(nt_fwd)
+        
+        if int(num_threads == 1):
+            # Cannot be parallelized
+            nt_fwd = 1
+            nt_bwd = 1
+
+        nt_bwd = str(nt_bwd)
+        nt_fwd = str(nt_fwd)
+
 	# Added -nt 0 to avoid process hanging issues
-	param = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name0, im_name1, num_threads, def_downscale, def_scale, def_rot_range_plus, def_rot_range_minus, match_name_1)
-	command_line = "{} {}\n".format(match_comparison, param)
-	os.system(command_line)
-	#I1-I0
-	param = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name1, im_name0, num_threads, def_downscale, def_scale, def_rot_range_plus, def_rot_range_minus, match_name_2)
-	command_line = "{} {}\n".format(match_comparison, param)
-	os.system(command_line)
-	# Elapsed time (deep matches)
-	matches_timer = time.time()
-	print("Computing matches btw. I0 and I1 ('./deepmatching') took {} secs.".format(matches_timer - load_timer))
+        param_fwd = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name0, im_name1, nt_fwd, def_downscale, def_scale, def_rot_range_plus, def_rot_range_minus, match_name_1)
+        command_line_fwd = "{} {}\n".format(match_comparison, param_fwd)
+        
+        #I1-I0
+        param_bwd = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name1, im_name0, nt_bwd, def_downscale, def_scale, def_rot_range_plus, def_rot_range_minus, match_name_2)
+        command_line_bwd = "{} {}\n".format(match_comparison, param_bwd)
+
+        if int(num_threads) <= 3:
+            # Execute dm calls sequentially
+            os.system(command_line_fwd)
+            os.system(command_line_bwd)
+        else:
+            if int(num_threads) > 18:  # more cpus do not improve the timing
+                num_threads = '18'
+            # Execute in parallel
+            # Define processes to be run in parallel
+            commands = (command_line_fwd, command_line_bwd)
+	
+            # Create pool of processes to be executed and map them to a thread
+            pool = multiprocessing.Pool(processes=int(num_threads))
+            pool.map(run_process, commands)
+
+            #os.system(command_line)
+
+        # Elapsed time (deep matches)
+        matches_timer = time.time()
+        print("Computing matches btw. I0 and I1 ('./deepmatching') took {} secs.".format(matches_timer - load_timer))
 
 else:
-	# Need the timer anyway to compute the rest of relative values!
-	matches_timer = time.time()
+        # Need the timer anyway to compute the rest of relative values!
+        matches_timer = time.time()
 
 #Create a sparse flow from the deep matches.
 if sparse_flow:
