@@ -65,7 +65,7 @@ def confidence_values(i0, i1, corres, dest_of):
   ty0, tx0 = img0.shape[:2]
   ty1, tx1 = img1.shape[:2]
   rint = lambda s:  int(0.5 + float(s))
-  corres_name = match.split('.')[2].split('/')[-1]
+  corres_name = match.split('.')[-2].split('/')[-1]
   
   retained_matches = []
   dest = dest_of  + corres_name + "_saliency.txt"

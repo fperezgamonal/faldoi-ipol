@@ -32,10 +32,10 @@ matchings = True
 def_num_scales_octave = 15
 
 #	Sparse flow
-sparse_flow = False#True
+sparse_flow = True
 
 #	Local minimisation
-local_of = False#True
+local_of = True
 def_method = 0
 def_winsize = 5
 def_local_iter = 3
@@ -45,7 +45,7 @@ def_hor_parts = 3
 def_ver_parts = 2
 
 #	Global minimisation
-global_of = False#True
+global_of = True
 def_global_iter = 400
 def_global_warps = 5
 

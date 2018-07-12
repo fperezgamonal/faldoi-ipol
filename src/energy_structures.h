@@ -455,17 +455,6 @@ struct  SpecificOFStuff{
     Tvl2CoupledOFStuff_occ  tvl2_occ;
 
 };
-/*
-struct PartitionParams
-{
-    int h_parts;                // Number of horizontal parts for the partition
-    int v_parts;                // Number of vertical parts for the partition
-    int *sub_width;            // Width of each partition (may not be equal sized)
-    int *sub_height;           // Height of each partition ( "  "   "   "     "  )
-    int *offset_x;             // Offset in width (x-axis) for each partition
-    int *offset_y;             // Offset in height (y-axis) for each partition
-};
-*/
 
 
 // Struct to contain all the partition-specific variables (generalisation of the 1 partition (whole image) case...)
@@ -493,7 +482,9 @@ struct PartitionData {
         float *sal_ba;                      // Backward saliency ( "   "   "   "   "    "   ")
         pq_cand queue_Go;                  // Forward candidates' queue
         pq_cand queue_Ba;                  // Backward candidates' queue
-        SpecificOFStuff stuffGo;           // Specific stuff for each functional (forward)
+        int queue_Go_size;
+	int queue_Ba_size;
+	SpecificOFStuff stuffGo;           // Specific stuff for each functional (forward)
         SpecificOFStuff stuffBa;           //     "      "    "    "      "     (backward)
         OpticalFlowData ofGo;               // Common OF data (forward)
         OpticalFlowData ofBa;               // Common OF data (backward)

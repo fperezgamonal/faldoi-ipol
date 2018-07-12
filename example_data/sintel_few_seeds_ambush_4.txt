@@ -1,0 +1,4 @@
+../example_data/few_seeds/ambush_4/frame_0004.png
+../example_data/few_seeds/ambush_4/frame_0005.png
+../example_data/few_seeds/ambush_4/frame_0003.png
+../example_data/few_seeds/ambush_4/frame_0006.png
