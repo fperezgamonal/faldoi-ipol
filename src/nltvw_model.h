@@ -3,7 +3,7 @@
 
 
 
-void  intialize_stuff_nltvl1_w(
+void  initialize_stuff_nltvl1_w(
           SpecificOFStuff *ofStuff,
           OpticalFlowData *ofCore, int w, int h);
 

@@ -4,6 +4,7 @@
 // <http://www.opensource.org/licenses/bsd-license.html>.
 //
 // Copyright (C) 2013, Roberto P.Palomares <roberto.palomares@upf.edu>
+// Copyright (C) 2018, Ferran Pérez <fperez.gamonal@gmail.com>
 // All rights reserved.
 
 #ifndef GLOBAL_FALDOI
@@ -38,12 +39,6 @@ extern "C" {
 using namespace std;
 
 
-//#ifndef DISABLE_OMP
-//#include <omp.h>
-//#endif//DISABLE_OMP
-
-
-
 #define MAX(x, y) ((x)>(y)?(x):(y))
 
 
@@ -55,7 +50,7 @@ using namespace std;
  *
  **/
 void Dual_TVL1_optic_flow(
-        float *I0,              // source image
+        const float *I0,        // source image
         float *I1,              // target image
         float *u1,              // x component of the optical flow
         float *u2,              // y component of the optical flow
@@ -234,10 +229,10 @@ void Dual_TVL1_optic_flow(
 void ofDu_getP(
         float *u1,
         float *u2,
-        float *v1,
-        float *v2,
-        float *div_xi1,
-        float *div_xi2,
+        const float *v1,
+        const float *v2,
+        const float *div_xi1,
+        const float *div_xi2,
         float *u_N,
         float theta,
         float tau,
@@ -276,11 +271,11 @@ void ofDu_getD(
         float *xi11,
         float *xi12,
         float *xi22,
-        float *u1x,
-        float *u1y,
-        float *u2x,
-        float *u2y,
-        float tau,
+        const float *u1x,
+        const float *u1y,
+        const float *u2x,
+        const float *u2y,
+        const float tau,
         int size
 ) {
     //#pragma omp parallel for
@@ -1054,10 +1049,10 @@ void non_local_divergence(
  *
 */
 void ofnltv_getP(
-        float *v1,
-        float *v2,
-        float *div_p1,
-        float *div_p2,
+        const float *v1,
+        const float *v2,
+        const float *div_p1,
+        const float *div_p2,
         float theta,
         float tau,
         int size,
@@ -1067,7 +1062,8 @@ void ofnltv_getP(
 ) {
     float err_D = 0.0;
 
-    //#pragma omp parallel for reduction(+:err_D)
+#ifdef _OPENMP
+#pragma omp parallel for
     for (int i = 0; i < size; i++) {
 
         const float u1k = u1[i];
@@ -1081,6 +1077,7 @@ void ofnltv_getP(
     }
     err_D /= size;
     (*err) = err_D;
+#endif
 }
 
 /*
@@ -1089,14 +1086,16 @@ void ofnltv_getP(
  *
 */
 void ofnltv_getD(
-        float *u1,
-        float *u2,
+        const float *u1,
+        const float *u2,
         int size,
         int n_d,
         float tau,
         DualVariables_global *p1,
         DualVariables_global *p2
 ) {
+#ifdef _OPENMP
+#pragma omp parallel for
     for (int i = 0; i < size; i++)
         for (int j = 0; j < n_d; j++) {
             const int ap1 = p1[i].ap[j];
@@ -1132,11 +1131,12 @@ void ofnltv_getD(
 
             }
         }
+#endif
 }
 
 
 void nltvl1_PD(
-        float *I0,              // source image
+        const float *I0,              // source image
         float *I1,              // target image
         float *a,               // source image (color)
         int pd,                 // number of channels
@@ -1212,7 +1212,8 @@ void nltvl1_PD(
             n++;
             // Estimate the values of the variable (v1, v2)
             // (thresholding opterator TH)
-            //#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
             for (int i = 0; i < size; i++) {
                 const float rho = rho_c[i]
                                   + (I1wx[i] * u1[i] + I1wy[i] * u2[i]);
@@ -1239,6 +1240,7 @@ void nltvl1_PD(
                 v1[i] = u1[i] + d1;
                 v2[i] = u2[i] + d2;
             }
+#endif
             // Dual variables
             ofnltv_getD(u1_, u2_, size, n_d, tau, p, q);
             // Store the previous iteration
@@ -1344,17 +1346,18 @@ void initialize_pos_nei(
 */
 void tvcsad_getP(float *u1,
                  float *u2,
-                 float *v1,
-                 float *v2,
-                 float *div_xi1,
-                 float *div_xi2,
+                 const float *v1,
+                 const float *v2,
+                 const float *div_xi1,
+                 const float *div_xi2,
                  float theta,
                  float tau,
                  int size,
                  float *err) {
     float err_D = 0.0;
 
-    //#pragma omp parallel for reduction(+:err_D)
+#ifdef _OPENMP
+#pragma omp parallel for
     for (int i = 0; i < size; i++) {
 
         const float u1k = u1[i];
@@ -1369,6 +1372,7 @@ void tvcsad_getP(float *u1,
         // u_N[i]= (u1[i] - u1k) * (u1[i] - u1k) +
         //   (u2[i] - u2k) * (u2[i] - u2k);
     }
+#endif
 
     // getminmax(&min,&max,u_N,size);
 
@@ -1384,8 +1388,8 @@ void tvcsad_getP(float *u1,
 */
 void tvcsad_getD(float *xi11, float *xi12, float *xi21, float *xi22, float *u1x, float *u1y, float *u2x, float *u2y,
                  float tau, int size) {
-    //#pragma omp parallel for
-
+#ifdef _OPENMP
+#pragma omp parallel for
     for (int i = 0; i < size; i++) {
         float xi1_N = hypot(xi11[i], xi12[i]);
         float xi2_N = hypot(xi21[i], xi22[i]);
@@ -1399,26 +1403,27 @@ void tvcsad_getD(float *xi11, float *xi12, float *xi21, float *xi22, float *u1x,
         xi21[i] = (xi21[i] + tau * u2x[i]) / xi2_N;
         xi22[i] = (xi22[i] + tau * u2y[i]) / xi2_N;
     }
+#endif
 }
 
 
 void tvcsad_PD(
-        float *I0,              // source image
-        float *I1,              // target image
+        const float *I0,            // source image
+        float *I1,                  // target image
         float *xi11,
         float *xi12,
         float *xi21,
         float *xi22,
-        const float lambda,     // weight of the data term
-        const float theta,      // weight of the data term
-        const float tau,        // time step
-        const float tol_OF,     // tol max allowed
-        const int nx,           // image width
-        const int ny,           // image height
-        const int warps,        // number of warpings per scale
-        const bool verbose,     // enable/disable the verbose mode
-        float *u1,              // x component of the optical flow
-        float *u2               // y component of the optical flow
+        const float lambda,         // weight of the data term
+        const float theta,          // weight of the data term
+        const float tau,            // time step
+        const float tol_OF,         // tol max allowed
+        const int nx,               // image width
+        const int ny,               // image height
+        const int warps,            // number of warpings per scale
+        const bool verbose,         // enable/disable the verbose mode
+        float *u1,                  // x component of the optical flow
+        float *u2                   // y component of the optical flow
 ) {
 
     const float l_t = lambda * theta;
@@ -1500,7 +1505,8 @@ void tvcsad_PD(
             n++;
             // Estimate the values of the variable (v1, v2)
             // (thresholding opterator TH)
-            //#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
             for (int i = 0; i < size; i++) {
                 int it = 0;
                 for (int j = 0; j < n_d; j++) {
@@ -1523,6 +1529,7 @@ void tvcsad_PD(
                 v1[i] = u1[i] - I1wx[i] * p[i].ba[it / 2 + 1] / grad[i];
                 v2[i] = u2[i] - I1wy[i] * p[i].ba[it / 2 + 1] / grad[i];
             }
+#endif
             // Data term
 
             // Dual variables
@@ -1594,7 +1601,7 @@ void tvcsad_PD(
 
 
 void nltvcsad_PD(
-        float *I0,              // source image
+        const float *I0,              // source image
         float *I1,              // target image
         float *a,               // source image (color)
         int pd,                 // number of channels
@@ -1683,7 +1690,8 @@ void nltvcsad_PD(
         while (n < MAX_ITERATIONS_GLOBAL) {
             n++;
             // Estimate the values of the variable (v1, v2)
-            //#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for
             for (int i = 0; i < size; i++) {
                 v1[i] = u1[i];
                 v2[i] = u2[i];
@@ -1709,6 +1717,7 @@ void nltvcsad_PD(
                     v2[i] = u2[i] - I1wy[i] * pnei[i].ba[it / 2 + 1] / sqrt(grad[i]);
                 }
             }
+#endif
             // Dual variables
             ofnltv_getD(u1_, u2_, size, n_d, tau, p, q);
             // Store previous iteration
@@ -1808,7 +1817,7 @@ int main(int argc, char *argv[]) {
     std::vector<std::string> args(argv, argv + argc);
     auto warps_val = pick_option(args, "w",
                                  to_string(PAR_DEFAULT_NWARPS_GLOBAL));     // Warpings
-    auto var_reg = pick_option(args, "m", "8");                             // Methods
+    auto var_reg = pick_option(args, "m", to_string(M_TVL1));               // Methods
     auto file_params = pick_option(args, "p", "");                          // Params' file
     auto global_iters = pick_option(args, "glb_iters",
                                     to_string(MAX_ITERATIONS_GLOBAL));      // Faldoi global iterations
@@ -1816,10 +1825,10 @@ int main(int argc, char *argv[]) {
     if (args.size() != 6 && args.size() != 4) {
         fprintf(stderr, "Without occlusions:\n");
         fprintf(stderr, "Usage: %lu  ims.txt in_flow.flo  out.flo "
-                "[-m method_val] [-w num_warps] val [-glb_iters global_iters] \n", args.size());
+                "[-m method_val] [-w num_warps] [-p file of parameters] val [-glb_iters global_iters] \n", args.size());
         fprintf(stderr, "With occlusions:\n");
         fprintf(stderr, "Usage: %lu  ims.txt in_flow.flo  out.flo occl_input.png occl_out.png"
-                " [-m method_val] [-w num_warps] val [-glb_iters global_iters] \n", args.size());
+                " [-m method_val] [-w num_warps] [-p file of parameters] val [-glb_iters global_iters] \n", args.size());
 
         return EXIT_FAILURE;
     }
@@ -1832,8 +1841,6 @@ int main(int argc, char *argv[]) {
 
 
     // Read the parameters
-
-
     // Filename that contains the paths to the images to use
     const std::string &filename_images = args[1];
     const std::string &image_flow_name = args[2];
@@ -1913,11 +1920,12 @@ int main(int argc, char *argv[]) {
 
     // Print method used
     if (num_files == 2 && val_method == M_TVL1_OCC) {
-        // If only two images given for occ, something not working
+        // If only two images given for occ, revert to tvl1 without occlusions
         // TODO: when new methods with occlusions implemented, add here
         switch (val_method) {
             case M_TVL1_OCC:
                 fprintf(stderr, "Since only two images given, method is changed to TV-l2 coupled\n");
+                fprintf(stderr, "Occlusion estimation requires 4 frames: i_1 ==> i0 ==> i1 ==> i2\n");
                 val_method = M_TVL1;
                 break;
             default:
@@ -2032,8 +2040,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    SpecificOFStuff stuffOF;
-    PatchIndexes index;
+    SpecificOFStuff stuffOF{};
+    PatchIndexes index{};
     // Initialize dual variables if necessary (TV) and other stuff for TVL1_occ
     if (val_method == M_TVL1 || val_method == M_TVL1_W || val_method == M_TVCSAD || val_method == M_TVCSAD_W
         || val_method == M_TVL1_OCC) {

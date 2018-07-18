@@ -15,28 +15,22 @@ extern "C" {
 #include <omp.h>
 
 //// INITIALIZATION OF EACH METHOD
-void intialize_stuff_tvl2coupled(
+void initialize_stuff_tvl2coupled(
         SpecificOFStuff *ofStuff,
         OpticalFlowData *ofCore, const int w, const int h) {
 
-    // Added w, h in as function params
-    //const int w = ofCore->params.w;
-    //const int h = ofCore->params.h;
     //fprintf(stderr, "W x H :%d x %d\n", w, h);
     // Dual variables
     ofStuff->tvl2.xi11 = new float[w * h];
     ofStuff->tvl2.xi12 = new float[w * h];
     ofStuff->tvl2.xi21 = new float[w * h];
     ofStuff->tvl2.xi22 = new float[w * h];
-
     ofStuff->tvl2.u1x = new float[w * h];
     ofStuff->tvl2.u1y = new float[w * h];
     ofStuff->tvl2.u2x = new float[w * h];
     ofStuff->tvl2.u2y = new float[w * h];
-
     ofStuff->tvl2.v1 = new float[w * h];
     ofStuff->tvl2.v2 = new float[w * h];
-
     ofStuff->tvl2.rho_c = new float[w * h];
     ofStuff->tvl2.grad = new float[w * h];
     ofStuff->tvl2.u1_ = new float[w * h];

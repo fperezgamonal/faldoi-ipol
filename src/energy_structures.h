@@ -483,8 +483,8 @@ struct PartitionData {
         pq_cand queue_Go;                  // Forward candidates' queue
         pq_cand queue_Ba;                  // Backward candidates' queue
         int queue_Go_size;
-	int queue_Ba_size;
-	SpecificOFStuff stuffGo;           // Specific stuff for each functional (forward)
+	    int queue_Ba_size;
+	    SpecificOFStuff stuffGo;           // Specific stuff for each functional (forward)
         SpecificOFStuff stuffBa;           //     "      "    "    "      "     (backward)
         OpticalFlowData ofGo;               // Common OF data (forward)
         OpticalFlowData ofBa;               // Common OF data (backward)

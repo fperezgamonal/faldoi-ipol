@@ -3,7 +3,7 @@
 
 
 ////INITIALIZATION OF EACH METHOD
-void  intialize_stuff_tvl2coupled_w(
+void  initialize_stuff_tvl2coupled_w(
           SpecificOFStuff *ofStuff,
           OpticalFlowData *ofCore, int w, int h);
 

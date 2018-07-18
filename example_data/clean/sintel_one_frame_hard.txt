@@ -1,0 +1,4 @@
+../example_data/clean/hard/frame_0002.png
+../example_data/clean/hard/frame_0003.png
+../example_data/clean/hard/frame_0001.png
+../example_data/clean/hard/frame_0004.png

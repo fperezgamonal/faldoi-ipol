@@ -27,25 +27,21 @@ extern "C" {
 #include <iostream>
 
 ////INITIALIZATION OF EACH METHOD
-void  intialize_stuff_tvl2coupled_occ(
+void  initialize_stuff_tvl2coupled_occ(
         SpecificOFStuff& ofStuff,
         const OpticalFlowData& ofCore,
         const int w,
-        const int h) {
-
-    // w, h as params in the function call
-    //const int w = ofCore.params.w;
-    //const int h = ofCore.params.h;
-
-    //Occlusion variable
+        const int h)
+{
+    // Occlusion variable
     ofStuff.tvl2_occ.chix = new float[w*h];
     ofStuff.tvl2_occ.chiy = new float[w*h];
 
     ofStuff.tvl2_occ.diff_u_N = new float[w*h];
-    //Weigth
+    // Weight
     ofStuff.tvl2_occ.g = new float[w*h];
 
-    //Dual variables
+    // Dual variables
     ofStuff.tvl2_occ.xi11 = new float[w*h];
     ofStuff.tvl2_occ.xi12 = new float[w*h];
     ofStuff.tvl2_occ.xi21 = new float[w*h];
@@ -64,10 +60,10 @@ void  intialize_stuff_tvl2coupled_occ(
     ofStuff.tvl2_occ.grad_1 = new float[w*h];
     ofStuff.tvl2_occ.grad__1 = new float[w*h];
 
-    if (ofCore.params.step_algorithm == GLOBAL_STEP){
+    if (ofCore.params.step_algorithm == GLOBAL_STEP) {
         ofStuff.tvl2_occ.I0x = new float[w*h];
         ofStuff.tvl2_occ.I0y = new float[w*h];
-    }else{
+    } else {
         ofStuff.tvl2_occ.I0x = nullptr;
         ofStuff.tvl2_occ.I0y = nullptr;
     }
@@ -321,8 +317,8 @@ static void tvl2coupled_get_xi_patch(
         const float *g,
         const float *v1,
         const float *v2,
-        float *chix,
-        float *chiy,
+        const float *chix,
+        const float *chiy,
         float *vi_div1,
         float *grad_x1,
         float *grad_y1,
@@ -339,8 +335,6 @@ static void tvl2coupled_get_xi_patch(
         const Parameters params,
         const int nx
         ){
-    // w, h as params in the function call
-
     float tau_theta = params.tau_u/params.theta;
     //int nx = params.w;
     for (int k = 1; k < ITER_XI; k++){
@@ -372,7 +366,8 @@ static void tvl2coupled_get_xi_patch(
         forward_gradient_patch(vi_div1, grad_x1, grad_y1, index.ii, index.ij, index.ei, index.ej, nx);
         forward_gradient_patch(vi_div2, grad_x2, grad_y2, index.ii, index.ij, index.ei, index.ej, nx);
 
-
+#ifdef _OPENMP
+#pragma omp parallel for
         for (int l = index.ij; l < index.ej; l++){
             for (int j = index.ii; j < index.ei; j++){
                 const int i = l*nx + j;
@@ -393,6 +388,7 @@ static void tvl2coupled_get_xi_patch(
                 xi22[i] = (xi22[i] + tau_theta*vec22)/(1 + tau_theta*norm_vec2);
             }
         }
+#endif
     }
     //Compute divergence for last time
     for (int l = index.ij; l < index.ej; l++){
@@ -421,7 +417,7 @@ static void tvl2coupled_get_chi_patch(
         const float *g,
         float *eta1,
         float *eta2,
-        float *div_u,
+        const float *div_u,
         float *g_eta1,
         float *g_eta2,
         float *div_g_eta,
@@ -436,6 +432,8 @@ static void tvl2coupled_get_chi_patch(
 
         //Compute dual variable eta
         //#pragma omp simd collapse(2)
+#ifdef _OPENMP
+#pragma omp parallel for
         for (int l = index.ij; l < index.ej; l++){
             for (int j = index.ii; j < index.ei; j++){
                 const int i = l*nx + j;
@@ -458,7 +456,7 @@ static void tvl2coupled_get_chi_patch(
                 g_eta2[i] = g[i]*eta2[i];
             }
         }
-
+#endif
 
         divergence_patch(g_eta1, g_eta2, div_g_eta, index.ii, index.ij, index.ei, index.ej, nx);
 
@@ -656,7 +654,8 @@ void guided_tvl2coupled_occ(
 
             n++;
             // estimate the values of the variable (v1, v2)
-            //#pragma omp simd collapse(2)
+#ifdef _OPENMP
+#pragma omp parallel for
             for (int l = index.ij; l < index.ej; l++){
                 for (int k = index.ii; k < index.ei; k++){
                     const int i = l*nx + k;
@@ -711,6 +710,7 @@ void guided_tvl2coupled_occ(
                     }
                 }
             }
+#endif
             //Estimate the values of the variable (u1, u2)
             //Compute derivatives of chi
             forward_gradient_patch(chi, chix, chiy, index.ii, index.ij, index.ei, index.ej, nx);

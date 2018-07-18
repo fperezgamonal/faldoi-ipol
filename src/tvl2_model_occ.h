@@ -14,7 +14,7 @@
 #define TVL2_VERBOSE 0  //0
 
 ////INITIALIZATION OF EACH METHOD
-void intialize_stuff_tvl2coupled_occ(
+void initialize_stuff_tvl2coupled_occ(
         SpecificOFStuff& ofStuff,
         const OpticalFlowData& ofCore, int w, int h);
 

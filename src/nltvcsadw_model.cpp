@@ -11,15 +11,12 @@
 extern "C" {
 #include "bicubic_interpolation.h"
 }
-void  intialize_stuff_nltvcsad_w(
+void  initialize_stuff_nltvcsad_w(
           SpecificOFStuff *ofStuff,
           OpticalFlowData *ofCore,
           const int w,
           const int h)
 {
-  // w, h as params in the function call
-  //const int w = ofCore->params.w;
-  //const int h = ofCore->params.h;
   ofStuff->nltvcsadw.weight = new float[ofCore->params.w_radio*2 + 1];
   ofStuff->nltvcsadw.p    = new DualVariables[w*h];
   ofStuff->nltvcsadw.q    = new DualVariables[w*h];

@@ -22,7 +22,7 @@ extern "C" {
 
 
 
-void  intialize_stuff_tvcsad_w(
+void  initialize_stuff_tvcsad_w(
           SpecificOFStuff *ofStuff,
           OpticalFlowData *ofCore,
           const int w,

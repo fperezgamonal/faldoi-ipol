@@ -11,7 +11,7 @@
 extern "C" {
 #include "bicubic_interpolation.h"
 }
-void  intialize_stuff_nltvl1(
+void  initialize_stuff_nltvl1(
         SpecificOFStuff *ofStuff,
         OpticalFlowData *ofCore,
         const int w,

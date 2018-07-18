@@ -9,7 +9,7 @@
 #define NLTVCSAD_TOL_D   0.01
 #define NLTVCSAD_VERBOSE 0  //0
 
-void  intialize_stuff_nltvcsad(
+void  initialize_stuff_nltvcsad(
           SpecificOFStuff *ofStuff,
           OpticalFlowData *ofCore, int w, int h);
 

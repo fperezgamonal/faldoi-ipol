@@ -124,27 +124,3 @@ Parameters init_params(const std::string& file_params, int step_alg){
     }
     return params;
 }
-
-// To savely convert any type of relative path to its absolute counterpart
-std::string path_abs2rel(std::string& in_filename) {
-    wordexp_t p{};
-    char** w;
-    std::string output;
-    std::stringstream buffer;
-
-    // String to const char*
-    const char * c_filename = in_filename.c_str();
-
-    // Actual conversion from relative path to absolute
-    wordexp(c_filename, &p, 0 );
-    w = p.we_wordv;
-    for (size_t i=0; i<p.we_wordc;i++ ) {
-        buffer << w[i] << std::endl;
-    }
-    wordfree( &p );
-    output = buffer.str();
-
-    return output;
-}
-
-

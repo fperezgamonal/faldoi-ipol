@@ -22,16 +22,13 @@ extern "C" {
 
 
 
-void  intialize_stuff_tvcsad(
+void  initialize_stuff_tvcsad(
           SpecificOFStuff *ofStuff,
           OpticalFlowData *ofCore,
           const int w,
           const int h)
 
 {
-   // Added w, h as params in the function call
-  //const int w = ofCore->params.w;
-  //const int h = ofCore->params.h;
   //fprintf(stderr, "W x H :%d x %d\n", w, h);
   ofStuff->tvcsad.pnei = new PosNei[w*h];
   ofStuff->tvcsad.xi11 = new float[w*h];

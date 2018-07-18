@@ -15,7 +15,7 @@
 #define NLTV_TOL_D   0.01
 #define NLTV_VERBOSE 0  //0
 
-void  intialize_stuff_nltvl1(
+void  initialize_stuff_nltvl1(
         SpecificOFStuff *ofStuff,
         OpticalFlowData *ofCore, int w, int h);
 

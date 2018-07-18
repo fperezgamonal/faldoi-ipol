@@ -207,31 +207,31 @@ void initialize_auxiliar_stuff(
     switch (ofCore.params.val_method) {
 
         case M_NLTVL1:          // NLTV-L1
-            intialize_stuff_nltvl1(&ofStuff, &ofCore, w, h);
+            initialize_stuff_nltvl1(&ofStuff, &ofCore, w, h);
             break;
         case M_TVCSAD:          // TV-CSAD
-            intialize_stuff_tvcsad(&ofStuff, &ofCore, w, h);
+            initialize_stuff_tvcsad(&ofStuff, &ofCore, w, h);
             break;
         case M_NLTVCSAD:        // NLTV-CSAD
-            intialize_stuff_nltvcsad(&ofStuff, &ofCore, w, h);
+            initialize_stuff_nltvcsad(&ofStuff, &ofCore, w, h);
             break;
         case M_TVL1_W:          // TV-l2 coupled with weights
-            intialize_stuff_tvl2coupled_w(&ofStuff, &ofCore, w, h);
+            initialize_stuff_tvl2coupled_w(&ofStuff, &ofCore, w, h);
             break;
         case M_NLTVCSAD_W:      // NLTV-CSAD with weights
-            intialize_stuff_nltvcsad_w(&ofStuff, &ofCore, w, h);
+            initialize_stuff_nltvcsad_w(&ofStuff, &ofCore, w, h);
             break;
         case M_NLTVL1_W:        // NLTV-L1 with weights
-            intialize_stuff_nltvl1_w(&ofStuff, &ofCore, w, h);
+            initialize_stuff_nltvl1_w(&ofStuff, &ofCore, w, h);
             break;
         case M_TVCSAD_W:        // TV-CSAD with weights
-            intialize_stuff_tvcsad_w(&ofStuff, &ofCore, w, h);
+            initialize_stuff_tvcsad_w(&ofStuff, &ofCore, w, h);
             break;
         case M_TVL1_OCC:        // TV-l2 with occlusion
-            intialize_stuff_tvl2coupled_occ(ofStuff, ofCore, w, h);
+            initialize_stuff_tvl2coupled_occ(ofStuff, ofCore, w, h);
             break;
         default:                //TV-l2 coupled
-            intialize_stuff_tvl2coupled(&ofStuff, &ofCore, w, h);
+            initialize_stuff_tvl2coupled(&ofStuff, &ofCore, w, h);
     }
 
 }

@@ -1,7 +1,7 @@
 #ifndef NLTVCSAD_MODEL_W_H
 #define NLTVCSAD_MODEL_W_H
 
-void  intialize_stuff_nltvcsad_w(
+void  initialize_stuff_nltvcsad_w(
           SpecificOFStuff *ofStuff,
           OpticalFlowData *ofCore, int w, int h);
 

@@ -2,7 +2,7 @@
 #define TVCSAD_MODEL_H
 
 
-void  intialize_stuff_tvcsad(
+void  initialize_stuff_tvcsad(
           SpecificOFStuff *ofStuff,
           OpticalFlowData *ofCore, int w, int h);
 
