@@ -2472,13 +2472,13 @@ bool anyEmptyQueues(std::vector<PartitionData*> *p_data, const int n_partitions)
  * @param ofD       OpticalFlowData struct containing the updated optical flow fields
  * @param patch     patch that is currently being analysed
  */
-void interpolate_poisson(OpticalFlowData *ofD, const PatchIndexes &patch)
+void interpolate_poisson(OpticalFlowData *ofD, const PatchIndexes &patch, const int w_src)
 {
     int w = patch.ei - patch.ii;
     int h = patch.ej - patch.ij;
 
     int *fixed_points = ofD->fixed_points;
-    int wR = ofD->params.w;
+    int wR = w_src; //ofD->params.w;
 
     float *u1 = ofD->u1;
     float *u2 = ofD->u2;
@@ -2834,23 +2834,29 @@ static void add_neighbors(const float *i0, const float *i1, const float *i_1, fl
     const PatchIndexes index = get_index_patch(wr, w, h, i, j, 1);
     int method = ofD->params.val_method; // used to include no occ.
 
-    get_index_weight(method, ofS, wr, i, j);  // get index's weight (if the functional uses them)
-
     // In first iteration, Poisson interpolation
     if (iteration == 0) {
         // Interpolate by poisson on initialization
         copy_fixed_coordinates(ofD, out, index, w, h);
         // Poisson Interpolation (4wr x 4wr + 1)
-        interpolate_poisson(ofD, index);
+        interpolate_poisson(ofD, index, w);
 
     } else {
         // Interpolate by bilateral filtering if some points do not survive to prunning
         if (check_trustable_patch(ofD, index, w) == 0) {
 
             copy_fixed_coordinates(ofD, out, index, w, h);
-            bilateral_filter(ofD, BiFilt, index, w, h);
+            interpolate_poisson(ofD, index, w);
+            // TODO: fix bilateral filter as it is quite faster
+            //bilateral_filter(ofD, BiFilt, index, w, h);  // yields a far worse estimation
+                                                           // check implementation details
         }
     }
+
+    // get index's weight (if the functional uses them)
+    get_index_weight(method, ofS, wr, i, j);
+
+
     // Optical flow method on patch (2*wr x 2wr + 1)
     of_estimation(ofS, ofD, &ener_N, i0, i1, i_1, index, w, h);
     // Insert new candidates to the queue
@@ -3025,7 +3031,6 @@ void local_growing(const float *i0, const float *i1, const float *i_1, pq_cand *
         // While the queue is not empty, take an element to process
         queue->pop();
         if (!ofD->fixed_points[j * w + i]) {
-            fixed++;
             assert(isfinite(element.sim_node));
             float u = element.u;
             float v = element.v;
@@ -3046,6 +3051,7 @@ void local_growing(const float *i0, const float *i1, const float *i_1, pq_cand *
             }
 
             ofD->fixed_points[j * w + i] = 1;
+            fixed++;
 
             // Update output variables with the latest flow values (u, v)
             out_flow[j * w + i] = u;
@@ -3800,13 +3806,14 @@ int main(int argc, char *argv[]) {
     const string &filename_ba = args[3];
     const string &filename_out = args[4];
     const string &filename_sim = args[5];
+    //TODO: works with occlusions but we lost 'const' advantages
+    string filename_occ;
 
     // Case w/o occ or saliency has all params already (args.size()==6)
     if (args.size() == 7 || args.size() == 9) // case with occlusions
     {
-        const string &filename_occ = args[6];
+        filename_occ = args[6];
     }
-    const string &filename_occ = "";
     const char *filename_sal0 = nullptr;
     const char *filename_sal1 = nullptr;
 

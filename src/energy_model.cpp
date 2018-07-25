@@ -291,8 +291,6 @@ void prepare_stuff(
 ) {
 
     const int method = ofCore1->params.val_method;
-    //const int w = ofCore1->params.w;
-    //const int h = ofCore1->params.h;
 
     switch (method) {
         case M_NLTVL1:              // NLTV-L1
@@ -325,10 +323,8 @@ void prepare_stuff(
             image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
-            centered_gradient(b_tmp, ofStuff1->nltvl1.I1x, ofStuff1->nltvl1.I1y,
-                              w, h);
-            centered_gradient(a_tmp, ofStuff2->nltvl1.I1x, ofStuff2->nltvl1.I1y,
-                              w, h);
+            centered_gradient(b_tmp, ofStuff1->nltvl1.I1x, ofStuff1->nltvl1.I1y, w, h);
+            centered_gradient(a_tmp, ofStuff2->nltvl1.I1x, ofStuff2->nltvl1.I1y, w, h);
 
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
@@ -343,9 +339,9 @@ void prepare_stuff(
             auto *b_tmp = new float[w * h];
             const int rdt = DT_R;
             const int ndt = DT_NEI;
-            std::printf("1 - CSAD initialized\n");
+            std::printf("1 - Initializing CSAD\n");
             csad_ini_pos_nei(w, h, ndt, rdt, ofStuff1->tvcsad.pnei);
-            std::printf("2 - CSAD initialized\n");
+            std::printf("2 - Initializing CSAD\n");
             csad_ini_pos_nei(w, h, ndt, rdt, ofStuff2->tvcsad.pnei);
             if (pd != 1) {
                 // std::printf("Number of channels:%d\n",pd);
@@ -359,10 +355,8 @@ void prepare_stuff(
             image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
-            centered_gradient(b_tmp, ofStuff1->tvcsad.I1x, ofStuff1->tvcsad.I1y,
-                              w, h);
-            centered_gradient(a_tmp, ofStuff2->tvcsad.I1x, ofStuff2->tvcsad.I1y,
-                              w, h);
+            centered_gradient(b_tmp, ofStuff1->tvcsad.I1x, ofStuff1->tvcsad.I1y, w, h);
+            centered_gradient(a_tmp, ofStuff2->tvcsad.I1x, ofStuff2->tvcsad.I1y, w, h);
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
             std::printf("Exitting CSAD\n");
@@ -403,10 +397,8 @@ void prepare_stuff(
             image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
-            centered_gradient(b_tmp, ofStuff1->nltvcsad.I1x, ofStuff1->nltvcsad.I1y,
-                              w, h);
-            centered_gradient(a_tmp, ofStuff2->nltvcsad.I1x, ofStuff2->nltvcsad.I1y,
-                              w, h);
+            centered_gradient(b_tmp, ofStuff1->nltvcsad.I1x, ofStuff1->nltvcsad.I1y, w, h);
+            centered_gradient(a_tmp, ofStuff2->nltvcsad.I1x, ofStuff2->nltvcsad.I1y, w, h);
 
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
@@ -441,10 +433,8 @@ void prepare_stuff(
             image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
-            centered_gradient(b_tmp, ofStuff1->tvl2w.I1x, ofStuff1->tvl2w.I1y,
-                              w, h);
-            centered_gradient(a_tmp, ofStuff2->tvl2w.I1x, ofStuff2->tvl2w.I1y,
-                              w, h);
+            centered_gradient(b_tmp, ofStuff1->tvl2w.I1x, ofStuff1->tvl2w.I1y, w, h);
+            centered_gradient(a_tmp, ofStuff2->tvl2w.I1x, ofStuff2->tvl2w.I1y, w, h);
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
 
@@ -491,10 +481,8 @@ void prepare_stuff(
             image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
-            centered_gradient(b_tmp, ofStuff1->nltvcsadw.I1x, ofStuff1->nltvcsadw.I1y,
-                              w, h);
-            centered_gradient(a_tmp, ofStuff2->nltvcsadw.I1x, ofStuff2->nltvcsadw.I1y,
-                              w, h);
+            centered_gradient(b_tmp, ofStuff1->nltvcsadw.I1x, ofStuff1->nltvcsadw.I1y, w, h);
+            centered_gradient(a_tmp, ofStuff2->nltvcsadw.I1x, ofStuff2->nltvcsadw.I1y, w, h);
 
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
@@ -617,6 +605,7 @@ void prepare_stuff(
             gaussian(i_1_tmp, w, h, PRESMOOTHING_SIGMA);
 
             //TODO: change the computation of derivatives
+            // Check what Onofre meant
             centered_gradient(i1_tmp, ofStuff1->tvl2_occ.I1x, ofStuff1->tvl2_occ.I1y, w, h);
             centered_gradient(i_1_tmp, ofStuff1->tvl2_occ.I_1x, ofStuff1->tvl2_occ.I_1y, w, h);
 
@@ -673,7 +662,7 @@ void of_estimation(
         const float *i0,            // first frame
         const float *i1,            // second frame
         const float *i_1,
-        const PatchIndexes index,    // end row
+        const PatchIndexes index,    // Struct of indices
         const int w,
         const int h
 ) {

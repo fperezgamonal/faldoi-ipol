@@ -7,8 +7,8 @@ Litle script for faldoi to execute the data from deep matches w.occlusions, if(m
 import argparse
 import os
 import subprocess
-import multiprocessing
 import shlex
+import multiprocessing
 import math
 import time	# for profiling
 from rescore_prunning import  confidence_values as confi
@@ -24,7 +24,7 @@ parser = argparse.ArgumentParser(description = 'Faldoi Minimization')
 parser.add_argument("file_images", help = "File with images")
 
 # Default values
-#       Deep Matching
+# 	Deep Matching
 matchings = True
 def_downscale = 2
 def_max_scale = math.sqrt(2)
@@ -33,24 +33,17 @@ def_rot_plus = 45
 def_rot_minus = 45
 def_threshold = 0.45
 
-#       Sparse flow
+#	Sparse flow
 sparse_flow = True
 
-#       Local minimisation
+#	Local minimisation
 local_of = True
 def_method = 8
 def_winsize = 5
-def_local_iter = 3
-def_patch_iter = 4
-def_split_img = 0
-def_hor_parts = 3
-def_ver_parts = 2
 
-#       Global minimisation
+#	Global minimisation
 global_of = True
-def_global_iter = 400
 def_global_warps = 5
-
 
 print("Code blocks activation value:\n" +\
 	"\tmatchings =\t" + str(matchings) + "\n" +\
@@ -78,36 +71,9 @@ parser.add_argument("-vm", default = str(def_method),
 parser.add_argument("-wr", default=str(def_winsize),
                     help="Windows Radio Local patch"
                          "1 -  3x3, 2 - 5x5,...") #(2*r +1) x (2*r+1)
-
-#       Number of local faldoi iterations
-parser.add_argument("-local_iter", default=str(def_local_iter),
-                    help="Number of iterations of the local minimisation (def.=3)")
-
-#       Number of iterations per patch (for each local iteration)
-parser.add_argument("-patch_iter", default=str(def_patch_iter),
-                    help="Number of iterations per patch (in each local minimisation iteration) (def.=4)")
-
-# 	Whether to split the image into partitions or not
-parser.add_argument("-split_img", default=str(def_split_img),
-                    help="Enable local minimization w. subpartions instead of whole image"
-                         "1 - enabled, othewise - disabled.")
-
-# 	Number of horizontal splits
-parser.add_argument("-h_parts", default=str(def_hor_parts),
-                    help="Number of horizontal parts"
-                         "An integer (>0). Default is 3")
-
-#	Number of vertical splits
-parser.add_argument("-v_parts", default=str(def_ver_parts),
-                    help="Number of vertical parts"
-                         "An integer (>0). Default is 2")
 # Global Minimisation
 parser.add_argument("-warps", default='5',
                     help="Number of warps finest scale")
-
-#       Number of global faldoi iterations
-parser.add_argument("-glob_iter", default=str(def_global_iter),
-                    help="Number of iterations of the global minimisation (def.=400)")
 
 # Threshold for deepmatching's outliers
 parser.add_argument("-th", default=str(def_threshold),
@@ -152,12 +118,6 @@ core_name2 = data[1].split('.')[-2].split('/')[-1]
 var_m = args.vm
 warps = args.warps
 windows_radio = args.wr
-loc_iter = args.local_iter
-pch_iter = args.patch_iter
-split_image = args.split_img
-hor_parts = args.h_parts
-ver_parts = args.v_parts
-glb_iter = args.glob_iter
 threshold = args.th
 r_path = args.res_path
 num_threads = args.nt
@@ -312,11 +272,12 @@ else:
 
 if local_of:
     # Create a dense flow from a sparse set of initial seeds
-    options = "-m {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {}".format(
-        var_m,windows_radio, loc_iter, pch_iter, split_image, hor_parts, ver_parts)
+    options = "-m {} -wr {}".format(
+        var_m,windows_radio)
     param = "{} {} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
                                          region_growing, sim_value, occlusions_rg, options)
     command_line = "{} {}\n".format(match_propagation, param)
+    print(command_line)
     os.system(command_line)
     # Elapsed time (dense flow)
     dense_timer = time.time()
@@ -330,10 +291,11 @@ else:
 if global_of:
     # Put the dense flow as input for a variational method
     # Tv-l2 coupled 0 Du 1
-    options = "-m {} -w {} -glb_iters {}".format(var_m, warps, glb_iter)
+    options = "-m {} -w {}".format(var_m, warps)
     param = "{} {} {} {} {} {}\n".format(args.file_images, region_growing, var_flow,
  					occlusions_rg, occlusions_var, options)
     command_line = "{} {}\n".format(of_var, param)
+    print(command_line)
     os.system(command_line)
     # Elapsed time (put the dense flow as input for a variational method)
     dense_variational_timer = time.time()

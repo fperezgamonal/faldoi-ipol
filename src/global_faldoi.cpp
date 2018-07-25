@@ -1846,15 +1846,15 @@ int main(int argc, char *argv[]) {
     const std::string &image_flow_name = args[2];
     const std::string &outfile = args[3];
     // Initialize occlusion-specific params
-    const std::string &occ_input = "";
-    const std::string &occ_output = "";
+    std::string occ_input;
+    std::string occ_output;
 
-    //TODO: see if there is a way to do this w/o shadowing previous initialization
+    //TODO: works with occlusions but we lost 'const' advantages
     // being constant references this may only be possible if the const is applied
     // after somehow...(??)
     if (args.size() == 6) { // if occlusions
-        const std::string &occ_input = args[4];
-        const std::string &occ_output = argv[5];
+        occ_input = args[4];
+        occ_output = argv[5];
     }
 
 

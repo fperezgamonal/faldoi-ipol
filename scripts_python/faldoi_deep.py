@@ -15,7 +15,6 @@ from auxiliar_faldoi_functions import cut_deep_list as cut
 from auxiliar_faldoi_functions import delete_outliers as delete
 from auxiliar_faldoi_functions import execute_shell_program as exe_prog
 from rescore_prunning import confidence_values as confi
-from PIL import Image
 
 # Start global timer
 init_faldoi = time.time()
@@ -204,12 +203,21 @@ im_name1 = os.path.expanduser(data[1])
 
 
 # Get the image size
+from PIL import Image
 with open(im_name1, 'rb') as f:
     image = Image.open(f)
     width_im = image.size[0]
     height_im = image.size[1]
 
-os.chdir(binary_path)
+#===============================================================================
+# IF YOU DO NOT WANT/HAVE PILLOW, UNCOMMENT 3 LINES BELOW AND COMMENT 4 ABOVE)
+# Using imageMagick to get width and height (PIL is not in the IPOL server)
+# cmd = 'identify -ping -format "%w %h" ' + im_name1
+# tmp_out = subprocess.check_output(cmd, shell=True, universal_newlines=True)
+# width_im, height_im = tmp_out.split(' ')
+#===============================================================================
+
+#os.chdir(binary_path)
 match_name_1 = "{}{}_dm_mt_1.txt".format(f_path, core_name1)
 sparse_name_1 = "{}{}_dm_mt_1.flo".format(f_path, core_name1)
 
@@ -308,6 +316,7 @@ if local_of:
     param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
                                          region_growing, sim_value, options)
     command_line = "{} {}\n".format(match_propagation, param)
+    print(command_line)
     os.system(command_line)
     # Elapsed time (dense flow)
     dense_timer = time.time()
@@ -325,6 +334,7 @@ if global_of:
     param = "{} {} {} {}\n".format(args.file_images,
                                    region_growing, var_flow, options)
     command_line = "{} {}\n".format(of_var, param)
+    print(command_line)
     os.system(command_line)
     # Elapsed time (put the dense flow as input for a variational method)
     dense_variational_timer = time.time()

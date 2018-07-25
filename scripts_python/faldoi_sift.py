@@ -202,16 +202,18 @@ im_name1 = os.path.expanduser(data[1])
 # To avoid doing the same preprocessing inside
 # Get the image size
 from PIL import Image
-
 with open(im_name1, 'rb') as f:
     image = Image.open(f)
     width_im = image.size[0]
     height_im = image.size[1]
 
+#===============================================================================
+# IF YOU DO NOT WANT/HAVE PILLOW, UNCOMMENT 3 LINES BELOW AND COMMENT 4 ABOVE)
 # Using imageMagick to get width and height (PIL is not in the IPOL server)
 # cmd = 'identify -ping -format "%w %h" ' + im_name1
 # tmp_out = subprocess.check_output(cmd, shell=True, universal_newlines=True)
 # width_im, height_im = tmp_out.split(' ')
+#===============================================================================
 
 # os.chdir(binary_path)
 desc_name_1 = "{}{}_sift_desc_1.txt".format(f_path, core_name1)

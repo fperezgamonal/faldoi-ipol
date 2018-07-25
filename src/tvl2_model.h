@@ -12,74 +12,53 @@
 #define TVL2_NWARPS  1  //5
 #define TVL2_TOL_D   0.01
 #define TVL2_VERBOSE 0  //0
-
-
 ////INITIALIZATION OF EACH METHOD
 void  initialize_stuff_tvl2coupled(
           SpecificOFStuff *ofStuff,
-          OpticalFlowData *ofCore, int w, int h
+          OpticalFlowData *ofCore,
+          int w,
+          int h
           );
 void  free_stuff_tvl2coupled(SpecificOFStuff *ofStuff);
 
 void eval_tvl2coupled(
-    const float *I0,            // source image
-    const float *I1,            // target image
+    float *I0,           // source image
+    float *I1,           // target image
     OpticalFlowData *ofD,
     Tvl2CoupledOFStuff *tvl2,
     float *ener_N,
-    int ii,                     // initial column
-    int ij,                     // initial row
-    int ei,                     // end column
-    int ej,                     // end row
-    float lambda,               // weight of the data term
-    float theta
+    int ii, // initial column
+    int ij, // initial row
+    int ei, // end column
+    int ej, // end row
+    float lambda,  // weight of the data term
+    float theta,
+    int nx,
+    int ny
     );
 
 // Variational Optical flow method based on initial fixed values
-// It minimizes the energy of \int_{B(x)} ||J(u)|| + |I_{1}(x+u)-I_{0}(x)|
+// It minimize the energy of \int_{B(x)} ||J(u)|| + |I_{1}(x+u)-I_{0}(x)| 
 // s.t u = u_0 for i.seeds
 // J(u) = (u_x, u_y; v_x, v_y)
 void guided_tvl2coupled(
-    const float *I0,            // source image
-    const float *I1,            // target image
+    const float *I0,           // source image
+    const float *I1,           // target image
     OpticalFlowData *ofD,
     Tvl2CoupledOFStuff *tvl2,
     float *ener_N,
-    int ii,                     // initial column
-    int ij,                     // initial row
-    int ei,                     // end column
-    int ej,                     // end row
-    float lambda,               // weight of the data term
-    float theta,                // weight of the data term
-    float tau,                  // time step
-    float tol_OF,               // tol max allowed
-    int   warps,                // number of warpings per scale
-    bool  verbose,              // enable/disable the verbose mode
-    int nx,                     // width of I0 (and I1)
-    int ny                      // height of I0 (and I1)
+    int ii, // initial column
+    int ij, // initial row
+    int ei, // end column
+    int ej, // end row
+    float lambda,  // weight of the data term
+    float theta,   // weight of the data term
+    float tau,     // time step
+    float tol_OF,  // tol max allowed
+    int   warps,   // number of warpings per scale
+    bool  verbose, // enable/disable the verbose mode
+    int nx,
+    int ny
     );
-
-// Overloading for partitions
-void guided_tvl2coupled(
-        const float *I0,            // source image
-        const float *I1,            // target image
-        OpticalFlowData *ofD,
-        Tvl2CoupledOFStuff *tvl2,
-        float *ener_N,
-        int ii,                     // initial column
-        int ij,                     // initial row
-        int ei,                     // end column
-        int ej,                     // end row
-        float lambda,               // weight of the data term
-        float theta,                // weight of the data term
-        float tau,                  // time step
-        float tol_OF,               // tol max allowed
-        int   warps,                // number of warpings per scale
-        bool  verbose,              // enable/disable the verbose mode
-        int nx,                     // width of I0 (and I1)
-        int ny,                     // height of I0 (and I1)
-        std::vector<PartitionData*> *p_data,
-        int curr_part_idx
-);
 
 #endif //TVL2-L1 functional

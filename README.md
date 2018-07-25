@@ -70,7 +70,7 @@ The code is written in C/C++ and includes Python scripts to unify and simplify a
 ### Pre-requisites
 The software needs the following programs to be installed in order to function:
 - Python 3.5
-- Pillow for Python 3 (if you do not want to use Pillow, in the python script there is a commented section above the PIL import that uses _imagemagick_ instead). Pillow is faster, though.
+- Pillow for Python 3 (if you do not want to use Pillow, in the python script there is a commented section above the PIL import that uses [_imagemagick_](https://www.imagemagick.org/script/identify.php) instead). Pillow is faster (since it is built-in python).
 - libpng (included)
 - OpenMP (Optional but recommended). Should be included with your compiler if you have a relatively new version (e.g.: gcc supports it since version 4.2).
 ### Compilation
