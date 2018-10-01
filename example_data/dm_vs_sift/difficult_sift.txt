@@ -1,2 +1,4 @@
-../example_data/dm_vs_sift/difficult_sift/frame_0032.png
-../example_data/dm_vs_sift/difficult_sift/frame_0033.png
+../example_data/dm_vs_sift/difficult_sift/frame_0041.png
+../example_data/dm_vs_sift/difficult_sift/frame_0042.png
+../example_data/dm_vs_sift/difficult_sift/frame_0040.png
+../example_data/dm_vs_sift/difficult_sift/frame_0043.png

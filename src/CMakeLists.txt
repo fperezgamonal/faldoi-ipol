@@ -4,7 +4,7 @@ aux_source_directory(. SRC_LIST)
 
 message("Build type: ${CMAKE_BUILD_TYPE}")
 
-#include_directories(./lib)
+include_directories(./lib)
 
 find_library(ZLIB libz.so PATHS lib)
 

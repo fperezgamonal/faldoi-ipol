@@ -17,7 +17,7 @@
 
 extern "C" {
 #include "bicubic_interpolation.h"
-//#include "mask.h"
+#include "mask.h"
 }
 
 #include "utils.h"
@@ -27,15 +27,16 @@ extern "C" {
 
 //Models
 #include "tvl2_model.h"
+#include "tvcsad_model.h"
 #include "nltv_model.h"
 #include "tvcsad_model.h"
 #include "nltvcsad_model.h"
 
 //Models with weights
 #include "tvl2w_model.h"
+#include "tvcsadw_model.h"
 #include "nltvw_model.h"
 #include "nltvcsadw_model.h"
-#include "tvcsadw_model.h"
 
 //Models with occlusions
 #include "tvl2_model_occ.h"
@@ -162,7 +163,7 @@ OpticalFlowData init_Optical_Flow_Data(
 ) {
     int w = params.w;
     int h = params.h;
-    OpticalFlowData of;
+    OpticalFlowData of{};
     of.u1 = new float[w * h * 2];
     of.u2 = of.u1 + w * h;
     of.u1_ba = new float[w * h * 2];
@@ -292,71 +293,81 @@ void prepare_stuff(
 
     const int method = ofCore1->params.val_method;
 
-    switch (method) {
-        case M_NLTVL1:              // NLTV-L1
+    switch(method)
+    {
+        case M_NLTVL1:          // NLTV-L1
         {
-            auto *a_tmp = new float[w * h];
-            auto *b_tmp = new float[w * h];
+            auto *a_tmp = new float[w*h];
+            auto *b_tmp = new float[w*h];
 
-            auto *alb = new float[w * h * pd];
-            auto *blb = new float[w * h * pd];
+            auto *alb = new float[w*h*pd];
+            auto *blb = new float[w*h*pd];
 
-            const int n_d = NL_DUAL_VAR;
-            const int radius = NL_BETA;
-            rgb_to_lab(i0, w * h, alb);
-            rgb_to_lab(i1, w * h, blb);
+            int n_d = NL_DUAL_VAR;
+            int radius = NL_BETA;
+
+            rgb_to_lab(i0, w*h, alb);
+            rgb_to_lab(i0, w*h, blb);
             // std::printf("W:%d x H:%d\n Neir:%d, radius:%d\n",w,h,n_d,radius);
             nltv_ini_dual_variables(alb, pd, w, h, n_d, radius,
                                     ofStuff1->nltvl1.p, ofStuff1->nltvl1.q);
             nltv_ini_dual_variables(blb, pd, w, h, n_d, radius,
                                     ofStuff2->nltvl1.p, ofStuff2->nltvl1.q);
-            if (pd != 1) {
-
+            if (pd!=1)
+            {
                 rgb_to_gray(i0, w, h, a_tmp);
-                rgb_to_gray(i1, w, h, b_tmp);
-
-            } else {
-                memcpy(a_tmp, i0, w * h * sizeof(float));
-                memcpy(b_tmp, i1, w * h * sizeof(float));
+                rgb_to_gray(i0, w, h, b_tmp);
             }
-            // Normalize the images between 0 and 255
-            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
+            else
+            {
+                memcpy(a_tmp,i0,w*h*sizeof(float));
+                memcpy(b_tmp,i0,w*h*sizeof(float));
+            }
+            // normalize the images between 0 and 255
+            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w*h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
-            centered_gradient(b_tmp, ofStuff1->nltvl1.I1x, ofStuff1->nltvl1.I1y, w, h);
-            centered_gradient(a_tmp, ofStuff2->nltvl1.I1x, ofStuff2->nltvl1.I1y, w, h);
+            centered_gradient(b_tmp, ofStuff1->nltvl1.I1x, ofStuff1->nltvl1.I1y,
+                              w, h);
+            centered_gradient(a_tmp, ofStuff2->nltvl1.I1x, ofStuff2->nltvl1.I1y,
+                              w, h);
 
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
 
-            delete[] alb;
-            delete[] blb;
+            delete [] alb;
+            delete [] blb;
         }
             break;
-        case M_TVCSAD:              // TVCSAD
+        case M_TVCSAD:          // TVCSAD
         {
-            auto *a_tmp = new float[w * h];
-            auto *b_tmp = new float[w * h];
-            const int rdt = DT_R;
-            const int ndt = DT_NEI;
-            std::printf("1 - Initializing CSAD\n");
+            auto *a_tmp = new float[w*h];
+            auto *b_tmp = new float[w*h];
+            int rdt = DT_R;
+            int ndt = DT_NEI;
+            std::printf("1 - Inicializado CSAD\n");
             csad_ini_pos_nei(w, h, ndt, rdt, ofStuff1->tvcsad.pnei);
-            std::printf("2 - Initializing CSAD\n");
+            std::printf("2 - Inicializado CSAD\n");
             csad_ini_pos_nei(w, h, ndt, rdt, ofStuff2->tvcsad.pnei);
-            if (pd != 1) {
-                // std::printf("Number of channels:%d\n",pd);
+            if (pd!=1)
+            {
+                // std::printf("Numero canales:%d\n",pd);
                 rgb_to_gray(i0, w, h, a_tmp);
                 rgb_to_gray(i1, w, h, b_tmp);
-            } else {
-                memcpy(a_tmp, i0, w * h * sizeof(float));
-                memcpy(b_tmp, i1, w * h * sizeof(float));
             }
-            // Normalize the images between 0 and 255
-            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
+            else
+            {
+                memcpy(a_tmp,i0,w*h*sizeof(float));
+                memcpy(b_tmp,i1,w*h*sizeof(float));
+            }
+            // normalize the images between 0 and 255
+            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w*h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
-            centered_gradient(b_tmp, ofStuff1->tvcsad.I1x, ofStuff1->tvcsad.I1y, w, h);
-            centered_gradient(a_tmp, ofStuff2->tvcsad.I1x, ofStuff2->tvcsad.I1y, w, h);
+            centered_gradient(b_tmp, ofStuff1->tvcsad.I1x, ofStuff1->tvcsad.I1y,
+                              w, h);
+            centered_gradient(a_tmp, ofStuff2->tvcsad.I1x, ofStuff2->tvcsad.I1y,
+                              w, h);
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
             std::printf("Exitting CSAD\n");
@@ -364,53 +375,58 @@ void prepare_stuff(
             break;
         case M_NLTVCSAD:        // NLTV-CSAD
         {
-            auto *a_tmp = new float[w * h];
-            auto *b_tmp = new float[w * h];
+            auto *a_tmp = new float[w*h];
+            auto *b_tmp = new float[w*h];
 
-            auto *alb = new float[w * h * pd];
-            auto *blb = new float[w * h * pd];
+            auto *alb = new float[w*h*pd];
+            auto *blb = new float[w*h*pd];
 
             int n_d = NL_DUAL_VAR;
             int radius = NL_BETA;
             int rdt = DT_R;
             int ndt = DT_NEI;
-            std::printf("Setting CSAD\n");
+            std::printf("Initializing CSAD\n");
             csad_ini_pos_nei(w, h, ndt, rdt, ofStuff1->nltvcsad.pnei);
             csad_ini_pos_nei(w, h, ndt, rdt, ofStuff2->nltvcsad.pnei);
 
-            rgb_to_lab(i0, w * h, alb);
-            rgb_to_lab(i1, w * h, blb);
+            rgb_to_lab(i0, w*h, alb);
+            rgb_to_lab(i0, w*h, blb);
             // std::printf("W:%d x H:%d\n Neir:%d, radius:%d\n",w,h,n_d,radius);
             nltv_ini_dual_variables(alb, pd, w, h, n_d, radius,
                                     ofStuff1->nltvcsad.p, ofStuff1->nltvcsad.q);
             nltv_ini_dual_variables(blb, pd, w, h, n_d, radius,
                                     ofStuff2->nltvcsad.p, ofStuff2->nltvcsad.q);
-            std::printf("Setting NLTV\n");
-            if (pd != 1) {
+            std::printf("Initializing NLTV\n");
+            if (pd!=1)
+            {
                 rgb_to_gray(i0, w, h, a_tmp);
-                rgb_to_gray(i0, w, h, b_tmp);
-            } else {
-                memcpy(a_tmp, i0, w * h * sizeof(float));
-                memcpy(b_tmp, i1, w * h * sizeof(float));
+                rgb_to_gray(i1, w, h, b_tmp);
             }
-            // Normalize the images between 0 and 255
-            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
+            else
+            {
+                memcpy(a_tmp,i0,w*h*sizeof(float));
+                memcpy(b_tmp,i1,w*h*sizeof(float));
+            }
+            // normalize the images between 0 and 255
+            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w*h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
-            centered_gradient(b_tmp, ofStuff1->nltvcsad.I1x, ofStuff1->nltvcsad.I1y, w, h);
-            centered_gradient(a_tmp, ofStuff2->nltvcsad.I1x, ofStuff2->nltvcsad.I1y, w, h);
+            centered_gradient(b_tmp, ofStuff1->nltvcsad.I1x, ofStuff1->nltvcsad.I1y,
+                              w, h);
+            centered_gradient(a_tmp, ofStuff2->nltvcsad.I1x, ofStuff2->nltvcsad.I1y,
+                              w, h);
 
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
 
-            delete[] alb;
-            delete[] blb;
+            delete [] alb;
+            delete [] blb;
 
             std::printf("Exitting NLTV_CSAD\n");
 
         }
             break;
-        case M_TVL1_W:          // TV-l2 coupled with weights
+        case M_TVL1_W:      // TV-l2 coupled with weights
         {
 
             float *weight1 = ofStuff1->tvl2w.weight;
@@ -419,22 +435,27 @@ void prepare_stuff(
             gaussian1Dweight(weight2, ofCore2->params.w_radio);
 
             std::printf("Weights\n");
-            auto *a_tmp = new float[w * h];
-            auto *b_tmp = new float[w * h];
-            if (pd != 1) {
+            auto *a_tmp = new float[w*h];
+            auto *b_tmp = new float[w*h];
+            if (pd!=1)
+            {
                 // std::printf("Number of channels:%d\n",pd);
                 rgb_to_gray(i0, w, h, a_tmp);
                 rgb_to_gray(i1, w, h, b_tmp);
-            } else {
-                memcpy(a_tmp, i0, w * h * sizeof(float));
-                memcpy(b_tmp, i1, w * h * sizeof(float));
             }
-            // Normalize the images between 0 and 255
-            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
+            else
+            {
+                memcpy(a_tmp,i0,w*h*sizeof(float));
+                memcpy(b_tmp,i1,w*h*sizeof(float));
+            }
+            // normalize the images between 0 and 255
+            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w*h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
-            centered_gradient(b_tmp, ofStuff1->tvl2w.I1x, ofStuff1->tvl2w.I1y, w, h);
-            centered_gradient(a_tmp, ofStuff2->tvl2w.I1x, ofStuff2->tvl2w.I1y, w, h);
+            centered_gradient(b_tmp, ofStuff1->tvl2w.I1x, ofStuff1->tvl2w.I1y,
+                              w, h);
+            centered_gradient(a_tmp, ofStuff2->tvl2w.I1x, ofStuff2->tvl2w.I1y,
+                              w, h);
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
 
@@ -448,47 +469,52 @@ void prepare_stuff(
             gaussian1Dweight(weight1, ofCore1->params.w_radio);
             gaussian1Dweight(weight2, ofCore2->params.w_radio);
 
-            auto *a_tmp = new float[w * h];
-            auto *b_tmp = new float[w * h];
+            auto *a_tmp = new float[w*h];
+            auto *b_tmp = new float[w*h];
 
-            auto *alb = new float[w * h * pd];
-            auto *blb = new float[w * h * pd];
+            auto *alb = new float[w*h*pd];
+            auto *blb = new float[w*h*pd];
 
             int n_d = NL_DUAL_VAR;
             int radius = NL_BETA;
             int rdt = DT_R;
             int ndt = DT_NEI;
-            std::printf("CSAD ready\n");
+            std::printf("Initializing CSAD\n");
             csad_ini_pos_nei(w, h, ndt, rdt, ofStuff1->nltvcsadw.pnei);
             csad_ini_pos_nei(w, h, ndt, rdt, ofStuff2->nltvcsadw.pnei);
 
-            rgb_to_lab(i0, w * h, alb);
-            rgb_to_lab(i1, w * h, blb);
+            rgb_to_lab(i0, w*h, alb);
+            rgb_to_lab(i0, w*h, blb);
             // std::printf("W:%d x H:%d\n Neir:%d, radius:%d\n",w,h,n_d,radius);
             nltv_ini_dual_variables(alb, pd, w, h, n_d, radius,
                                     ofStuff1->nltvcsadw.p, ofStuff1->nltvcsadw.q);
             nltv_ini_dual_variables(blb, pd, w, h, n_d, radius,
                                     ofStuff2->nltvcsadw.p, ofStuff2->nltvcsadw.q);
-            std::printf("NLTV ready\n");
-            if (pd != 1) {
+            std::printf("Initializing NLTV\n");
+            if (pd!=1)
+            {
                 rgb_to_gray(i0, w, h, a_tmp);
                 rgb_to_gray(i1, w, h, b_tmp);
-            } else {
-                memcpy(a_tmp, i0, w * h * sizeof(float));
-                memcpy(b_tmp, i1, w * h * sizeof(float));
+            }
+            else
+            {
+                memcpy(a_tmp,i0,w*h*sizeof(float));
+                memcpy(b_tmp,i1,w*h*sizeof(float));
             }
             // normalize the images between 0 and 255
-            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
+            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w*h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
-            centered_gradient(b_tmp, ofStuff1->nltvcsadw.I1x, ofStuff1->nltvcsadw.I1y, w, h);
-            centered_gradient(a_tmp, ofStuff2->nltvcsadw.I1x, ofStuff2->nltvcsadw.I1y, w, h);
+            centered_gradient(b_tmp, ofStuff1->nltvcsadw.I1x, ofStuff1->nltvcsadw.I1y,
+                              w, h);
+            centered_gradient(a_tmp, ofStuff2->nltvcsadw.I1x, ofStuff2->nltvcsadw.I1y,
+                              w, h);
 
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
 
-            delete[] alb;
-            delete[] blb;
+            delete [] alb;
+            delete [] blb;
 
             std::printf("Exitting NLTV_CSAD with weights\n");
 
@@ -500,31 +526,34 @@ void prepare_stuff(
             float *weight2 = ofStuff2->nltvl1w.weight;
             gaussian1Dweight(weight1, ofCore1->params.w_radio);
             gaussian1Dweight(weight2, ofCore2->params.w_radio);
-            auto *a_tmp = new float[w * h];
-            auto *b_tmp = new float[w * h];
+            auto *a_tmp = new float[w*h];
+            auto *b_tmp = new float[w*h];
 
-            auto *alb = new float[w * h * pd];
-            auto *blb = new float[w * h * pd];
+            auto *alb = new float[w*h*pd];
+            auto *blb = new float[w*h*pd];
 
             int n_d = NL_DUAL_VAR;
             int radius = NL_BETA;
 
-            rgb_to_lab(i0, w * h, alb);
-            rgb_to_lab(i1, w * h, blb);
+            rgb_to_lab(i0, w*h, alb);
+            rgb_to_lab(i0, w*h, blb);
             // std::printf("W:%d x H:%d\n Neir:%d, radius:%d\n",w,h,n_d,radius);
             nltv_ini_dual_variables(alb, pd, w, h, n_d, radius,
                                     ofStuff1->nltvl1w.p, ofStuff1->nltvl1w.q);
             nltv_ini_dual_variables(blb, pd, w, h, n_d, radius,
                                     ofStuff2->nltvl1w.p, ofStuff2->nltvl1w.q);
-            if (pd != 1) {
+            if (pd!=1)
+            {
                 rgb_to_gray(i0, w, h, a_tmp);
                 rgb_to_gray(i1, w, h, b_tmp);
-            } else {
-                memcpy(a_tmp, i0, w * h * sizeof(float));
-                memcpy(b_tmp, i1, w * h * sizeof(float));
             }
-            // Normalize the images between 0 and 255
-            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
+            else
+            {
+                memcpy(a_tmp,i0,w*h*sizeof(float));
+                memcpy(b_tmp,i1,w*h*sizeof(float));
+            }
+            // normalize the images between 0 and 255
+            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w*h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
             centered_gradient(b_tmp, ofStuff1->nltvl1w.I1x, ofStuff1->nltvl1w.I1y,
@@ -535,8 +564,8 @@ void prepare_stuff(
             *out_i0 = a_tmp;
             *out_i1 = b_tmp;
 
-            delete[] alb;
-            delete[] blb;
+            delete [] alb;
+            delete [] blb;
         }
             break;
         case M_TVCSAD_W:        // TVCSAD with weights
@@ -545,24 +574,27 @@ void prepare_stuff(
             float *weight2 = ofStuff2->tvcsadw.weight;
             gaussian1Dweight(weight1, ofCore1->params.w_radio);
             gaussian1Dweight(weight2, ofCore2->params.w_radio);
-            auto *a_tmp = new float[w * h];
-            auto *b_tmp = new float[w * h];
+            auto *a_tmp = new float[w*h];
+            auto *b_tmp = new float[w*h];
             int rdt = DT_R;
             int ndt = DT_NEI;
-            std::printf("1 - CSAD initialized\n");
+            std::printf("1 - Initializing CSAD\n");
             csad_ini_pos_nei(w, h, ndt, rdt, ofStuff1->tvcsadw.pnei);
-            std::printf("2 - CSAD initialized\n");
+            std::printf("2 - Initializing CSAD\n");
             csad_ini_pos_nei(w, h, ndt, rdt, ofStuff2->tvcsadw.pnei);
-            if (pd != 1) {
+            if (pd!=1)
+            {
                 // std::printf("Number of channels:%d\n",pd);
                 rgb_to_gray(i0, w, h, a_tmp);
                 rgb_to_gray(i1, w, h, b_tmp);
-            } else {
-                memcpy(a_tmp, i0, w * h * sizeof(float));
-                memcpy(b_tmp, i1, w * h * sizeof(float));
             }
-            // Normalize the images between 0 and 255
-            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
+            else
+            {
+                memcpy(a_tmp,i0,w*h*sizeof(float));
+                memcpy(b_tmp,i1,w*h*sizeof(float));
+            }
+            // normalize the images between 0 and 255
+            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w*h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
             centered_gradient(b_tmp, ofStuff1->tvcsadw.I1x, ofStuff1->tvcsadw.I1y,
@@ -625,22 +657,23 @@ void prepare_stuff(
             *out_i_1 = i_1_tmp;
         }
             break;
-        default:                // TV-l2 coupled
+        default:        // TV-l2 coupled
         {
-            auto *a_tmp = new float[w * h];
-            auto *b_tmp = new float[w * h];
-            // Check if the image is gray, otherwise transform
-            if (pd != 1) {
+            auto *a_tmp = new float[w*h];
+            auto *b_tmp = new float[w*h];
+            if (pd!=1)
+            {
                 // std::printf("Number of channels:%d\n",pd);
                 rgb_to_gray(i0, w, h, a_tmp);
                 rgb_to_gray(i1, w, h, b_tmp);
-            } else {
-                memcpy(a_tmp, i0, w * h * sizeof(float));
-                memcpy(b_tmp, i1, w * h * sizeof(float));
             }
-
-            // Normalize the images between 0 and 255
-            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w * h);
+            else
+            {
+                memcpy(a_tmp,i0,w*h*sizeof(float));
+                memcpy(b_tmp,i1,w*h*sizeof(float));
+            }
+            // normalize the images between 0 and 255
+            image_normalization(a_tmp, b_tmp, a_tmp, b_tmp, w*h);
             gaussian(a_tmp, w, h, PRESMOOTHING_SIGMA);
             gaussian(b_tmp, w, h, PRESMOOTHING_SIGMA);
             centered_gradient(b_tmp, ofStuff1->tvl2.I1x, ofStuff1->tvl2.I1y,
@@ -662,7 +695,7 @@ void of_estimation(
         const float *i0,            // first frame
         const float *i1,            // second frame
         const float *i_1,
-        const PatchIndexes index,    // Struct of indices
+        const PatchIndexes index,   // Struct of indices
         const int w,
         const int h
 ) {
@@ -684,7 +717,6 @@ void of_estimation(
             // Estimate nltvl1
             guided_nltvl1(i0, i1, ofCore, &(ofStuff->nltvl1), ener_N, index,
                           lambda, theta, tau, tol_OF, warps, verbose, w, h);
-
         }
             break;
         case M_TVCSAD:          // TVCSAD

@@ -12,6 +12,7 @@
 //#ifndef DISABLE_OMP
 //#include <omp.h>
 //#endif//DISABLE_OMP
+#include "xmalloc.h"
 #include "mask.h"
 #include "zoom.h"
 #include "smapa.h"
@@ -201,22 +202,23 @@ static void zoom_in_by_factor_two(float *out, int ow, int oh,
 void elap_recursive(float *out, float *in, int w, int h,
 		float timestep, int niter, int scale){
 
-	float init[w*h];
+	float *init = xmalloc(w*h*sizeof*init);
 	if (scale > 1){
 
 		int ws = ceil(w/2.0);
 		int hs = ceil(h/2.0);
-		float ins[ws * hs];
-		float outs[ws * hs];
+		float *ins  = xmalloc(ws * hs * sizeof*ins);
+		float *outs = xmalloc(ws * hs * sizeof*outs);
 		zoom_out_by_factor_two(ins, ws, hs, in, w, h);
 		elap_recursive(outs, ins, ws, hs, timestep, niter, scale - 1);
 		zoom_in_by_factor_two(init, w, h, outs, ws, hs);
 
-    }else{
+    } else {
 		for (int i = 0 ; i < w*h; i++)
 			init[i] = 0;
 	}
 	harmonic_extension_with_init(out, in, w, h, timestep, niter, init);
+	free(init);
 }
 
 // extension by laplace equation of each channel of a color image

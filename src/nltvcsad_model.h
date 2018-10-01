@@ -1,6 +1,9 @@
 #ifndef NLTVCSAD_MODEL_H
 #define NLTVCSAD_MODEL_H
 
+#include "energy_structures.h"
+#include "energy_model.h"
+
 //OPTICAL FLOW PARAMETERS
 #define NLTVCSAD_LAMBDA  40//40
 #define NLTVCSAD_THETA   0.3

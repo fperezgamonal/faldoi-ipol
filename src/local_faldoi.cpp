@@ -207,55 +207,64 @@ void fb_consistency_check(float *in0, float *in1, int *trust_in0, int w, int h, 
 void pruning_method(float *i0, float *i1, int w, int h, float *tol, const int *method, int *trust_Go, float *go,
                     int *trust_Ba, float *ba)
 {
-    auto *go_fb_check = new int[w * h];
-    auto *go_cons_check = new int[w * h];
-    auto *ba_fb_check = new int[w * h];
-    auto *ba_cons_check = new int[w * h];
+    int *go_fb_check   = new int[w*h];
+    int *go_cons_check = new int[w*h];
+    int *ba_fb_check   = new int[w*h];
+    int *ba_cons_check = new int[w*h];
 
-    for (int i = 0; i < w * h; i++) {
-        // 0 - Invalid pixel 1 - Trustable pixel.
+    for (int i = 0; i < w*h; i++)
+    {
+        //0 - Invalid pixel 1 - Trustable pixel.
         trust_Go[i] = 1;
         trust_Ba[i] = 1;
     }
 
-    // FB - consistency check
-    if (method[0] == 1) {
-        printf("FB-Consistency: %f\n", tol[0]);
+
+    //FB - consistency check
+    if (method[0]==1)
+    {
+        std::printf("FB-Consistency:%f\n",tol[0]);
         fb_consistency_check(go, ba, go_fb_check, w, h, tol[0]);
         fb_consistency_check(ba, go, ba_fb_check, w, h, tol[0]);
     }
-    // Too-uniform consistency check
-    if (method[1] == 1) {
-        printf("Too Uniform -Consistency: %f\n", tol[1]);
+    //Too-uniform consistency check
+    if (method[1]==1)
+    {
+        std::printf("Too Uniform -Consistency:%f\n",tol[1]);
         too_uniform_areas(i0, i1, go, go_cons_check, w, h, tol[1]);
-        too_uniform_areas(i1, i0, ba, ba_cons_check, w, h, tol[1]);
+        too_uniform_areas(i0, i1, ba, ba_cons_check, w, h, tol[1]);
     }
-
-    for (int i = 0; i < w * h; i++) {
-        if (method[0] == 1) {
-            // FB-Consistency
-            if (go_fb_check[i] == 0) {
+    for (int i = 0; i < w*h; i++){
+        if (method[0] == 1)
+        {
+            //FB-Consistency
+            if (go_fb_check[i] == 0)
+            {
                 trust_Go[i] = 0;
             }
-            if (ba_fb_check[i] == 0) {
+            if (ba_fb_check[i] == 0)
+            {
                 trust_Ba[i] = 0;
             }
         }
-        // Too uniform -Consistency
-        if (method[1] == 1) {
-            if (go_cons_check[i] == 0) {
+        //Too uniform -Consistency
+        if (method[1] == 1)
+        {
+            if (go_cons_check[i] == 0)
+            {
                 trust_Go[i] = 0;
             }
-            if (ba_cons_check[i] == 0) {
+            if (ba_cons_check[i] == 0)
+            {
                 trust_Ba[i] = 0;
             }
         }
     }
 
-    delete[] go_fb_check;
-    delete[] go_cons_check;
-    delete[] ba_fb_check;
-    delete[] ba_cons_check;
+    delete [] go_fb_check;
+    delete [] go_cons_check;
+    delete [] ba_fb_check;
+    delete [] ba_cons_check;
 }
 
 
@@ -271,28 +280,32 @@ void pruning_method(float *i0, float *i1, int w, int h, float *tol, const int *m
  */
 void delete_not_trustable_candidates(OpticalFlowData *ofD, float *in, float *ene_val, const int w, const int h)
 {
-    int *trust_points = ofD->trust_points;
+    int *mask = ofD->trust_points;
     float *u1 = ofD->u1;
     float *u2 = ofD->u2;
     float *chi = ofD->chi;
+
     int n = 0;
-    for (int i = 0; i < w * h; i++) {
-        if (trust_points[i] == 0) {
+    for (int i = 0; i < w*h; i++)
+    {
+        if (mask[i] == 0)
+        {
             //printf("%f\n", ene_val[i]);
-            if (ene_val[i] == 0.0) {
+            if (ene_val[i]==0.0)
+            {
                 n++;
             }
-            in[i] = NAN;
-            in[i + w * h] = NAN;
-            u1[i] = NAN;
-            u2[i] = NAN;
-            ene_val[i] = INFINITY;
+            in[i]       = NAN;
+            in[i + w*h] = NAN;
+            u1[i]       = NAN;
+            u2[i]       = NAN;
+            ene_val[i]  = INFINITY;
             // If the flow is non trustable, is considered
             // to be an occlusion
             chi[i] = 1;
         }
     }
-    printf("Total_seeds: %d\n", n);
+    printf("Total_seeds%d\n", n);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2841,16 +2854,16 @@ static void add_neighbors(const float *i0, const float *i1, const float *i_1, fl
         // Poisson Interpolation (4wr x 4wr + 1)
         interpolate_poisson(ofD, index, w);
 
-    } else {
+    } else if (check_trustable_patch(ofD, index, w) == 0) {
         // Interpolate by bilateral filtering if some points do not survive to prunning
-        if (check_trustable_patch(ofD, index, w) == 0) {
+        //if (check_trustable_patch(ofD, index, w) == 0) {
 
-            copy_fixed_coordinates(ofD, out, index, w, h);
-            interpolate_poisson(ofD, index, w);
-            // TODO: fix bilateral filter as it is quite faster
-            //bilateral_filter(ofD, BiFilt, index, w, h);  // yields a far worse estimation
-                                                           // check implementation details
-        }
+        copy_fixed_coordinates(ofD, out, index, w, h);
+        interpolate_poisson(ofD, index, w);
+        // TODO: fix bilateral filter as it is quite faster
+        //bilateral_filter(ofD, BiFilt, index, w, h);  // yields a far worse estimation
+        // check implementation details
+        // }
     }
 
     // get index's weight (if the functional uses them)
@@ -2898,40 +2911,50 @@ void insert_initial_seeds(const float *i0, const float *i1, const float *i_1, fl
                           OpticalFlowData *ofD, SpecificOFStuff *ofS, float *ene_val, float *out_flow, float *out_occ,
                           BilateralFilterData *BiFilt, const int w, const int h)
 {
-    const int wr = ofD->params.w_radio;
+    int wr = ofD->params.w_radio;
 
-    // Set to the initial conditions all the stuff
-    for (int i = 0; i < w * h; i++) {
+    //Set to the initial conditions all the stuff
+    for (int i = 0; i < w*h; i++)
+    {
         ofD->fixed_points[i] = 0;
         ene_val[i] = INFINITY;
         out_flow[i] = NAN;
-        out_flow[w * h + i] = NAN;
-        out_occ[i] = 0;
-        ofD->trust_points[i] = 1;
+        out_flow[w*h + i] = NAN;
     }
 
-    ofD->params.w_radio = 1;
-    // Fix the initial seeds.
-    for (int j = 0; j < h; j++)
-        for (int i = 0; i < w; i++) {
-            // Indicates the initial seed in the similarity map
-            if (isfinite(in_flow[j * w + i]) && isfinite(in_flow[w * h + j * w + i])) {
-                out_flow[j * w + i] = in_flow[j * w + i];
-                out_flow[w * h + j * w + i] = in_flow[w * h + j * w + i];
-                ofD->fixed_points[j * w + i] = 1;
 
-                // Add_neigbors 0 means that during the propagation interpolates the patch
+    ofD->params.w_radio = 1;
+    //Fixed the initial seeds.
+    for (int j = 0; j < h; j++)
+        for (int i = 0; i < w; i++)
+        {
+            //Indicates the initial seed in the similarity map
+            if (std::isfinite(in_flow[j*w +i]) && std::isfinite(in_flow[w*h + j*w +i]))
+            {
+                out_flow[j*w + i] = in_flow[j*w + i];
+                out_flow[w*h + j*w + i] = in_flow[w*h + j*w +i];
+                ofD->fixed_points[j*w + i] = 1;
+                // add_neigbors 0 means that during the propagation interpolates the patch
                 // based on the energy.
                 add_neighbors(i0, i1, i_1, ene_val, ofD, ofS, queue, i, j, 0, out_flow, out_occ, BiFilt, w, h);
-
-                // These values may have been modified in the previous function
-                out_flow[j * w + i] = in_flow[j * w + i];
-                out_flow[w * h + j * w + i] = in_flow[w * h + j * w + i];
-                ofD->fixed_points[j * w + i] = 1;
-                ene_val[j * w + i] = 0.0;
+                out_flow[j*w + i] = NAN;
+                out_flow[w*h + j*w + i] = NAN;
+                ofD->fixed_points[j*w + i] = 0;
             }
         }
     ofD->params.w_radio = wr;
+    //Propagate the information of the initial seeds to their neighbours.
+    for (int j = 0; j < h; j++)
+        for (int i = 0; i < w; i++)
+        {
+            if (std::isfinite(in_flow[j*w +i]) && std::isfinite(in_flow[w*h + j*w +i]))
+            {
+                out_flow[j*w + i] = in_flow[j*w + i];
+                out_flow[w*h + j*w + i] = in_flow[w*h + j*w +i];
+                ofD->fixed_points[j*w + i] = 1;
+                ene_val[j*w + i] = 0.0;
+            }
+        }
 }
 
 
@@ -2949,29 +2972,39 @@ void insert_initial_seeds(const float *i0, const float *i1, const float *i_1, fl
  * @param w         width of the optical flow data being processed
  * @param h         height of the optical flow data being processed
  */
-void insert_potential_candidates(const float *in, OpticalFlowData *ofD, pq_cand &queue, const float *ene_val,
-                                 const float *out_occ, const int w, const int h)
+void insert_potential_candidates(const float *in, OpticalFlowData *ofD, pq_cand &queue, float *ene_val,
+                                 float *out_flow, const float *out_occ, const int w, const int h)
 {
-    // Fixed the initial seeds.
+    //Fixed the initial seeds.
     for (int j = 0; j < h; j++)
-        for (int i = 0; i < w; i++) {
-            // Indicates the initial seed in the similarity map
-            if (isfinite(in[j * w + i]) && isfinite(in[w * h + j * w + i])) {
-
-                SparseOF element{};
-                element.i = i;      // column
-                element.j = j;      // row
-                element.u = in[j * w + i];
-                element.v = in[w * h + j * w + i];
-                // Obs: Notice that ene_val contains (en)*saliency
-                element.sim_node = ene_val[j * w + i];
+        for (int i = 0; i < w; i++)
+        {
+            //Indicates the initial seed in the similarity map
+            if (std::isfinite(in[j*w +i]) && std::isfinite(in[w*h + j*w +i]))
+            {
+                SparseOF element;
+                element.i = i; // column
+                element.j = j; // row
+                element.u = in[j*w +i];
+                element.v = in[w*h + j*w +i];
+                //Obs: Notice that ene_val contains (en)*saliency
+                element.sim_node = ene_val[j*w +i];
                 if (ofD->params.val_method >= 8) {
                     element.occluded = out_occ[j * w + i];
                 }
-                assert(isfinite(ene_val[j * w + i]));
+                assert(std::isfinite(ene_val[j*w +i]));
                 queue.push(element);
             }
         }
+
+    //Set to the initial conditions all the stuff
+    for (int i = 0; i < w*h; i++)
+    {
+        ofD->fixed_points[i] = 0;
+        ene_val[i] = INFINITY;
+        out_flow[i] = NAN;
+        out_flow[w*h + i] = NAN;
+    }
 }
 
 
@@ -2989,11 +3022,12 @@ void insert_potential_candidates(const float *in, OpticalFlowData *ofD, pq_cand 
 void prepare_data_for_growing(OpticalFlowData *ofD, float *ene_val, float *out, const int w, const int h)
 {
     // Set to the initial conditions all the stuff
-    for (int i = 0; i < w * h; i++) {
+    for (int i = 0; i < w*h; i++)
+    {
         ofD->fixed_points[i] = 0;
         ene_val[i] = INFINITY;
         out[i] = NAN;
-        out[w * h + i] = NAN;
+        out[w*h + i] = NAN;
     }
 }
 
@@ -3018,20 +3052,21 @@ void prepare_data_for_growing(OpticalFlowData *ofD, float *ene_val, float *out, 
  */
 void local_growing(const float *i0, const float *i1, const float *i_1, pq_cand *queue, SpecificOFStuff *ofS,
                    OpticalFlowData *ofD, int iteration, float *ene_val, float *out_flow, float *out_occ,
-                   BilateralFilterData *BiFilt, bool fwd_or_bwd, const int w, const int h)
+                   BilateralFilterData *BiFilt, bool fwd_or_bwd, const int w, const int h, const int part_idx)
 {
+    std::vector<int> percent_print = {30, 70, 80, 95, 100};
     int fixed = 0;
-    vector<int> percent_print = {30, 70, 80, 95, 100};
     const int size = w * h;
-    printf("Queue size at start = %d\n", (int) queue->size());
+    std::printf("queue size at start = %d\n", (int) queue->size());
     while (!queue->empty()) {
+        //std::printf("Fixed elements = %d\n", val);
         SparseOF element = queue->top();
         int i = element.i;
         int j = element.j;
-        // While the queue is not empty, take an element to process
+
         queue->pop();
         if (!ofD->fixed_points[j * w + i]) {
-            assert(isfinite(element.sim_node));
+            assert(std::isfinite(element.sim_node));
             float u = element.u;
             float v = element.v;
             float energy = element.sim_node;
@@ -3043,25 +3078,24 @@ void local_growing(const float *i0, const float *i1, const float *i_1, pq_cand *
                 occlusion = 0.0;
             }
 
-            if (!isfinite(u)) {
-                printf("U1 = %f\n", u);
+            if (!std::isfinite(u)) {
+                std::printf("U1 = %f\n", u);
             }
-            if (!isfinite(v)) {
-                printf("U2 = %f\n", v);
+            if (!std::isfinite(v)) {
+                std::printf("U2 = %f\n", v);
             }
 
             ofD->fixed_points[j * w + i] = 1;
-            fixed++;
+            fixed ++;
 
-            // Update output variables with the latest flow values (u, v)
             out_flow[j * w + i] = u;
             out_flow[w * h + j * w + i] = v;
             ene_val[j * w + i] = energy;
-
             out_occ[j * w + i] = occlusion;
+            // TODO: copy the values so they are taken into account in the minimization
+            // ofD->u1[j*w + i] = u;
+            // ofD->u2[j*w + i] = v;
 
-            // Add new neigbours to the queue and compute the local minimization (patch-wise)
-            // The output values may be updated if the new energy is better (lower) than the stored one
             add_neighbors(i0, i1, i_1, ene_val, ofD, ofS, queue, i, j, iteration, out_flow, out_occ, BiFilt, w, h);
 
             // From here to the end of the function:
@@ -3076,17 +3110,30 @@ void local_growing(const float *i0, const float *i1, const float *i_1, pq_cand *
                         string filename_flow = " ";
                         string filename_occ = " ";
                         if (fwd_or_bwd) {
-                            filename_flow =
-                                    "../Results/Partial_results/partial_results_fwd_" + to_string(percent_print[k]) +
-                                    "_iter_" + to_string(iteration) + ".flo";
-                            iio_save_image_float_split(filename_flow.c_str(), out_flow, w, h, 2);
-                            filename_occ =
-                                    "../Results/Partial_results/partial_results_fwd_" + to_string(percent_print[k]) +
-                                    "_iter_" + to_string(iteration) + "_occ.png";
+                            if (ofD->params.split_img) {
+                                filename_flow =
+                                        "../Results/Partial_results/partial_results_fwd_" +
+                                        std::to_string(percent_print[k]) +
+                                        "_iter_" + std::to_string(iteration) + "_part_idx" + to_string(part_idx) + ".flo";
+                                filename_occ =
+                                        "../Results/Partial_results/partial_results_fwd_" +
+                                        std::to_string(percent_print[k]) +
+                                        "_iter_" + std::to_string(iteration) + "_part_idx" + to_string(part_idx) + "_occ.png";
+                            } else {
+                                filename_flow =
+                                        "../Results/Partial_results/partial_results_fwd_" +
+                                        std::to_string(percent_print[k]) +
+                                        "_iter_" + std::to_string(iteration) + ".flo";
+                                filename_occ =
+                                        "../Results/Partial_results/partial_results_fwd_" +
+                                        std::to_string(percent_print[k]) +
+                                        "_iter_" + std::to_string(iteration) + "_occ.png";
+                            }
                             auto *out_occ_int = new int[w * h];
                             for (int l = 0; l < w * h; l++) {
                                 out_occ_int[l] = out_occ[l];
                             }
+                            iio_save_image_float_split(filename_flow.c_str(), out_flow, w, h, 2);
                             iio_save_image_int(filename_occ.c_str(), out_occ_int, w, h);
                             percent_print[k] = 200;
                         }
@@ -3097,15 +3144,28 @@ void local_growing(const float *i0, const float *i1, const float *i_1, pq_cand *
     }
     if (SAVE_RESULTS == 1) {
         if (fwd_or_bwd) {
-            string filename_flow =
-                    "../Results/Partial_results/partial_results_fwd_100_iter_" + to_string(iteration) + ".flo";
-            iio_save_image_float_split(filename_flow.c_str(), out_flow, w, h, 2);
-            string filename_occ =
-                    "../Results/Partial_results/partial_results_fwd_100_iter_" + to_string(iteration) + "_occ.png";
+            string filename_flow = " ";
+            string filename_occ = " ";
+            if (ofD->params.split_img) {
+                filename_flow =
+                        "../Results/Partial_results/partial_results_fwd_100_iter_" + std::to_string(iteration)
+                        + "_part_idx" + to_string(part_idx) + ".flo";
+                filename_occ =
+                        "../Results/Partial_results/partial_results_fwd_100_iter_"
+                        + std::to_string(iteration) + "_part_idx" + to_string(part_idx) + "_occ.png";
+            } else {
+                std::string filename_flow =
+                        "../Results/Partial_results/partial_results_fwd_100_iter_" + std::to_string(iteration) + ".flo";
+                std::string filename_occ =
+                        "../Results/Partial_results/partial_results_fwd_100_iter_" + std::to_string(iteration) +
+                        "_occ.png";
+            }
             auto *out_occ_int = new int[w * h];
             for (int i = 0; i < w * h; i++) {
                 out_occ_int[i] = out_occ[i];
             }
+
+            iio_save_image_float_split(filename_flow.c_str(), out_flow, w, h, 2);
             iio_save_image_int(filename_occ.c_str(), out_occ_int, w, h);
         }
     }
@@ -3208,6 +3268,7 @@ void match_growing_variational(
 #endif
     printf("Finished inserting initial seeds\n");
 
+
     auto clk_seeds_end = system_clock::now(); // PROFILING
     duration<double> elapsed_secs_seeds = clk_seeds_end - clk_seeds; // PROFILING
     cout << "(match growing) inserting initial seeds took "
@@ -3257,7 +3318,7 @@ void match_growing_variational(
                     // FWD
                     auto clk_start_fwd = system_clock::now();
                     local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, i, ene_Go, oft0, occ_Go, BiFilt_Go,
-                                  true, w, h);
+                                  true, w, h, -1);
                     auto clk_fwd_grow = system_clock::now();  // PROFILING
                     duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd;  // PROFILING
                     cout << "(match growing) FWD local growing (it=" << i << ") took "
@@ -3266,7 +3327,7 @@ void match_growing_variational(
                     // BWD
                     auto clk_start_bwd = system_clock::now();
                     local_growing(i1n, i0n, i2n, &queue_Ba, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, BiFilt_Ba,
-                                  false, w, h);
+                                  false, w, h, -1);
                     auto clk_bwd_grow = system_clock::now();  // PROFILING
                     duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd;  // PROFILING
                     cout << "(match growing) BWD local growing (it=" << i << ") took "
@@ -3274,6 +3335,7 @@ void match_growing_variational(
                 }
             }
 #endif
+
             auto clk_loc_grow_end = system_clock::now(); // PROFILING
             duration<double> elapsed_secs_loc_grow = clk_loc_grow_end - clk_init_iter;  // PROFILING
             cout << "(match growing) FWD + BWD local growing (it=" << i << ") took "
@@ -3297,8 +3359,8 @@ void match_growing_variational(
                  << elapsed_secs_delete.count() << endl;
 
             // Insert each pixel into the queue as possible candidate
-            insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, occ_Go, w, h);
-            insert_potential_candidates(oft1, &ofBa, queue_Ba, ene_Ba, occ_Ba, w, h);
+            insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, oft0, occ_Go, w, h);
+            insert_potential_candidates(oft1, &ofBa, queue_Ba, ene_Ba, oft1, occ_Ba, w, h);
 
             auto clk_insert_cand = system_clock::now(); // PROFILING
             duration<double> elapsed_secs_insert_cand = clk_insert_cand - clk_delete_non_trust; // PROFILING
@@ -3348,7 +3410,7 @@ void match_growing_variational(
                                           &(p_data.at(m)->queue_Go),
                                           &(p_data.at(m)->stuffGo), &(p_data.at(m)->ofGo), i, p_data.at(m)->ene_Go,
                                           p_data.at(m)->oft0, p_data.at(m)->occ_Go, p_data.at(m)->BiFilt_Go, true,
-                                          p_data.at(m)->width, p_data.at(m)->height);
+                                          p_data.at(m)->width, p_data.at(m)->height, m);
 
                             auto clk_fwd_grow = system_clock::now(); // PROFILING
                             duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd; // PROFILING
@@ -3364,7 +3426,7 @@ void match_growing_variational(
                                           &(p_data.at(m)->queue_Ba),
                                           &(p_data.at(m)->stuffBa), &(p_data.at(m)->ofBa), i, p_data.at(m)->ene_Ba,
                                           p_data.at(m)->oft1, p_data.at(m)->occ_Ba, p_data.at(m)->BiFilt_Ba, false,
-                                          p_data.at(m)->width, p_data.at(m)->height);
+                                          p_data.at(m)->width, p_data.at(m)->height, m);
 
                             auto clk_bwd_grow = system_clock::now(); // PROFILING
                             duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd; // PROFILING
@@ -3386,7 +3448,7 @@ void match_growing_variational(
                             // FWD
                             auto clk_start_fwd = system_clock::now();
                             local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, i, ene_Go, oft0, occ_Go, BiFilt_Go,
-                                          true, w, h);
+                                          true, w, h, -1);
                             auto clk_fwd_grow = system_clock::now();  // PROFILING
                             duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd;  // PROFILING
                             cout << "(match growing) FWD local growing (it=" << i << ") took "
@@ -3395,7 +3457,7 @@ void match_growing_variational(
                             // BWD
                             auto clk_start_bwd = system_clock::now();
                             local_growing(i1n, i0n, i2n, &queue_Ba, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, BiFilt_Ba,
-                                          false, w, h);
+                                          false, w, h, -1);
                             auto clk_bwd_grow = system_clock::now();  // PROFILING
                             duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd;  // PROFILING
                             cout << "(match growing) BWD local growing (it=" << i << ") took "
@@ -3437,8 +3499,8 @@ void match_growing_variational(
                      << elapsed_secs_delete.count() << endl;
 
                 // 4. insert potential candidates
-                insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, occ_Go, w, h);
-                insert_potential_candidates(oft1, &ofBa, queue_Ba, ene_Ba, occ_Ba, w, h);
+                insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, oft0, occ_Go, w, h);
+                insert_potential_candidates(oft1, &ofBa, queue_Ba, ene_Ba, oft1, occ_Ba, w, h);
 
                 auto clk_insert_cand = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_insert_cand = clk_insert_cand - clk_delete; // PROFILING
@@ -3485,7 +3547,7 @@ void match_growing_variational(
                                           &(p_data_r.at(m)->queue_Go), &(p_data_r.at(m)->stuffGo),
                                           &(p_data_r.at(m)->ofGo), i, p_data_r.at(m)->ene_Go, p_data_r.at(m)->oft0,
                                           p_data_r.at(m)->occ_Go, p_data_r.at(m)->BiFilt_Go, true,
-                                          p_data_r.at(m)->width, p_data_r.at(m)->height);
+                                          p_data_r.at(m)->width, p_data_r.at(m)->height, m);
 
                             auto clk_fwd_grow = system_clock::now(); // PROFILING
                             duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd; // PROFILING
@@ -3502,7 +3564,7 @@ void match_growing_variational(
                                           &(p_data_r.at(m)->queue_Ba), &(p_data_r.at(m)->stuffBa),
                                           &(p_data_r.at(m)->ofBa), i, p_data_r.at(m)->ene_Ba, p_data_r.at(m)->oft1,
                                           p_data_r.at(m)->occ_Ba, p_data_r.at(m)->BiFilt_Ba, false,
-                                          p_data_r.at(m)->width, p_data_r.at(m)->height);
+                                          p_data_r.at(m)->width, p_data_r.at(m)->height, m);
 
                             auto clk_bwd_grow = system_clock::now(); // PROFILING
                             duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd; // PROFILING
@@ -3523,7 +3585,7 @@ void match_growing_variational(
                             auto clk_start_fwd = system_clock::now();
                             local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, i, ene_Go, oft0, occ_Go,
                                           BiFilt_Go,
-                                          true, w, h);
+                                          true, w, h, -1);
                             auto clk_fwd_grow = system_clock::now();  // PROFILING
                             duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd;  // PROFILING
                             cout << "(match growing) FWD local growing (it=" << i << ") took "
@@ -3532,7 +3594,7 @@ void match_growing_variational(
                             // BWD
                             auto clk_start_bwd = system_clock::now();
                             local_growing(i1n, i0n, i2n, &queue_Ba, &stuffBa, &ofBa, i, ene_Ba, oft1, occ_Ba, BiFilt_Ba,
-                                          false, w, h);
+                                          false, w, h, -1);
                             auto clk_bwd_grow = system_clock::now();  // PROFILING
                             duration<double> elapsed_secs_bwd_grow = clk_bwd_grow - clk_start_bwd;  // PROFILING
                             cout << "(match growing) BWD local growing (it=" << i << ") took "
@@ -3575,8 +3637,8 @@ void match_growing_variational(
                      << elapsed_secs_delete.count() << endl;
 
                 // 4. insert potential candidates
-                insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, occ_Go, w, h);
-                insert_potential_candidates(oft1, &ofBa, queue_Ba, ene_Ba, occ_Ba, w, h);
+                insert_potential_candidates(oft0, &ofGo, queue_Go, ene_Go, oft0, occ_Go, w, h);
+                insert_potential_candidates(oft1, &ofBa, queue_Ba, ene_Ba, oft1, occ_Ba, w, h);
 
                 auto clk_insert_cand = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_insert_cand = clk_insert_cand - clk_delete; // PROFILING
@@ -3627,7 +3689,7 @@ void match_growing_variational(
                 local_growing(p_data.at(m)->i0n, p_data.at(m)->i1n, p_data.at(m)->i_1n, &(p_data.at(m)->queue_Go),
                               &(p_data.at(m)->stuffGo), &(p_data.at(m)->ofGo), iter, p_data.at(m)->ene_Go,
                               p_data.at(m)->oft0, p_data.at(m)->occ_Go, p_data.at(m)->BiFilt_Go, true,
-                              p_data.at(m)->width, p_data.at(m)->height);
+                              p_data.at(m)->width, p_data.at(m)->height, m);
 
                 auto clk_fwd_grow = system_clock::now(); // PROFILING
                 duration<double> elapsed_secs_fwd_grow = clk_fwd_grow - clk_start_fwd; // PROFILING
@@ -3639,7 +3701,7 @@ void match_growing_variational(
             // Revert to whole-image-based growing (slower but more robust with few seeds)
             // FWD only
             cout << "Reverted back to whole-image based processing due to lack of seeds (1 or more empty queues)" << endl;
-            local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h);
+            local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h, -1);
         }
         auto clk_end = system_clock::now(); // PROFILING
         duration<double> elapsed_secs = clk_end - last_growing; // PROFILING
@@ -3658,7 +3720,7 @@ void match_growing_variational(
 
     } else {
         auto last_growing = system_clock::now();  // PROFILING
-        local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h);
+        local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h, -1);
 
         auto clk_end = system_clock::now(); // PROFILING
         duration<double> elapsed_secs = clk_end - last_growing; // PROFILING
@@ -3736,29 +3798,29 @@ int main(int argc, char *argv[]) {
         // Without occlusions
         fprintf(stderr, "Without occlusions (nº of params: 5 or 7 + 1 (own function name)):\n");
         fprintf(stderr, "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff"
-                " [-m method_id] [-wr windows_radio] [-p file of parameters]"
-                " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
-                " [-split_img split_image] [-h_parts horiz_parts]"
-                " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
-        fprintf(stderr, "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff sal0.tiff sal1.tiff"
-                " [-m method_id] [-wr windows_radio] [-p file of parameters]"
-                " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
-                " [-split_img split_image] [-h_parts horiz_parts]"
-                " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
-        fprintf(stderr, "\n");
-        // With occlusions
-        fprintf(stderr, "With occlusions (nº of params: 7 or 9 + 1 (own function name)):\n");
-        fprintf(stderr, "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff occlusions.png"
-                " [-m method_id] [-wr windows_radio] [-p file of parameters]"
-                " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
-                " [-split_img split_image] [-h_parts horiz_parts]"
-                " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
-        fprintf(stderr,
-                "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff occlusions.png sal0.tiff sal1.tiff"
                         " [-m method_id] [-wr windows_radio] [-p file of parameters]"
                         " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
                         " [-split_img split_image] [-h_parts horiz_parts]"
                         " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
+        fprintf(stderr, "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff sal0.tiff sal1.tiff"
+                        " [-m method_id] [-wr windows_radio] [-p file of parameters]"
+                        " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
+                        " [-split_img split_image] [-h_parts horiz_parts]"
+                        " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
+        fprintf(stderr, "\n");
+        // With occlusions
+        fprintf(stderr, "With occlusions (nº of params: 7 or 9 + 1 (own function name)):\n");
+        fprintf(stderr, "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff occlusions.png"
+                        " [-m method_id] [-wr windows_radio] [-p file of parameters]"
+                        " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
+                        " [-split_img split_image] [-h_parts horiz_parts]"
+                        " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
+        fprintf(stderr,
+                "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff occlusions.png sal0.tiff sal1.tiff"
+                " [-m method_id] [-wr windows_radio] [-p file of parameters]"
+                " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
+                " [-split_img split_image] [-h_parts horiz_parts]"
+                " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
         return 1;
     }
 

@@ -8,6 +8,9 @@
 #ifndef ENERGY_MODEL_H
 #define ENERGY_MODEL_H
 
+#include "energy_structures.h"
+#include "aux_energy_model.h"
+
 ////INITIALIZATION OF AUXILIARY STUFF
 ///
 ///

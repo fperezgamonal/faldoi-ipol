@@ -1,0 +1,2 @@
+/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/Venus/frame10.png
+/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/Venus/frame11.png

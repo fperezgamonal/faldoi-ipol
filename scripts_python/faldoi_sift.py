@@ -32,7 +32,7 @@ matchings = True
 def_num_scales_octave = 15
 
 #	Sparse flow
-sparse_flow = True
+sparse_flow_val = True
 
 #	Local minimisation
 local_of = True
@@ -55,7 +55,7 @@ print('''Code blocks activation value:
         sparse_flow =   {}
         local_of =      {}
         global_of =     {}
-'''.format(descriptors, matchings, sparse_flow, local_of, global_of))
+'''.format(descriptors, matchings, sparse_flow_val, local_of, global_of))
 
 # Energy model
 parser.add_argument("-vm", default=str(def_method),
@@ -277,12 +277,15 @@ else:
     matches_timer = time.time()
 
 # Create a sparse flow from the sift matches.
-if sparse_flow:
+if sparse_flow_val:
+    print(sparse_flow)
     param = "{} {} {} {}".format(cut(match_name_1), width_im, height_im, sparse_name_1)
+    #param = "{} {} {} {}".format(match_name_1, width_im, height_im, sparse_name_1)    
     command_line = "{} {}".format(sparse_flow, param)
     os.system(command_line)
     # Create a sparse flow from the sift matches (img I1).
     param = "{} {} {} {}".format(cut(match_name_2), width_im, height_im, sparse_name_2)
+    #param = "{} {} {} {}".format(match_name_2, width_im, height_im, sparse_name_2)
     command_line = "{} {}".format(sparse_flow, param)
     os.system(command_line)
     # Elapsed time (create sparse flow from SIFT matches)

@@ -1,7 +1,10 @@
 
 #include <omp.h>
 int main() {
-#ifndef _OPENMP
+#ifdef _OPENMP
+  omp_get_max_threads();
+  return 0;
+#else
   breaks_on_purpose
 #endif
 }
