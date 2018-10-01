@@ -17,223 +17,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85c1ae35-1cf3-4a89-ad62-df3e5f0b0dcb" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../build/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CMakeCCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CMakeCCompiler.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CMakeCXXCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CMakeCXXCompiler.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CMakeSystem.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CompilerIdC/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CompilerIdC/a.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CompilerIdCXX/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/3.5.1/CompilerIdCXX/a.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/feature_tests.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/elap_recsep.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/elap_recsep.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/energy_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/energy_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/global_faldoi.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/global_faldoi.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/iio.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/iio.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/mask.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/mask.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/nltv_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/nltv_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/utils.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/utils.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/xmalloc.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/global_faldoi.dir/xmalloc.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/aux_energy_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/aux_energy_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/bicubic_interpolation.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/bicubic_interpolation.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/elap_recsep.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/elap_recsep.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/energy_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/energy_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/iio.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/iio.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/mask.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/mask.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/nltv_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/nltv_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/nltvcsad_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/nltvcsad_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/nltvcsadw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/nltvcsadw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/nltvw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/nltvw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/tvcsad_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/tvcsad_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/tvcsadw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/tvcsadw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/tvl2_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/tvl2_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/tvl2_model_occ.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/tvl2_model_occ.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/tvl2w_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/tvl2w_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/utils.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/utils.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/utils_preprocess.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/utils_preprocess.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/xmalloc.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/local_faldoi.dir/xmalloc.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/aux_energy_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/aux_energy_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/bicubic_interpolation.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/bicubic_interpolation.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/elap_recsep.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/elap_recsep.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/energy_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/energy_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/iio.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/iio.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/mask.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/mask.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/nltv_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/nltv_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/nltvcsad_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/nltvcsad_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/nltvcsadw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/nltvcsadw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/nltvw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/nltvw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/sparse_flow.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/sparse_flow.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/tvcsad_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/tvcsad_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/tvcsadw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/tvcsadw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/tvl2_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/tvl2_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/tvl2_model_occ.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/tvl2_model_occ.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/tvl2w_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/tvl2w_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/utils.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/utils.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/utils_preprocess.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/utils_preprocess.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/xmalloc.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build/CMakeFiles/sparse_flow.dir/xmalloc.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/../build/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../build/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/global_faldoi" beforeDir="false" afterPath="$PROJECT_DIR$/../build/global_faldoi" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/local_faldoi" beforeDir="false" afterPath="$PROJECT_DIR$/../build/local_faldoi" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/match_cli" beforeDir="false" afterPath="$PROJECT_DIR$/../build/match_cli" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/sift_cli" beforeDir="false" afterPath="$PROJECT_DIR$/../build/sift_cli" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/sparse_flow" beforeDir="false" afterPath="$PROJECT_DIR$/../build/sparse_flow" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/difficult_sift.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../example_data/dm_vs_sift/difficult_sift.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/difficult_sift/frame_0031.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/difficult_sift/frame_0032.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/difficult_sift/frame_0033.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/difficult_sift/frame_0034.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/difficult_sift/gt/frame_0032.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/easy_sift.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../example_data/dm_vs_sift/easy_sift.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/easy_sift/frame_0047.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/easy_sift/frame_0048.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/easy_sift/frame_0049.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/easy_sift/frame_0050.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/dm_vs_sift/easy_sift/gt/frame_0048.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_1/frame_0001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_1/frame_0002.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_1/frame_0003.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_1/frame_0004.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_1/out_flow_faldoi.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_1/out_flow_gt.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_1/out_flow_real_ldof.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_2/frame_0001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_2/frame_0002.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_2/frame_0003.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/Sequence_2/frame_0004.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/large_displacements_seq_1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../example_data/large_displacement/large_displacements_seq_2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ext_bin/match_cli" beforeDir="false" afterPath="$PROJECT_DIR$/../ext_bin/match_cli" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ext_bin/sift_cli" beforeDir="false" afterPath="$PROJECT_DIR$/../ext_bin/sift_cli" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../scripts_python/faldoi_sift.py" beforeDir="false" afterPath="$PROJECT_DIR$/../scripts_python/faldoi_sift.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CompilerIdCXX/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPCheckVersion.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPCheckVersion.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPCheckVersion.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPCheckVersion.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPTryFlag.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPTryFlag.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/ompver_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/ompver_C.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/ompver_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/ompver_CXX.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/C.includecache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/CXX.includecache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/aux_energy_model.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/bicubic_interpolation.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/depend.internal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/elap_recsep.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/energy_model.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/global_faldoi.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/iio.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/mask.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/nltv_model.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/nltvcsad_model.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/nltvcsadw_model.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/nltvw_model.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/tvcsad_model.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/tvcsadw_model.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/tvl2_model.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/tvl2_model_occ.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/tvl2w_model.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/utils.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/utils_preprocess.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/global_faldoi.dir/xmalloc.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/C.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/aux_energy_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/aux_energy_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/bicubic_interpolation.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/bicubic_interpolation.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/elap_recsep.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/elap_recsep.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/energy_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/energy_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/iio.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/iio.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/local_faldoi.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/mask.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/mask.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/nltv_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/nltv_model.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/nltvcsad_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/nltvcsad_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/nltvcsadw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/nltvcsadw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/nltvw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/nltvw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/tvcsad_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/tvcsad_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/tvcsadw_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/tvcsadw_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/tvl2_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/tvl2_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/tvl2_model_occ.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/tvl2_model_occ.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/tvl2w_model.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/tvl2w_model.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/utils.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/utils.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/utils_preprocess.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/utils_preprocess.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/xmalloc.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/local_faldoi.dir/xmalloc.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/sparse_flow.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/sparse_flow.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/sparse_flow.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/sparse_flow.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/sparse_flow.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/sparse_flow.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/faldoi_qtcreator.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/faldoi_qtcreator.cbp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/local_faldoi" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/local_faldoi" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/elap_recsep.c" beforeDir="false" afterPath="$PROJECT_DIR$/elap_recsep.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy_model.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/energy_model.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy_model.h" beforeDir="false" afterPath="$PROJECT_DIR$/energy_model.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local_faldoi.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/local_faldoi.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nltvcsad_model.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/nltvcsad_model.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nltvcsad_model.h" beforeDir="false" afterPath="$PROJECT_DIR$/nltvcsad_model.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parameters.h" beforeDir="false" afterPath="$PROJECT_DIR$/parameters.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -261,39 +51,40 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="c" value="7" />
+          <entry key="c" value="8" />
           <entry key="cpp" value="15" />
-          <entry key="h" value="21" />
+          <entry key="h" value="22" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="ObjectiveC" value="43" />
+          <entry key="ObjectiveC" value="45" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="c" value="6" />
-          <entry key="cpp" value="1910" />
-          <entry key="h" value="75" />
+          <entry key="cpp" value="1987" />
+          <entry key="h" value="77" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="1991" />
+          <entry key="ObjectiveC" value="2070" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/local_faldoi.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="55815">
-              <caret line="3723" selection-start-line="3723" selection-end-line="3723" />
+            <state relative-caret-position="9900">
+              <caret line="3367" lean-forward="true" selection-start-line="3367" selection-end-line="3367" />
               <folding>
                 <element signature="e#545#563#0" expanded="true" />
+                <element signature="e#831#847#0" expanded="true" />
                 <element signature="e#911#927#0" expanded="true" />
               </folding>
             </state>
@@ -301,13 +92,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tvl2_model.cpp">
+        <entry file="file://$PROJECT_DIR$/parameters.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
-              <folding>
-                <element signature="e#39#55#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="285">
+              <caret line="32" column="29" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -315,23 +103,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/energy_model.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8696">
+            <state relative-caret-position="-7571">
               <caret line="165" column="24" selection-start-line="165" selection-start-column="24" selection-end-line="165" selection-end-column="24" />
               <folding>
                 <element signature="e#410#426#0" expanded="true" />
                 <element signature="e#519#553#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/energy_model.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
-              <folding>
-                <element signature="e#414#444#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -364,13 +140,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nltvcsad_model.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="247">
-              <caret line="501" column="29" lean-forward="true" selection-start-line="501" selection-start-column="29" selection-end-line="501" selection-end-column="29" />
+              <caret line="501" column="29" selection-start-line="501" selection-start-column="29" selection-end-line="501" selection-end-column="29" />
               <folding>
                 <element signature="e#47#63#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/iio.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="3524" column="25" selection-start-line="3524" selection-start-column="25" selection-end-line="3524" selection-end-column="25" />
+              <folding>
+                <element signature="e#114439#114483#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -404,8 +192,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>input flow field size mism</find>
-      <find>add_neig</find>
       <find>StuffOF</find>
       <find>tvl2OF</find>
       <find>main</find>
@@ -434,6 +220,8 @@
       <find>Salimos</find>
       <find>con pesos</find>
       <find>Pesos</find>
+      <find>please</find>
+      <find>iio_save_image_as_tiff_smarter</find>
     </findStrings>
     <replaceStrings>
       <replace>split_into_parts</replace>
@@ -499,14 +287,14 @@
         <option value="$PROJECT_DIR$/utils_preprocess.cpp" />
         <option value="$PROJECT_DIR$/tvl2_model_occ.cpp" />
         <option value="$PROJECT_DIR$/global_faldoi.cpp" />
-        <option value="$PROJECT_DIR$/parameters.h" />
         <option value="$PROJECT_DIR$/elap_recsep.c" />
         <option value="$PROJECT_DIR$/utils.cpp" />
         <option value="$PROJECT_DIR$/energy_model.h" />
         <option value="$PROJECT_DIR$/nltvcsad_model.h" />
-        <option value="$PROJECT_DIR$/local_faldoi.cpp" />
         <option value="$PROJECT_DIR$/energy_model.cpp" />
         <option value="$PROJECT_DIR$/nltvcsad_model.cpp" />
+        <option value="$PROJECT_DIR$/parameters.h" />
+        <option value="$PROJECT_DIR$/local_faldoi.cpp" />
       </list>
     </option>
   </component>
@@ -518,10 +306,10 @@
   </component>
   <component name="OCFindUsagesOptions" text="false" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="560" />
-    <option name="y" value="1149" />
-    <option name="width" value="928" />
-    <option name="height" value="1056" />
+    <option name="x" value="64" />
+    <option name="y" value="-4" />
+    <option name="width" value="1303" />
+    <option name="height" value="773" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -558,7 +346,7 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="local_faldoi_subimages" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$PROJECT_DIR$/../../MiddleburyDataset/other-data/Hydrangea/cropped/hydrangea_cropped.txt ../Results/debug_nltvcsad_210918/frame10_sift_mt_1.flo ../Results/debug_nltvcsad_210918/frame11_sift_mt_2.flo ../Results/debug_nltvcsad_210918/frame11_sift_rg.flo ../Results/debug_nltvcsad_210918/frame11_sift_sim.tiff -m 6 -wr 5 -split_img 0 -h_parts 1 -v_parts 1" WORKING_DIR="file://$PROJECT_DIR$/../build" PASS_PARENT_ENVS_2="true" PROJECT_NAME="faldoi_qtcreator" TARGET_NAME="local_faldoi" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="faldoi_qtcreator" RUN_TARGET_NAME="local_faldoi">
+    <configuration name="local_faldoi_subimages" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$PROJECT_DIR$/../../MiddleburyDataset/other-data/Hydrangea/cropped/hydrangea_cropped.txt ../Results/debug_nltvcsad_210918/frame10_sift_mt_1.flo ../Results/debug_nltvcsad_210918/frame11_sift_mt_2.flo ../Results/debug_nltvcsad_210918/frame11_sift_rg.flo ../Results/debug_nltvcsad_210918/frame11_sift_sim.tiff -m 0 -wr 5 -split_img 1 -h_parts 3 -v_parts 2" WORKING_DIR="file://$PROJECT_DIR$/../build" PASS_PARENT_ENVS_2="true" PROJECT_NAME="faldoi_qtcreator" TARGET_NAME="local_faldoi" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="faldoi_qtcreator" RUN_TARGET_NAME="local_faldoi">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -621,15 +409,15 @@
       <workItem from="1537978237653" duration="4010000" />
       <workItem from="1538128707537" duration="7981000" />
       <workItem from="1538211370732" duration="29899000" />
-      <workItem from="1538387428527" duration="1928000" />
+      <workItem from="1538387428527" duration="7209000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="583839000" />
+    <option name="totallyTimeSpent" value="589120000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="367" y="1076" width="1303" height="773" extended-state="6" />
+    <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.20729685" />
@@ -637,8 +425,8 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.35816327" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.18554477" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3294979" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.44351465" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -646,7 +434,7 @@
       <window_info anchor="bottom" id="CMake" order="8" weight="0.15816326" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.48867315" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.4884937" />
       <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.32959184" />
       <window_info anchor="bottom" id="Database Changes" order="13" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -917,24 +705,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iio.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="2" lean-forward="true" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/elap_recsep.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="281">
           <caret line="190" column="12" selection-start-line="190" selection-start-column="12" selection-end-line="190" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parameters.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-414">
-          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding>
+            <element signature="e#224#244#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1020,9 +797,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/nltvcsad_model.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="501" column="29" selection-start-line="501" selection-start-column="29" selection-end-line="501" selection-end-column="29" />
+          <folding>
+            <element signature="e#47#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iio.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="3524" column="25" selection-start-line="3524" selection-start-column="25" selection-end-line="3524" selection-end-column="25" />
+          <folding>
+            <element signature="e#114439#114483#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/energy_model.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8696">
+        <state relative-caret-position="-7571">
           <caret line="165" column="24" selection-start-line="165" selection-start-column="24" selection-end-line="165" selection-end-column="24" />
           <folding>
             <element signature="e#410#426#0" expanded="true" />
@@ -1031,23 +828,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/local_faldoi.cpp">
+    <entry file="file://$PROJECT_DIR$/parameters.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="55815">
-          <caret line="3723" selection-start-line="3723" selection-end-line="3723" />
-          <folding>
-            <element signature="e#545#563#0" expanded="true" />
-            <element signature="e#911#927#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="285">
+          <caret line="32" column="29" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nltvcsad_model.cpp">
+    <entry file="file://$PROJECT_DIR$/local_faldoi.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="501" column="29" lean-forward="true" selection-start-line="501" selection-start-column="29" selection-end-line="501" selection-end-column="29" />
+        <state relative-caret-position="9900">
+          <caret line="3367" lean-forward="true" selection-start-line="3367" selection-end-line="3367" />
           <folding>
-            <element signature="e#47#63#0" expanded="true" />
+            <element signature="e#545#563#0" expanded="true" />
+            <element signature="e#831#847#0" expanded="true" />
+            <element signature="e#911#927#0" expanded="true" />
           </folding>
         </state>
       </provider>

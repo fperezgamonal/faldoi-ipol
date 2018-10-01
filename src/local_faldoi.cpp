@@ -3115,26 +3115,42 @@ void local_growing(const float *i0, const float *i1, const float *i_1, pq_cand *
                                         "../Results/Partial_results/partial_results_fwd_" +
                                         std::to_string(percent_print[k]) +
                                         "_iter_" + std::to_string(iteration) + "_part_idx" + to_string(part_idx) + ".flo";
-                                filename_occ =
-                                        "../Results/Partial_results/partial_results_fwd_" +
-                                        std::to_string(percent_print[k]) +
-                                        "_iter_" + std::to_string(iteration) + "_part_idx" + to_string(part_idx) + "_occ.png";
+                                iio_save_image_float_split(filename_flow.c_str(), out_flow, w, h, 2);
+
+                                if (ofD->params.val_method >= 8) {
+                                    filename_occ =
+                                            "../Results/Partial_results/partial_results_fwd_" +
+                                            std::to_string(percent_print[k]) +
+                                            "_iter_" + std::to_string(iteration) + "_part_idx" + to_string(part_idx) +
+                                            "_occ.png";
+                                    auto *out_occ_int = new int[w * h];
+                                    for (int l = 0; l < w * h; l++) {
+                                        out_occ_int[l] = out_occ[l];
+                                    }
+                                    iio_save_image_int(filename_occ.c_str(), out_occ_int, w, h);
+                                }
+
                             } else {
                                 filename_flow =
                                         "../Results/Partial_results/partial_results_fwd_" +
                                         std::to_string(percent_print[k]) +
                                         "_iter_" + std::to_string(iteration) + ".flo";
-                                filename_occ =
-                                        "../Results/Partial_results/partial_results_fwd_" +
-                                        std::to_string(percent_print[k]) +
-                                        "_iter_" + std::to_string(iteration) + "_occ.png";
+                                iio_save_image_float_split(filename_flow.c_str(), out_flow, w, h, 2);
+
+                                if (ofD->params.val_method >= 8) {
+                                    filename_occ =
+                                            "../Results/Partial_results/partial_results_fwd_" +
+                                            std::to_string(percent_print[k]) +
+                                            "_iter_" + std::to_string(iteration) + "_occ.png";
+                                    auto *out_occ_int = new int[w * h];
+                                    for (int l = 0; l < w * h; l++) {
+                                        out_occ_int[l] = out_occ[l];
+                                    }
+                                    iio_save_image_int(filename_occ.c_str(), out_occ_int, w, h);
+                                }
+
                             }
-                            auto *out_occ_int = new int[w * h];
-                            for (int l = 0; l < w * h; l++) {
-                                out_occ_int[l] = out_occ[l];
-                            }
-                            iio_save_image_float_split(filename_flow.c_str(), out_flow, w, h, 2);
-                            iio_save_image_int(filename_occ.c_str(), out_occ_int, w, h);
+
                             percent_print[k] = 200;
                         }
                     }
@@ -3147,28 +3163,42 @@ void local_growing(const float *i0, const float *i1, const float *i_1, pq_cand *
             string filename_flow = " ";
             string filename_occ = " ";
             if (ofD->params.split_img) {
+
                 filename_flow =
                         "../Results/Partial_results/partial_results_fwd_100_iter_" + std::to_string(iteration)
                         + "_part_idx" + to_string(part_idx) + ".flo";
-                filename_occ =
-                        "../Results/Partial_results/partial_results_fwd_100_iter_"
-                        + std::to_string(iteration) + "_part_idx" + to_string(part_idx) + "_occ.png";
-            } else {
-                std::string filename_flow =
-                        "../Results/Partial_results/partial_results_fwd_100_iter_" + std::to_string(iteration) + ".flo";
-                std::string filename_occ =
-                        "../Results/Partial_results/partial_results_fwd_100_iter_" + std::to_string(iteration) +
-                        "_occ.png";
-            }
-            auto *out_occ_int = new int[w * h];
-            for (int i = 0; i < w * h; i++) {
-                out_occ_int[i] = out_occ[i];
-            }
+                iio_save_image_float_split(filename_flow.c_str(), out_flow, w, h, 2);
 
-            iio_save_image_float_split(filename_flow.c_str(), out_flow, w, h, 2);
-            iio_save_image_int(filename_occ.c_str(), out_occ_int, w, h);
+                if (ofD->params.val_method >= 8) {
+                filename_occ =
+                        "../Results/Partial_results/partial_results_fwd_100_iter_" +
+                        std::to_string(iteration) + "_part_idx" + to_string(part_idx) + "_occ.png";
+                auto *out_occ_int = new int[w * h];
+                for (int i = 0; i < w * h; i++) {
+                    out_occ_int[i] = out_occ[i];
+                }
+                iio_save_image_int(filename_occ.c_str(), out_occ_int, w, h);
+            }
+            } else {
+                filename_flow =
+                        "../Results/Partial_results/partial_results_fwd_100_iter_" + std::to_string(iteration) + ".flo";
+                iio_save_image_float_split(filename_flow.c_str(), out_flow, w, h, 2);
+
+                if (ofD->params.val_method >= 8) {
+                    filename_occ =
+                            "../Results/Partial_results/partial_results_fwd_100_iter_" + std::to_string(iteration) +
+                            "_occ.png";
+                    auto *out_occ_int = new int[w * h];
+                    for (int i = 0; i < w * h; i++) {
+                        out_occ_int[i] = out_occ[i];
+                    }
+                    iio_save_image_int(filename_occ.c_str(), out_occ_int, w, h);
+                }
+            }
         }
     }
+
+
 }
 
 
@@ -3701,7 +3731,7 @@ void match_growing_variational(
             // Revert to whole-image-based growing (slower but more robust with few seeds)
             // FWD only
             cout << "Reverted back to whole-image based processing due to lack of seeds (1 or more empty queues)" << endl;
-            local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h, -1);
+            local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h, iter);
         }
         auto clk_end = system_clock::now(); // PROFILING
         duration<double> elapsed_secs = clk_end - last_growing; // PROFILING
@@ -3720,7 +3750,7 @@ void match_growing_variational(
 
     } else {
         auto last_growing = system_clock::now();  // PROFILING
-        local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h, -1);
+        local_growing(i0n, i1n, i_1n, &queue_Go, &stuffGo, &ofGo, iter, ene_Go, oft0, occ_Go, BiFilt_Go, true, w, h, iter);
 
         auto clk_end = system_clock::now(); // PROFILING
         duration<double> elapsed_secs = clk_end - last_growing; // PROFILING

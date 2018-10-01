@@ -7,11 +7,11 @@ C_FLAGS =  -fopenmp -std=c99 -march=native -mtune=native  -fopenmp -std=c99 -mar
 
 C_DEFINES = 
 
-C_INCLUDES = 
+C_INCLUDES = -I/home/fperez/Desktop/IPOL_article_figures/faldoi-ipol/src/./lib 
 
 CXX_FLAGS =  -fopenmp -std=c++11  -fopenmp -std=c++11 -O3  
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/fperez/Desktop/IPOL_article_figures/faldoi-ipol/src/./lib 
 
