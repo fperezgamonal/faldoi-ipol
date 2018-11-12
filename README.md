@@ -141,7 +141,7 @@ or (if you have input saliency files for both images)
 ./local_faldoi file_paths_to_images.txt out_sparse_1.flo out_sparse_2.flo out_local.flo sim_map.tiff occ_loc.png sal0.tiff sal1.tiff [options...]
 ```
 options (python scripts have equivalent ones with similar names and longer explanation):
-+ `-m (0)`      &emsp;&emsp;&emsp;chooses the functional out of the following:
++ `-m (0)`      &emsp;&emsp;&emsp;chooses the functional out of the following:\
 	M_TVL1       &emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;0\
 	M_TVL1_W     &emsp;&ensp;&emsp;&emsp;&nbsp;1\
 	M_NLTVL1     &emsp;&ensp;&nbsp;&emsp;&emsp;&nbsp;2 
@@ -152,7 +152,7 @@ options (python scripts have equivalent ones with similar names and longer expla
 	M_NLTVCSAD_W &ensp;&nbsp;7\
 	M_TVL1_OCC   &emsp;&emsp;&ensp;&nbsp;8
 + `-wr (5)`     	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;radius value wr (5) - patch 2\*wr + 1 x 2\*wr +1 (11 x 11).
-+ `-p (None)`   	&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;file of parameters (see function _init__params_ in [utils_preprocess.cpp](src/utils_preprocess.cpp) for more details).
++ `-p (None)`   	&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;file of parameters (see function _init_params_ in [utils_preprocess.cpp](src/utils_preprocess.cpp) for more details).
 + `-loc_it (3)` 	&emsp;&emsp;&emsp;&emsp;&ensp;number of iterations for the local minimization.
 + `-max_pch_it (3)` 	&emsp;&emsp;&nbsp;number of iterations per patch (for each 'loc_it')
 + `-split_img (1)`     	&emsp;&emsp;&ensp;&nbsp;whether to split image into parts to boost speed.
@@ -171,7 +171,7 @@ options (python scripts have equivalent ones with similar names and longer expla
 options:
 + `-m (0)`      	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;changes the functional (check aux_energy_model.h).
 + `-w (5)`      	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;number of warpings.
-+ `-p (None)`   	&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;file of parameters (see function _init__params_ in
++ `-p (None)`   	&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;file of parameters (see function _init_params_ in
 [utils_preprocess.cpp](src/utils_preprocess.cpp) for more details).
 + `-glb_iters (400)`    &emsp;&nbsp;number of iterations for the global minimization. 
 
