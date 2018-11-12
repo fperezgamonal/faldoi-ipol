@@ -115,7 +115,8 @@ Computing matches (once forward i0=>i1, once backward i0<==i1)
 ./deepmatching im_name0.png im_name1.png -nt 4 -downscale 2
 ```
 To see a more in detail usage of the _sift_cli_ , _match_cli_ (for SIFT) and _deepmatching_ (DeepMatching) executables, visit the [SIFT anatomy](http://www.ipol.im/pub/art/2014/82/) and [DeepMatching](http://lear.inrialpes.fr/src/deepmatching/) pages or/and check their source code's README.md files.
-Alternatively, you can take a look at any of the Python scripts on the following section to see some usage examples with FALDOI (only some default parameters of the matching algorithms are tweaked and most of these are fixed in the code).
+Alternatively, you can take a look at any of the Python scripts on the following section to see some usage examples with FALDOI (only some default parameters of the matching algorithms are tweaked and most of these are fixed in the code).\
+
 NOTE: 'nspo' means the number of scales per octave; 'nt' means the number of threads, 'downscale' is the downscaling factor to apply to the original image.
 
 #### Sparse flow
@@ -216,7 +217,7 @@ path/to/frame_0003.png
 path/to/frame_0001.png
 path/to/frame_0004.png
 ```
-For now, the paths should be absolute or relative to the current path (only those with the tilde '~' character do not work ATM, e.g.: '~/Data/Source/frames/'). We are trying to fix this as soon as possible.
+For now, the paths should be absolute or relative to the current path (using the 'tilde' character does not work at the moment).
 
 Notice that the order in the text file *is* important. The paths should be entered (one per line) as follows: first line: I0, second line: I1, third line: I_1 and fourth line: I2. Chronologically, they are ordered as: I_1 (t-1) --> I0 (t) --> I1 (t+1) --> I2 (t+2).
 If you are not modeling occlusions, you can pass only 2 paths to frames I0 and I1. Nevertheless, specifying the 4 paths as if you were using occlusions will enable you to use the same input files if you desire to start modeling occlusions at some point.
@@ -228,7 +229,7 @@ The 'clean' directory contains the synthetic frames without any defussion or dis
 
 If you want to run the algorithm with SIFT matches and specify your own results path, you just need to navigate to the [scripts_python](scripts_python/) folder and execute the following line in your terminal:
 ```bash
-./fast_sift.py file_paths_to_images.txt -vm 0 -wr 5 -res_path ~/Documents/tmp_faldoi/Experiment1/Results/
+./fast_sift.py file_paths_to_images.txt -vm 0 -wr 5 -res_path /home/Documents/tmp_faldoi/Experiment1/Results/
 ```
 Remember to add the final slash '/' so the files are created _inside_ the child folder (in the example 'Results') and not in its parent directory. Finally, you may run the '*faldoi_deep.py*' and '*faldoi_deep_occ*' scripts in a similar fashion (the last has not been tested thoroughly so some bugs may be present).
 
