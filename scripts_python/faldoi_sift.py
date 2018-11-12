@@ -280,6 +280,8 @@ else:
 if sparse_flow_val:
     print(sparse_flow)
     param = "{} {} {} {}".format(cut(match_name_1), width_im, height_im, sparse_name_1)
+    
+# If we use custom matches that are already filtered, cut needs to be avoided
     #param = "{} {} {} {}".format(match_name_1, width_im, height_im, sparse_name_1)    
     command_line = "{} {}".format(sparse_flow, param)
     os.system(command_line)

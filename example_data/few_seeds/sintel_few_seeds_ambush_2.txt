@@ -1,2 +1,0 @@
-../example_data/few_seeds/ambush_2/frame_0020.png
-../example_data/few_seeds/ambush_2/frame_0021.png

@@ -1,2 +1,0 @@
-../example_data/dm_vs_sift/easy_sift/frame_0048.png
-../example_data/dm_vs_sift/easy_sift/frame_0049.png

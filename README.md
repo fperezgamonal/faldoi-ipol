@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 # FALDOI-IPOL
-Stems from the basic [FALDOI: A New Minimization Strategy for Large Displacement Variational Optical Flow](https://link.springer.com/content/pdf/10.1007%2Fs10851-016-0688-y.pdf) by Roberto P. Palomares, Enric Meinhardt-Lopis, Coloma Ballester and Glòria Haro algorithm and aims to add occlusion estimation to several energy functionals and optimise the code to be published on the [IPOL journal](http://www.ipol.im/) with an interactive demo.\
+Stems from the basic [FALDOI: A New Minimization Strategy for Large Displacement Variational Optical Flow](https://link.springer.com/content/pdf/10.1007%2Fs10851-016-0688-y.pdf) by Roberto P. Palomares, Enric Meinhardt-Lopis, Coloma Ballester and Glòria Haro algorithm and aims to add occlusion estimation to several energy functionals and optimise the code to be published on the [IPOL journal](http://www.ipol.im/) with an interactive demo.
 
 ## Paper(s) and citation
 If you use FALDOI, please cite _any_ of the following papers:
@@ -47,7 +47,7 @@ the [arXiv paper (September 2016)](https://arxiv.org/abs/1602.08960v3):
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 ```
-or the [IPOL article, demo and supplementary material (August 2018)](_doi_to_ipol_to__be__updated_):
+You can reference this implementation with: [IPOL article, demo and supplementary material (August 2018)](_doi_to_ipol_to__be__updated_):
 ```
 bibTeX for IPOL
 ``` 
@@ -99,112 +99,112 @@ Once you have successfully compiled the program, you can execute the algorithm i
 In both cases, the execution varies if you want to include occlusions or not. Moreover, in both cases you can decide to run only some of the algorithm's steps (the python scripts set boolean variables for each step). This can be useful to avoid recomputing matches several times if you plan to run the minimization with different parameters.
 
 ### C++ executables - Usage
-Given a text file with the input images paths (e.g.: 'sintel\\_one\\_frame\\_easy.txt' in [example_data](example_data/final/)) you can obtain the output flow by following the [Algorithm's steps](#Algorithm's-steps) and calling the executables as follows:
+Given a text file with the input images paths (e.g.: 'sintel_one_frame_easy.txt' in [example_data](example_data/final/)) you can obtain the output flow by following the [Algorithm's steps](#Algorithm's-steps) and calling the executables as follows:
 #### Compute matches
 - With SIFT (two separate steps: compute descriptors + compute matches)
 Computing descriptors (once per image: i0 + i1)
 ```bash
-./sift_cli im_name0.png -nspo 15 > im\\_name0\\_descriptors.txt
+./sift_cli im_name0.png -nspo 15 > im_name0_descriptors.txt
 ```
 Computing matches (once forward i0=>i1, once backward i0<==i1)
 ```bash
-./match_cli im\\_name0\\_descriptors.txt im\\_name1\\_descriptors.txt > im\\_name0\\_matches.txt
+./match_cli im_name0_descriptors.txt im_name1_descriptors.txt > im_name0_matches.txt
 ```
 - With DeepMatching:
 ```bash
 ./deepmatching im_name0.png im_name1.png -nt 4 -downscale 2
 ```
-To see a more in detail usage of the _sift__cli_ , _match__cli_ (for SIFT) and _deepmatching_ (Deep Matching) executables, visit the [SIFT anatomy](http://www.ipol.im/pub/art/2014/82/) and [DeepMatching](http://lear.inrialpes.fr/src/deepmatching/) pages or/and check their source code's README.md files.
+To see a more in detail usage of the _sift_cli_ , _match_cli_ (for SIFT) and _deepmatching_ (DeepMatching) executables, visit the [SIFT anatomy](http://www.ipol.im/pub/art/2014/82/) and [DeepMatching](http://lear.inrialpes.fr/src/deepmatching/) pages or/and check their source code's README.md files.
 Alternatively, you can take a look at any of the Python scripts on the following section to see some usage examples with FALDOI (only some default parameters of the matching algorithms are tweaked and most of these are fixed in the code).
 NOTE: 'nspo' means the number of scales per octave; 'nt' means the number of threads, 'downscale' is the downscaling factor to apply to the original image.
 
 #### Sparse flow
 ```bash
-./sparse\\_flow list\\_matches.txt img\\_width img\\_height out\\_sparse\\_n.flo
+./sparse_flow list_matches.txt img_width img_height out_sparse_n.flo
 ```
 
 #### Local faldoi
 - **Without** occlusions:
 ```bash
-./local\\_faldoi file\\_paths\\_\\to\\_images.txt out\\_sparse\\_1.flo out\\_sparse\\_2.flo out\\_local.flo sim\\_map.tiff [options...]
+./local_faldoi file_paths_to_images.txt out_sparse_1.flo out_sparse_2.flo out_local.flo sim_map.tiff [options...]
 ```
 or (if you have input saliency files for both images)
 ```bash
-./local\\_faldoi file\\_paths\\_to\\_images.txt out\\_sparse\\_1.flo out\\_sparse\\_2.flo out\\_local.flo sim\\_map.tiff sal0.tiff sal1.tiff [options...]
+./local_faldoi file_paths_to_images.txt out_sparse_1.flo out_sparse_2.flo out_local.flo sim_map.tiff sal0.tiff sal1.tiff [options...]
 ```
 - **With** occlusions:
 ```bash
-./local\\_faldoi file\\_paths\\_to\\_images.txt out\\_sparse\\_1.flo out\\_sparse\\_2.flo out\\_local.flo sim\\_map.tiff occ\_loc.png [options...]
+./local_faldoi file_paths_to_images.txt out_sparse_1.flo out_sparse_2.flo out_local.flo sim_map.tiff occ_loc.png [options...]
 ```
 or (if you have input saliency files for both images)
 ```bash
-./local\\_faldoi file\\_paths\\_to\\_images.txt out\\_sparse\\_1.flo out\\_sparse_2.flo out\\_local.flo sim\\_map.tiff occ\\_loc.png sal0.tiff sal1.tiff [options...]
+./local_faldoi file_paths_to_images.txt out_sparse_1.flo out_sparse_2.flo out_local.flo sim_map.tiff occ_loc.png sal0.tiff sal1.tiff [options...]
 ```
 options (python scripts have equivalent ones with similar names and longer explanation):
-+ `-m (0)`      &emsp;&emsp;&emsp;Chooses the functional out of the following:
-	M_\\TVL1       0
-	M_\\TVL1\\_W     1
-	M\\_NLTVL1     2 
-	M\\_NLTVL1\\_W   3 
-	M\\_TVCSAD     4
-	M\\_TVCSAD\\_W   5
-	M\\_NLTVCSAD   6
-	M\\_NLTVCSAD\\_W 7
-	M\\_TVL1\\_OCC   8 
-+ `-wr (5)`     	&emsp;&emsp;&ensp;Radius value wr (5) - patch 2\*wr + 1 x 2\*wr +1 (11 x 11).
-+ `-p (None)`   	&emsp;&emsp;&ensp;File of parameters (see function _init__params_ in [utils_preprocess.cpp](src/utils_preprocess.cpp) for more details).
-+ `-loc_it (3)` 	&emsp;&emsp;&ensp;Number of iterations for the local minimization.
-+ `-max_pch_it (3)` 	&emsp;&emsp;&ensp;Number of iterations per patch (for each 'loc\\_it')
-+ `-split_img (1)`     	&emsp;&emsp;&ensp;Whether to split image into parts to boost speed.
-+ `-h_parts (3)`     	&emsp;&emsp;&ensp;Number of horizontal parts.
-+ `-v_parts (2)`     	&emsp;&emsp;&ensp;Number of vertical parts.
++ `-m (0)`      &emsp;&emsp;&emsp;chooses the functional out of the following:
+	M_TVL1       &emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;0\
+	M_TVL1_W     &emsp;&ensp;&emsp;&emsp;&nbsp;1\
+	M_NLTVL1     &emsp;&ensp;&nbsp;&emsp;&emsp;&nbsp;2 
+	M_NLTVL1_W   &nbsp;&emsp;&ensp;&nbsp;&nbsp;&nbsp;3
+	M_TVCSAD     &emsp;&emsp;&emsp;&ensp;&nbsp;4\
+	M_TVCSAD_W   &nbsp;&emsp;&ensp;&nbsp;&nbsp;5\
+	M_NLTVCSAD   &nbsp;&emsp;&ensp;&nbsp;&nbsp; 6\
+	M_NLTVCSAD_W &ensp;&nbsp;7\
+	M_TVL1_OCC   &emsp;&emsp;&ensp;&nbsp;8
++ `-wr (5)`     	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;radius value wr (5) - patch 2\*wr + 1 x 2\*wr +1 (11 x 11).
++ `-p (None)`   	&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;file of parameters (see function _init__params_ in [utils_preprocess.cpp](src/utils_preprocess.cpp) for more details).
++ `-loc_it (3)` 	&emsp;&emsp;&emsp;&emsp;&ensp;number of iterations for the local minimization.
++ `-max_pch_it (3)` 	&emsp;&emsp;&nbsp;number of iterations per patch (for each 'loc_it')
++ `-split_img (1)`     	&emsp;&emsp;&ensp;&nbsp;whether to split image into parts to boost speed.
++ `-h_parts (3)`     	&emsp;&emsp;&ensp;&emsp;&ensp;number of horizontal parts.
++ `-v_parts (2)`     	&emsp;&emsp;&emsp;&ensp;&ensp;number of vertical parts.
 
 #### Global faldoi
 - **Without** occlusions:
 ```bash
-./global\\_faldoi file\\_paths\\_to\\_images.txt out\\_local.flo out\\_final.flo [options...]
+./global_faldoi file_paths_to_images.txt out_local.flo out_final.flo [options...]
 ```
 - **With** occlusions:
 ```bash
-./global\\_faldoi file\\_paths\\_to\\_images.txt out\\_local.flo out\\_final.flo occ\\_loc.png occ\\_final.png [options...]
+./global_faldoi file_paths_to_images.txt out_local.flo out_final.flo occ_loc.png occ_final.png [options...]
 ```
 options:
-+ `-m (0)`      	&emsp;&emsp;&emsp;Changes the functional (check aux_energy_model.h).
-+ `-w (5)`      	&emsp;&emsp;&emsp;Number of warpings.
-+ `-p (None)`   	&emsp;&emsp;&ensp;File of parameters (see function _init__params_ in
++ `-m (0)`      	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;changes the functional (check aux_energy_model.h).
++ `-w (5)`      	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;number of warpings.
++ `-p (None)`   	&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;file of parameters (see function _init__params_ in
 [utils_preprocess.cpp](src/utils_preprocess.cpp) for more details).
-+ `-glb_iters (400)`    &emsp;&emsp;&emsp;Number of iterations for the global minimization. 
++ `-glb_iters (400)`    &emsp;&nbsp;number of iterations for the global minimization. 
 
 ### Python scripts - Usage
 As you saw above, calling each binary with the correct parameters and keeping track of all output files to pass them to the following step, etc. can be very convoluted. For that reason, we suggest that you try using the python scripts to simplify the process. In the directory [scripts_python](scripts_python), you will find three main scripts that execute the whole algorithm following all the steps detailed in the [Algorithm's steps section](#algorithm's-steps).
 #### faldoi_sift.py
 Given a text file containing the paths to the input frames, computes the optical flow estimation based on the FALDOI algorithm's energy minimisation. Matches are extracted with SIFT. Usage:
 ```bash
-./faldoi\\_sift.py file\\_paths\\_to\\_images.txt [options]
+./faldoi_sift.py file_paths_to_images.txt [options]
 ```
 options: 
-+ `-vm (0)`    &emsp;&emsp;&ensp;Changes the functional (check aux_energy_model.h).
-+ `-wr (5)`    &emsp;&emsp;&ensp;Windows radius or patch size (2\*wr + 1 x 2\*wr + 1). For instance, wr=5 means a 11x11 patch size.
-+ `-warps (5)` &emsp;Numbers of warps at the finest scale (global minimisation).
-+ `-nsp (15)`  &emsp;&ensp;Number of scales per octave to be computed by the SIFT algorithm.
-+ `-res_path`  &emsp;&ensp;Path where the output files will be saved (partial and final flow, descriptors and matches). If "None", the results are stored in the [Results](Results) folder.
++ `-vm (0)`    &emsp;&emsp;&emsp;&ensp;changes the functional (check aux_energy_model.h).
++ `-wr (5)`    &emsp;&emsp;&emsp;&ensp;windows radius or patch size (2\*wr + 1 x 2\*wr + 1). For instance, wr=5 means a 11x11 patch size.
++ `-warps (5)` &emsp;&emsp;numbers of warps at the finest scale (global minimisation).
++ `-nsp (15)`  &emsp;&emsp;&ensp;number of scales per octave to be computed by the SIFT algorithm.
++ `-res_path`  &emsp;&emsp;&ensp;path where the output files will be saved (partial and final flow, descriptors and matches). If "None", the results are stored in the [Results](Results) folder.
 
 #### faldoi_deep.py
 Does the same as the above script but the matches are extracted with the DeepMatching algorithm instead of SIFT. Usage:
 ```bash
-./faldoi\\_deep.py file\\_paths\\_to\\_images.txt [options]
+./faldoi_deep.py file_paths_to_images.txt [options]
 ```
 options:
-+ `-vm (0)`     &emsp;&emsp;&ensp;Changes the functional (check aux_energy_model.h).
-+ `-wr (5)`     &emsp;&emsp;&ensp;Windows radius or patch size (2*wr + 1 x 2*wr + 1). For instance, wr=5 means a 11x11 patch size.
-+ `-warps (5)`  &emsp;Numbers of warps at the finest scale (global minimisation).
-+ `-th (0.45)`  &emsp;Threshold to discard outliers from DeepMatching.
-+ `-res_path`   &emsp;&ensp;Path where the output files will be saved (partial and final flow, descriptors and matches). If "None", the results are stored in the [Results](Results) folder.
++ `-vm (0)`     &emsp;&emsp;&ensp;changes the functional (check aux_energy_model.h).
++ `-wr (5)`     &emsp;&emsp;&ensp;windows radius or patch size (2*wr + 1 x 2*wr + 1). For instance, wr=5 means a 11x11 patch size.
++ `-warps (5)`  &emsp;numbers of warps at the finest scale (global minimisation).
++ `-th (0.45)`  &emsp;threshold to discard outliers from DeepMatching.
++ `-res_path`   &emsp;&ensp;path where the output files will be saved (partial and final flow, descriptors and matches). If "None", the results are stored in the [Results](Results) folder.
 
 #### faldoi_deep_occ.py
 Includes the optional parameters to model occlusions (only available with the TVL1 energy functional right now). Matches are computed with Deep Matching. Usage
 ```bash
-./fast\\_faldoi\\_occ.py file\\_paths\\_to\\_images.txt [options]
+./fast_faldoi_occ.py file_paths_to_images.txt [options]
 ```
 options: same as fast_faldoi.py (see above).
 
@@ -218,21 +218,21 @@ path/to/frame_0004.png
 ```
 For now, the paths should be absolute or relative to the current path (only those with the tilde '~' character do not work ATM, e.g.: '~/Data/Source/frames/'). We are trying to fix this as soon as possible.
 
-Notice that the order in the text file *is* important. The paths should be entered (one per line) as follows: first line: I0, second line: I1, third line: I\\_1 and fourth line: I2. Chronologically, they are ordered as: I\\_1 (t-1) --> I0 (t) --> I1 (t+1) --> I2 (t+2).
+Notice that the order in the text file *is* important. The paths should be entered (one per line) as follows: first line: I0, second line: I1, third line: I_1 and fourth line: I2. Chronologically, they are ordered as: I_1 (t-1) --> I0 (t) --> I1 (t+1) --> I2 (t+2).
 If you are not modeling occlusions, you can pass only 2 paths to frames I0 and I1. Nevertheless, specifying the 4 paths as if you were using occlusions will enable you to use the same input files if you desire to start modeling occlusions at some point.
 
 #### Example of usage
-With the source code, you can already run the algorithm with some sample frames stored in folders inside the [example_data](/example_data) folder. Most of these frames are part of a bigger dataset known as [MPI Sintel](http://sintel.is.tue.mpg.de/). In the folder, two directories have been created, each containing the first 4 frames of the same sequence ('alley\\_1'). 
+With the source code, you can already run the algorithm with some sample frames stored in folders inside the [example_data](/example_data) folder. Most of these frames are part of a bigger dataset known as [MPI Sintel](http://sintel.is.tue.mpg.de/). In the folder, two directories have been created, each containing the first 4 frames of the same sequence ('alley_1'). 
 
 The 'clean' directory contains the synthetic frames without any defussion or distortion applied to them. The second directory, 'final', applies some transformations to the original frames which makes the optical flow estimation more challenging.
 
 If you want to run the algorithm with SIFT matches and specify your own results path, you just need to navigate to the [scripts_python](scripts_python/) folder and execute the following line in your terminal:
 ```bash
-./fast\\_sift.py file\\_paths\\_to\\_images.txt -vm 0 -wr 5 -res\\_path ~/Documents/tmp\\_faldoi/Experiment1/Results/
+./fast_sift.py file_paths_to_images.txt -vm 0 -wr 5 -res_path ~/Documents/tmp_faldoi/Experiment1/Results/
 ```
-Remember to add the final slash '/' so the files are created _inside_ the child folder (in the example 'Results') and not in its parent directory. Finally, you may run the '*faldoi_deep.py*' and '*faldoi\\_\\deep_occ*' scripts in a similar fashion (the last has not been tested thoroughly so some bugs may be present).
+Remember to add the final slash '/' so the files are created _inside_ the child folder (in the example 'Results') and not in its parent directory. Finally, you may run the '*faldoi_deep.py*' and '*faldoi_deep_occ*' scripts in a similar fashion (the last has not been tested thoroughly so some bugs may be present).
 
-The other folders contain special cases tested throughout the algorithm's development and optimization. All the sequences with known ground truth include a subfolder called _'gt'_ with extra subfolders for occlusions and invalid pixel masks (so one can compute error metrics). We follow the MPI-Sintel nomenclature for naming the folders.
+The other folders contain special cases tested throughout the algorithm's development and optimization. All the sequences with known ground truth include a subfolder called _'gt'_ with extra subfolders for occlusions and invalid pixel masks (so one can compute error metrics). We follow the MPI-Sintel naming nomenclature for the folders (you can find more information in [Sintel's website](http://sintel.is.tue.mpg.de/downloads)).
 
 ## Bugs, issues or questions
 If you encounter any bugs, issues or have any questions about this source code or the implemented algorithm, please, do not hesitate to open an issue in this repository. Alternatively, you may want to send an e-mail to the [last active developer](mailto:fperez.gamonal@gmail.com).
@@ -241,7 +241,7 @@ If you encounter any bugs, issues or have any questions about this source code o
 ## Developers
 - Roberto Palomares, 2014 (main dev)
 - Onofre Martorell, 2017 (MsC Thesis: migrated most of the code to C++, added occlusions estimation for the TVL1 functional and fixed bugs)
-- Ferran Pérez, 2018 (_ONGOING_: optimise the code for IPOL and later, model occlusions with other energy functionals)
+- Ferran Pérez, 2018 (optimise the code for IPOL, fixed some bugs with some functionals. All the work is summarised in the [following article](http://www.ipol.im/))
 
 ## License and copyright
 This software is licensed under the BSD 3-Clause license. For details, see [LICENSE.md](LICENSE.md/LICENSE.md)

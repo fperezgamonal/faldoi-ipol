@@ -1,4 +1,0 @@
-../example_data/large_displacement/Hypermacaco/frame_0002.png
-../example_data/large_displacement/Hypermacaco/frame_0003.png
-../example_data/large_displacement/Hypermacaco/frame_0001.png
-../example_data/large_displacement/Hypermacaco/frame_0004.png

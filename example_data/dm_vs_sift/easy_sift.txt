@@ -1,4 +1,0 @@
-../example_data/dm_vs_sift/easy_sift/frame_0035.png
-../example_data/dm_vs_sift/easy_sift/frame_0036.png
-../example_data/dm_vs_sift/easy_sift/frame_0034.png
-../example_data/dm_vs_sift/easy_sift/frame_0037.png

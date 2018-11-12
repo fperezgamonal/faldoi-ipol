@@ -1,2 +1,0 @@
-../example_data/faldoi_functionals_comparison/sequence2/frame_0011.png
-../example_data/faldoi_functionals_comparison/sequence2/frame_0012.png

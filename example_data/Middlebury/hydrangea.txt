@@ -1,4 +1,0 @@
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/Hydrangea/frame10.png
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/Hydrangea/frame11.png
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/Hydrangea/frame09.png
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/Hydrangea/frame12.png

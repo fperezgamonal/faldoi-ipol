@@ -1,4 +1,0 @@
-../example_data/iterated_faldoi_evol_and_final_flow/frame_0042.png
-../example_data/iterated_faldoi_evol_and_final_flow/frame_0043.png
-../example_data/iterated_faldoi_evol_and_final_flow/frame_0041.png
-../example_data/iterated_faldoi_evol_and_final_flow/frame_0044.png

@@ -1,4 +1,0 @@
-../example_data/few_seeds/market_5/frame_0009.png
-../example_data/few_seeds/market_5/frame_0010.png
-../example_data/few_seeds/market_5/frame_0008.png
-../example_data/few_seeds/market_5/frame_0011.png

@@ -1,4 +1,0 @@
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/RubberWhale/frame10.png
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/RubberWhale/frame11.png
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/RubberWhale/frame09.png
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/RubberWhale/frame12.png

@@ -1,4 +1,0 @@
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/Urban2/frame10.png
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/Urban2/frame11.png
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/Urban2/frame09.png
-/home/fperez/Desktop/IPOL_article_figures/MiddleburyDataset/other-data/Urban2/frame12.png
