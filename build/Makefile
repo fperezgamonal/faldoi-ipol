@@ -182,6 +182,39 @@ aux_energy_model.cpp.s:
 	$(MAKE) -f CMakeFiles/local_faldoi.dir/build.make CMakeFiles/local_faldoi.dir/aux_energy_model.cpp.s
 .PHONY : aux_energy_model.cpp.s
 
+aux_partitions.o: aux_partitions.cpp.o
+
+.PHONY : aux_partitions.o
+
+# target to build an object file
+aux_partitions.cpp.o:
+	$(MAKE) -f CMakeFiles/global_faldoi.dir/build.make CMakeFiles/global_faldoi.dir/aux_partitions.cpp.o
+	$(MAKE) -f CMakeFiles/sparse_flow.dir/build.make CMakeFiles/sparse_flow.dir/aux_partitions.cpp.o
+	$(MAKE) -f CMakeFiles/local_faldoi.dir/build.make CMakeFiles/local_faldoi.dir/aux_partitions.cpp.o
+.PHONY : aux_partitions.cpp.o
+
+aux_partitions.i: aux_partitions.cpp.i
+
+.PHONY : aux_partitions.i
+
+# target to preprocess a source file
+aux_partitions.cpp.i:
+	$(MAKE) -f CMakeFiles/global_faldoi.dir/build.make CMakeFiles/global_faldoi.dir/aux_partitions.cpp.i
+	$(MAKE) -f CMakeFiles/sparse_flow.dir/build.make CMakeFiles/sparse_flow.dir/aux_partitions.cpp.i
+	$(MAKE) -f CMakeFiles/local_faldoi.dir/build.make CMakeFiles/local_faldoi.dir/aux_partitions.cpp.i
+.PHONY : aux_partitions.cpp.i
+
+aux_partitions.s: aux_partitions.cpp.s
+
+.PHONY : aux_partitions.s
+
+# target to generate assembly for a file
+aux_partitions.cpp.s:
+	$(MAKE) -f CMakeFiles/global_faldoi.dir/build.make CMakeFiles/global_faldoi.dir/aux_partitions.cpp.s
+	$(MAKE) -f CMakeFiles/sparse_flow.dir/build.make CMakeFiles/sparse_flow.dir/aux_partitions.cpp.s
+	$(MAKE) -f CMakeFiles/local_faldoi.dir/build.make CMakeFiles/local_faldoi.dir/aux_partitions.cpp.s
+.PHONY : aux_partitions.cpp.s
+
 bicubic_interpolation.o: bicubic_interpolation.c.o
 
 .PHONY : bicubic_interpolation.o
@@ -838,6 +871,9 @@ help:
 	@echo "... aux_energy_model.o"
 	@echo "... aux_energy_model.i"
 	@echo "... aux_energy_model.s"
+	@echo "... aux_partitions.o"
+	@echo "... aux_partitions.i"
+	@echo "... aux_partitions.s"
 	@echo "... bicubic_interpolation.o"
 	@echo "... bicubic_interpolation.i"
 	@echo "... bicubic_interpolation.s"

@@ -316,7 +316,6 @@ if local_of:
     param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
                                          region_growing, sim_value, options)
     command_line = "{} {}\n".format(match_propagation, param)
-    print(command_line)
     os.system(command_line)
     # Elapsed time (dense flow)
     dense_timer = time.time()
@@ -334,7 +333,6 @@ if global_of:
     param = "{} {} {} {}\n".format(args.file_images,
                                    region_growing, var_flow, options)
     command_line = "{} {}\n".format(of_var, param)
-    print(command_line)
     os.system(command_line)
     # Elapsed time (put the dense flow as input for a variational method)
     dense_variational_timer = time.time()

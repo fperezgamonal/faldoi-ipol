@@ -1,3 +1,7 @@
 Results/
 Documentation/
 faldoi_doxygen_config.txt
+src/cmake-build-debug/
+src/.idea/
+scripts_python/__pycache__/
+build/CMakeFiles/

@@ -1,5 +1,5 @@
-#ifndef FALDOI_QTCREATOR_AUX_PARTITIONS_H
-#define FALDOI_QTCREATOR_AUX_PARTITIONS_H
+#ifndef AUX_PARTITIONS_H
+#define AUX_PARTITIONS_H
 
 #include "energy_structures.h"
 
@@ -8,14 +8,14 @@
 
 // Initializes subimage partitions with the correct
 void  init_subimage_partitions(
-        float *i0,
-        float *i1,
-        float *i_1,
-        float *i2,
-        float *i0n,
-        float *i1n,
-        float *i_1n,
-        float *i2n,
+        const float *i0,
+        const float *i1,
+        const float *i_1,
+        const float *i2,
+        const float *i0n,
+        const float *i1n,
+        const float *i_1n,
+        const float *i2n,
         BilateralFilterData* BiFilt_Go,
         BilateralFilterData* BiFilt_Ba,
         float *sal_go,

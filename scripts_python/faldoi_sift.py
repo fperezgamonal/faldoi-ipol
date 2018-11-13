@@ -278,7 +278,6 @@ else:
 
 # Create a sparse flow from the sift matches.
 if sparse_flow_val:
-    print(sparse_flow)
     param = "{} {} {} {}".format(cut(match_name_1), width_im, height_im, sparse_name_1)
     
 # If we use custom matches that are already filtered, cut needs to be avoided
@@ -297,20 +296,6 @@ if sparse_flow_val:
 else:
     # Need the timer anyway to compute the rest of relative values!
     sparse_timer = time.time()
-
-# Load absolute paths (hacky*, maybe there is a better way!)
-# * converted original path files to absolute equivalents and store it (since loc_faldoi only accepts .txt input)
-# print("we are at: " + os.getcwd())
-# print("List of files at current directory: ")
-# print(os.listdir('.'))
-# print(tmp_filename)
-# print(os.path.join(os.getcwd(), tmp_filename))
-# print("is file (directly file): " + str(os.path.isfile(tmp_filename)))
-# print("is file (abs path): " + str(os.path.isfile(os.path.join(os.getcwd(), tmp_filename))))
-# print(os.path.abspath(tmp_filename))
-# print(os.path.join(os.path.abspath(__file__), tmp_filename))
-# os.chdir(root_path)
-# with open(r"/home/fperezgamonal/Documents/Papers_code/Faldoi_tfm-master/scripts_python/tmp_absPaths.txt", 'r') as tmp_file: # Closed at the end
 
 # Create a dense flow from a sparse set of initial seeds
 if local_of:
