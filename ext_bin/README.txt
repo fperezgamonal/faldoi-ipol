@@ -5,12 +5,12 @@ In this directory, three files are included, belonging to two different matchers
 		- 'sift_cli':		computes descriptors of input image following the SIFT algorithm.
 		- 'match_cli':		takes the descriptors generated above for two frames and computes the matches.
 	The implementation used is the one from:
-
+		https://doi.org/10.5201/ipol.2014.82
 
 	DeepMatching
 		- 'deepmatching':	computes DeepMatching matches between two input frames.
 	The implementation used is the one from: 
-
+		https://thoth.inrialpes.fr/src/deepmatching/
 
 	NOTES:
 	If the binaries included with the source files do not work, you can download the newest version online from the link above and try again.
