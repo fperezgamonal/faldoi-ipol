@@ -3,12 +3,12 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 # FALDOI-IPOL
-Stems from the basic [FALDOI: A New Minimization Strategy for Large Displacement Variational Optical Flow](https://link.springer.com/content/pdf/10.1007%2Fs10851-016-0688-y.pdf) by Roberto P. Palomares, Enric Meinhardt-Lopis, Coloma Ballester and Gloria Haro algorithm and aims to add occlusion estimation to several energy functionals and optimise the code to be published on the [IPOL journal](http://www.ipol.im/) with an interactive demo.
+Stems from the basic [FALDOI: A New Minimization Strategy for Large Displacement Variational Optical Flow][1] by Roberto P. Palomares, Enric Meinhardt-Lopis, Coloma Ballester and Gloria Haro algorithm and aims to add occlusion estimation to several energy functionals and optimise the code to be published on the [IPOL journal](http://www.ipol.im/) with an interactive demo.
 
 ## Paper(s) and citation
 If you use FALDOI, please cite _any_ of the following papers:
 
-[Springer original paper (November 2016)](https://link.springer.com/content/pdf/10.1007%2Fs10851-016-0688-y.pdf):
+[Springer original paper (November 2016)][1]:
 ```
 @Article{Palomares2017,
 author="Palomares, Roberto P.
@@ -28,7 +28,7 @@ doi="10.1007/s10851-016-0688-y",
 url="https://doi.org/10.1007/s10851-016-0688-y"
 }
 ```
-the [arXiv paper (September 2016)](https://arxiv.org/abs/1602.08960v3):
+the [arXiv paper (September 2016)][2]:
 ```
 @article{DBLP:journals/corr/PalomaresHBM16,
   author    = {Roberto P. Palomares and
@@ -47,7 +47,7 @@ the [arXiv paper (September 2016)](https://arxiv.org/abs/1602.08960v3):
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 ```
-You can reference this implementation with: [IPOL article, demo and supplementary material (August 2018)](_doi_to_ipol_to__be__updated_):
+You can reference this implementation with: [IPOL article, demo and supplementary material (December 2018)][3]:
 ```
 bibTeX for IPOL
 ``` 
@@ -57,6 +57,7 @@ ___
   * [Pre-requisites](#pre-requisites)
   * [Compilation](#compilation)
   * [Algorithm's steps](#algorithm's-steps)
+  * [From algorithms to actual code](#from-algorithms-to-actual-code)
 * [Execution](#execution)
   * [C++ executables - Usage](#c-executables---usage)
   * [Python scripts - Usage](#python-scripts---usage)
@@ -70,9 +71,9 @@ The code is written in C/C++ and includes Python scripts to unify and simplify a
 ### Pre-requisites
 The software needs the following programs to be installed in order to function:
 - Python 3.5
-- Pillow for Python 3 (if you do not want to use Pillow, in the python script there is a commented section above the PIL import that uses [_imagemagick_](https://www.imagemagick.org/script/identify.php) instead). Pillow is faster (since it is built-in python).
+- Pillow for Python 3 (if you do not want to use Pillow, in the python script there is a commented section above the PIL import that uses [_imagemagick_](https://www.imagemagick.org/script/identify.php) instead). Nevertheless, notice that Pillow will be usually faster (since it is built-in python).
 - libpng (included)
-- OpenMP (Optional but recommended). Should be included with your compiler if you have a relatively new version (e.g.: gcc supports it since version 4.2).
+- OpenMP (Optional but recommended). Should be included with your compiler if you have a relatively new version (e.g.: gcc supports it since version 4.2). For a gentle introduction to OpenMP, please read [this post](https://helloacm.com/simple-tutorial-with-openmp-how-to-use-parallel-block-in-cc-using-openmp/) or visit the official website.
 ### Compilation
 The code needs to be compiled in order to generate the needed executables. Nevertheless, if you do not want to compile the code before testing it once, we added already-compiled executables that are already linked (see [_Execution_](#Execution)). These executables have been compiled in a machine with 4 cores running Ubuntu 16.04 LTS.
 
@@ -94,9 +95,27 @@ In order to obtain the final optical flow estimation, the algorithm follows thes
 4. Computes a dense flow from the initial sparse flow (local step).
 5. Computes global minimization taking as input the flow of the previous step (global step).
 
+### From algorithms to actual code
+The first time you download the code, you will see that the _'src'_ folder contains several source files. Trying to understand what each of those files does at once will be too time-consuming and hard. For those reasons, we **strongly** encourage you to read one of the articles linked at the top of this file. More concretely, if you want a thourough explanation of the theoretical background of the algorithm, read the [original Springer paper][1]; if you want a summarised version containing more implementations details, read the IPOL article instead.
+
+Nevertheless, in both articles, the FALDOI algorithm is broken down into 4 different algorithms which are implemented in code inside the _'src'_ folder. Note that we will refer to the algorithms with the same notation use in the articles mentioned above. The algorithms are the next ones:
+- _Algorithm 1 (**faldoi (end-to-end)**)_: specifies the steps followed by the FALDOI algorithm with the following functions. The steps detail in this pseudo-code are implemented in two main files, [_'local_faldoi.cpp'_](src/local_faldoi.cpp) for the functions related to the local minimization step, and [_'global_faldoi.cpp'_](src/global_faldoi.cpp), regarding the global minimization step. Despite this, functional-specific functions are implemented in separate files of type: *[FUNCTIONAL_NAME]*__model.cpp/h_ (e.g.: _tvl1_model.cpp/h_).
+    - **basic-faldoi-growing** (see _Algorithm 2_ below).
+    - **flow-refinement** (see _Algorithm 4_ below).
+- _Algorithm 2 (**basic-faldoi-growing**)_: this function is implemented in [_'local_faldoi.cpp'_](src/local_faldoi.cpp) and is called _'match_growing_variational'_. It performs the local minimization step of the algorithm, that is, it iterates a local minimization on a per-patch basis and it also does the forward-backward pruning and deletion of invalid candidates. In this pseudo-code, two new functions are defined:
+    - _**extract-patch**_: given a center pixel with coordinates _(i,j)_, extracts a patch of pre-defined size. In the implementation, each patch has associated a struct with the limit coordinates of the patch, its energy and a similarity value (_energy * saliency_).
+    - _**interpolate**_: we use poisson interpolation, implemented in [_'local_faldoi.cpp'_](src/local_faldoi.cpp), function: _'interpolate_poisson'_.
+- _Algorithm 3 (**iterated-faldoi**)_: this function defines the complete FALDOI algorithm which adds to _Algorithm 1_ the pruning of the matches and also the filtering of invalid candidates (those that do not pass the forward-backward consistency check). In that regard, two new functions are defined:
+    - _**saliency-pruning**_: filter out inconsistent matches based on saliency. This is implemented in the Python script [rescore_prunning.py](scripts_python/rescore_prunning.py), function: _'confidence_values'_. 
+    - _**fb-pruning**_: delete inconsistent flow values based on a forward-backward check. This is implemented in [_'local_faldoi.cpp'_](src/local_faldoi.cpp), function: _'fb_consistency_check'_.
+- _Algorithm 4 (**flow-refinement**)_: this function defines the actual minimization (local or global) of the energy functional. As a consequence, it is implemented in both [_'global_faldoi.cpp'_](src/global_faldoi.cpp), inside the _main()_ function, using different implementations for each type of functional that FALDOI supports (e.g.: TVL1 (function name: _tvl2OF_), NLTV-CSAD (function name: _nltvcsad_PD_), etc.); and also in [_'local_faldoi.cpp'_](src/local_faldoi.cpp) with functional-specific functions defined alongside the energy model in its own source + header (cpp + h) files (see nomenclature in _Algorithm 1_ above).
+The first one, performs the global minimization for N warpings, using the previously (locally) estimated flow and it does so at the finer scale (original image scale). The second computes the local minimization on a per-patch basis, taking as input the initial flow computed from the initial set of matches between the two input frames.
+
+For more information about all these algorithms, please, refer to the papers.
+
 ## Execution
 Once you have successfully compiled the program, you can execute the algorithm in two ways: using the C++ executables or running the Python scripts (*suggested*). The advantage of choosing the latter is that all the algorithm's steps are run at once sequentially, while with C++ executables, you will have to manually call each block of the algorithm, including the necessary input files (this may be needed if you want to combine your own matching algorithm, with steps 3, 4 and 5 of FALDOI). 
-In both cases, the execution varies if you want to include occlusions or not. Moreover, in both cases you can decide to run only some of the algorithm's steps (the python scripts set boolean variables for each step). This can be useful to avoid recomputing matches several times if you plan to run the minimization with different parameters.
+Moreover, in both cases you can decide to run only some of the algorithm's steps (the python scripts set boolean variables for each step). This can be useful to avoid recomputing matches several times if you plan to run the minimization with different parameters.
 
 ### C++ executables - Usage
 Given a text file with the input images paths (e.g.: 'sintel_one_frame_easy.txt' in [example_data](example_data/final/)) you can obtain the output flow by following the [Algorithm's steps](#Algorithm's-steps) and calling the executables as follows:
@@ -114,10 +133,17 @@ Computing matches (once forward i0=>i1, once backward i0<==i1)
 ```bash
 ./deepmatching im_name0.png im_name1.png -nt 4 -downscale 2
 ```
-To see a more in detail usage of the _sift_cli_ , _match_cli_ (for SIFT) and _deepmatching_ (DeepMatching) executables, visit the [SIFT anatomy](http://www.ipol.im/pub/art/2014/82/) and [DeepMatching](http://lear.inrialpes.fr/src/deepmatching/) pages or/and check their source code's README.md files.
-Alternatively, you can take a look at any of the Python scripts on the following section to see some usage examples with FALDOI (only some default parameters of the matching algorithms are tweaked and most of these are fixed in the code).
+To see a more in detail usage of the _sift_cli_ , _match_cli_ (for SIFT) and _deepmatching_ (DeepMatching) executables, visit the [SIFT anatomy][4] and [DeepMatching][5] pages or/and check their source code's README.md files. In order to generate the needed binaries, you can use the ones located in the folder _'ext_bin'_ (may not work with your particular architecture) or download the source code from the links above and compile them as follows (**recommended**):
+	- _SIFT_: download and unzip the compressed file in the desired directory. Change to the directory where the _Makefile_ is located in a terminal. Simply run the command _'make'_ which should yield the _sift_cli_ , _match_cli_ binaries.
+	- _DeepMatching_: download and unzip the compressed file in the desired directory. Open a terminal and change to the directory where the _Makefile_ is located. In this case, we needed to change some lines of the original _Makefile_ from the source code in order to successfully compile it under Linux. Just comment out the lines inside the _'ifeq ($(OS_NAME),Linux)'_ statement for _'LAPACKLDFLAGS=-latlas -lblas'_. If this does not work, you may try the original lines as it may work in your case.
 
-NOTE: 'nspo' means the number of scales per octave; 'nt' means the number of threads, 'downscale' is the downscaling factor to apply to the original image.
+
+Please note that in both cases, you may need to install the required libraries (see README files from both sources for details).
+Also in both cases, you will need to copy the binaries to the 'build' directory (created after recompiling the project with _'./recompile_changes.sh'_ in the root folder). To avoid having to repeat this step every time you change the code, you could just add a line to the bash script above of the type: _'cp ../precompiled_binaries/* .'_  to copy them to the build directory after each new compilation. 
+
+For a simplified usage of the algorithm, you can take a look at any of the Python scripts on the following section to see some usage examples with FALDOI (only some default parameters of the matching algorithms are tweaked and most of these are fixed in the code).
+
+NOTE: _'nspo'_ means the number of scales per octave; _'nt'_ means the number of threads, _'downscale'_ is the downscaling factor to apply to the original image.
 
 #### Sparse flow
 ```bash
@@ -141,6 +167,7 @@ or (if you have input saliency files for both images)
 ```bash
 ./local_faldoi file_paths_to_images.txt out_sparse_1.flo out_sparse_2.flo out_local.flo sim_map.tiff occ_loc.png sal0.tiff sal1.tiff [options...]
 ```
+
 options (python scripts have equivalent ones with similar names and longer explanation):
 + `-m (0)`      &emsp;&emsp;&emsp;chooses the functional out of the following:\
 	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;M_TVL1       &emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;0\
@@ -169,6 +196,7 @@ options (python scripts have equivalent ones with similar names and longer expla
 ```bash
 ./global_faldoi file_paths_to_images.txt out_local.flo out_final.flo occ_loc.png occ_final.png [options...]
 ```
+
 options:
 + `-m (0)`      	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;changes the functional (check aux_energy_model.h).
 + `-w (5)`      	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;number of warpings.
@@ -202,6 +230,8 @@ options:
 + `-th (0.45)`  &emsp;&emsp;&emsp;&emsp;&ensp;&ensp;threshold to discard outliers from DeepMatching.
 + `-res_path`   &emsp;&emsp;&emsp;&emsp;&ensp;&ensp;&ensp;path where the output files will be saved (partial and final flow, descriptors and matches). If "None", the results are stored in the [Results](Results) folder.
 
+
+#### NOTE
 #### faldoi_deep_occ.py
 Includes the optional parameters to model occlusions (only available with the TVL1 energy functional right now). Matches are computed with Deep Matching. Usage
 ```bash
@@ -222,8 +252,9 @@ For now, the paths should be absolute or relative to the current path (using the
 Notice that the order in the text file *is* important. The paths should be entered (one per line) as follows: first line: I0, second line: I1, third line: I_1 and fourth line: I2. Chronologically, they are ordered as: I_1 (t-1) --> I0 (t) --> I1 (t+1) --> I2 (t+2).
 If you are not modeling occlusions, you can pass only 2 paths to frames I0 and I1. Nevertheless, specifying the 4 paths as if you were using occlusions will enable you to use the same input files if you desire to start modeling occlusions at some point.
 
+
 #### Example of usage
-With the source code, you can already run the algorithm with some sample frames stored in folders inside the [example_data](/example_data) folder. Most of these frames are part of a bigger dataset known as [MPI Sintel](http://sintel.is.tue.mpg.de/). In the folder, two directories have been created, each containing the first 4 frames of the same sequence ('alley_1'). 
+With the source code, you can already run the algorithm with some sample frames stored in folders inside the [example_data](/example_data) folder. Most of these frames are part of a bigger dataset known as [MPI Sintel][6]. In the folder, two directories have been created, each containing the first 4 frames of the same sequence ('alley_1'). 
 
 The 'clean' directory contains the synthetic frames without any defussion or distortion applied to them. The second directory, 'final', applies some transformations to the original frames which makes the optical flow estimation more challenging.
 
@@ -233,10 +264,10 @@ If you want to run the algorithm with SIFT matches and specify your own results 
 ```
 Remember to add the final slash '/' so the files are created _inside_ the child folder (in the example 'Results') and not in its parent directory. Finally, you may run the '*faldoi_deep.py*' and '*faldoi_deep_occ*' scripts in a similar fashion (the last has not been tested thoroughly so some bugs may be present).
 
-The other folders contain special cases tested throughout the algorithm's development and optimization. All the sequences with known ground truth include a subfolder called _'gt'_ with extra subfolders for occlusions and invalid pixel masks (so one can compute error metrics). We follow the MPI-Sintel naming nomenclature for the folders (you can find more information in [Sintel's website](http://sintel.is.tue.mpg.de/downloads)).
+The other folders contain special cases tested throughout the algorithm's development and optimization. All the sequences with known ground truth include a subfolder called _'gt'_ with extra subfolders for occlusions and invalid pixel masks (so one can compute error metrics). We follow the MPI-Sintel naming nomenclature for the folders (you can find more information in [Sintel's downloads' website](http://sintel.is.tue.mpg.de/downloads)). More images can be found by downloading the supplementary material submitted to the IPOL article (see link at the top of this file).
 
 ## Bugs, issues or questions
-If you encounter any bugs, issues or have any questions about this source code or the implemented algorithm, please, do not hesitate to open an issue in this repository. Alternatively, you may want to send an e-mail to the [last active developer](mailto:fperez.gamonal@gmail.com).
+If you encounter any bugs, issues or have any questions about this source code or the implemented algorithm, please, do not hesitate to open an issue in this repository. Alternatively, you may want to send an e-mail to the [last active developer](mailto:fperez.gamonal@gmail.com). The complete code can be found on [GitHub](https://github.com/fperezgamonal/faldoi-ipol/) including some extra files left out of the IPOL publication for the sake of simplicity and coherence with the accompanying article.
 
 
 ## Developers
@@ -251,3 +282,10 @@ Copyright &copy; 2017, Onofre Martorell _onofremartorelln@gmail.com_\
 Copyright &copy; 2018, Ferran Pérez _fperez.gamonal@gmail.com_\
 All rights reserved.
 
+
+[1]: https://link.springer.com/content/pdf/10.1007%2Fs10851-016-0688-y.pdf "original Springer paper"
+[2]: https://arxiv.org/abs/1602.08960v3 "arXiv paper"
+[3]: http://www.ipol.im/ "IPOL paper"
+[4]: http://www.ipol.im/pub/art/2014/82/ "SIFT implementation"
+[5]: http://lear.inrialpes.fr/src/deepmatching/ "DeepMatching"
+[6]: http://sintel.is.tue.mpg.de/ "MPI Sintel Database"

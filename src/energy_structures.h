@@ -81,6 +81,8 @@ struct Parameters{
     int split_img;
     int h_parts;
     int v_parts;
+	float epsilon;
+	int part_res;
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Parameters& p){

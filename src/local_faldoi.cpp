@@ -937,11 +937,10 @@ void local_growing(const float *i0, const float *i1, const float *i_1, pq_cand *
 
             // From here to the end of the function:
             // Code used to print partial growing results for debugging or further exploration
-            // Just set SAVE_RESULTS in parameters.h to 1 and create the folder Partial_results under ../Results. After
-            // that, recompile and execute again.
+            // Just set add the flag '-partial_res 1' when you call any of the Python scripts (or the binary)
             float percent = 100 * fixed * 1.0 / size * 1.0;
 
-            if (SAVE_RESULTS == 1) {
+            if (ofD->params.part_res == 1) {
                 for (int k = 0; k < 4; k++) {
                     if (percent > percent_print[k] && percent < percent_print[k + 1]) {
                         string filename_flow = " ";
@@ -995,7 +994,7 @@ void local_growing(const float *i0, const float *i1, const float *i_1, pq_cand *
             }
         }
     }
-    if (SAVE_RESULTS == 1) {
+    if (ofD->params.part_res == 1) {
         if (fwd_or_bwd) {
             string filename_flow = " ";
             string filename_occ = " ";
@@ -1143,7 +1142,7 @@ void match_growing_variational(
 
     const int iter = params.iterations_of;  // LOCAL_ITER;
     // Variables for pruning
-    float tol[2] = {FB_TOL, TU_TOL};
+    float tol[2] = {params.epsilon, TU_TOL};
     int p[2] = {1, 0};
 
     // Create partitions data structures
@@ -1660,6 +1659,9 @@ int main(int argc, char *argv[]) {
     auto split_img = pick_option(args, "split_img", to_string(PARTITIONING));   // Whether to split into subimages or not
     auto hor_parts = pick_option(args, "h_parts", to_string(HOR_PARTS));        // Number of horizontal slices (partition)
     auto ver_parts = pick_option(args, "v_parts", to_string(VER_PARTS));        // "       " vertical      "        "
+	auto fb_threshold = pick_option(args, "fb_thresh", to_string(FB_TOL));		// Threshold for the FB pruning (if tol > thr, discard)
+	auto partial_results = pick_option(args, "partial_res",
+								       to_string(SAVE_RESULTS));				// Whether to store intermediate flows in "../Results/Partial_results"
 
     if (args.size() < 6 || args.size() > 9) {
         // Without occlusions
@@ -1668,12 +1670,12 @@ int main(int argc, char *argv[]) {
                         " [-m method_id] [-wr windows_radio] [-p file of parameters]"
                         " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
                         " [-split_img split_image] [-h_parts horiz_parts]"
-                        " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
+                        " [-v_parts vert_parts] [-fb_thresh thresh] [-partial_res val]\n", args.size(), args[0].c_str());
         fprintf(stderr, "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff sal0.tiff sal1.tiff"
                         " [-m method_id] [-wr windows_radio] [-p file of parameters]"
                         " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
                         " [-split_img split_image] [-h_parts horiz_parts]"
-                        " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
+                        " [-v_parts vert_parts] [-fb_thresh thresh] [-partial_res val]\n", args.size(), args[0].c_str());
         fprintf(stderr, "\n");
         // With occlusions
         fprintf(stderr, "With occlusions (nº of params: 7 or 9 + 1 (own function name)):\n");
@@ -1681,13 +1683,13 @@ int main(int argc, char *argv[]) {
                         " [-m method_id] [-wr windows_radio] [-p file of parameters]"
                         " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
                         " [-split_img split_image] [-h_parts horiz_parts]"
-                        " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
+                        " [-v_parts vert_parts] [-fb_thresh thresh] [-partial_res val]\n", args.size(), args[0].c_str());
         fprintf(stderr,
                 "usage %lu :\n\t%s ims.txt in0.flo in1.flo out.flo sim_map.tiff occlusions.png sal0.tiff sal1.tiff"
                 " [-m method_id] [-wr windows_radio] [-p file of parameters]"
                 " [-loc_it local_iters] [-max_pch_it max_iters_patch]"
                 " [-split_img split_image] [-h_parts horiz_parts]"
-                " [-v_parts vert_parts] \n", args.size(), args[0].c_str());
+                " [-v_parts vert_parts] [-fb_thresh thresh] [-partial_res val]\n", args.size(), args[0].c_str());
         return 1;
     }
 
@@ -1762,6 +1764,8 @@ int main(int argc, char *argv[]) {
     int sp_img = stoi(split_img);
     int h_prts = stoi(hor_parts);
     int v_prts = stoi(ver_parts);
+	float fb_thresh = stof(fb_threshold);
+	int partial_res = stoi(partial_results);
 
     // Open input images and .flo
     // pd: number of channels
@@ -1914,6 +1918,8 @@ int main(int argc, char *argv[]) {
     params.split_img = sp_img;
     params.h_parts = h_prts;
     params.v_parts = v_prts;
+	params.epsilon = fb_thresh;
+	params.part_res = partial_res;
     cerr << params;
 
     auto clk1 = system_clock::now(); // PROFILING

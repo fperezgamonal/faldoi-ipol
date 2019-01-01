@@ -30,8 +30,7 @@
 
 #define PAR_DEFAULT_TOL_D   0.01
 #define PAR_DEFAULT_VERBOSE 0  //0
-#define SAVE_RESULTS        1//1 ==> segmentation fault (debug although was
-//                          used to show partial progress only)
+#define SAVE_RESULTS        0//1 Save intermediate flows to "../Results/Partial_results/"
 
 // Best params TFM for TVL1+OCC:
 //Lambda	Theta	         Beta	        Alpha	        Tau u	         Tau eta	Tau chi  	mu
@@ -61,7 +60,7 @@
 // Parameters for faldoi and prunning
 #define LOCAL_ITER 3 //3
 #define TU_TOL 0.01
-#define FB_TOL 2
+#define FB_TOL 2// Default = 2
 #define PAR_DEFAULT_WINSIZE 5       // Default patch/window size
 
 // Whether to partition the image or not

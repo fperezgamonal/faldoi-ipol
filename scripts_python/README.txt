@@ -118,5 +118,24 @@ As shown above, the scripts only have one mandatory parameter: the text file def
  	cpus (in the IPOL cluster), this difference gets increased to about 2x (down to 55 secs of
  	execution for sift).
 
+======== OUTPUT FILES ========
+
+Once you have executed the algorithm, it will generate a series of files. To understand what each one of them stands for, is easier to explain it with an actual example:
+If we execute the above sentence with two frames called image1_name = frame_0001.png and image2_name = frame_0002.png, the output files at the end of the execution will be:
+
+	+ 'frame_0002_[matcher]_desc_1.txt': 	this file contains the SIFT descriptors for the first image (frame_0002.png). If you select DeepMatching, this file will NOT be generated.
+	+ 'frame_0003_[matcher]_desc_2.txt': 	same as above but for the second image (_frame_0003.png_). If you select DeepMatching, this file will NOT be generated.
+	+ 'frame_0002_[matcher]_mt_1.txt':  	this file contains the matches computed by the selected [matcher] algorithm.
+	+ 'frame_0003_[matcher]_mt_2.txt':  	same as above but for the second image.
+	+ 'frame_0002_[matcher]_mt_1_cut.txt':  matches for the first image after filtering (to remove outliers).
+	+ 'frame_0003_[matcher]_mt_2_cut.txt':  matches for the second image after filtering (to remove outliers).
+	+ 'frame_0002_[matcher]_mt_1.flo': 		initial flow computed from the initial matches provided above (for image 1).
+	+ 'frame_0003_[matcher]_mt_2.flo' : 	same as above but for the second image.
+	+ 'frame_0002_[matcher]_sim.tiff' : 	similarity map (normally empty if no saliency values provided).
+	+ 'frame_0002_[matcher]_rg.flo' : 		optical flow estimation after local minimisation (before global minimisation).
+	+ 'frame_0002_[matcher]_var.flo' : 		final optical flow estimation after both local and global minimisation.
+
+*NOTE: where [matcher] evaluates to 'sift' or 'dm' depending on the matcher used (see Point 2 above or the README.md in the root directory).
+
 More examples of usage may be found in the README.md of the root folder 'faldoi-ipol_[VERSION_NUMBER]'	
 

@@ -12,8 +12,6 @@ import time  # added for 'profiling'
 import multiprocessing
 
 from auxiliar_faldoi_functions import cut_matching_list as cut
-from auxiliar_faldoi_functions import delete_outliers as delete
-from auxiliar_faldoi_functions import execute_shell_program as exe_prog
 
 # Start global timer
 init_sift = time.time()
@@ -43,6 +41,9 @@ def_patch_iter = 4
 def_split_img = 0
 def_hor_parts = 3
 def_ver_parts = 2
+def_fb_thresh = 2
+def_partial_results = 0
+partial_location = '../Results/Partial_results/'
 
 #	Global minimisation
 global_of = True
@@ -99,6 +100,18 @@ parser.add_argument("-h_parts", default=str(def_hor_parts),
 parser.add_argument("-v_parts", default=str(def_ver_parts),
                     help="Number of vertical parts"
                          "An integer (>0). Default is 2")
+
+#	FB consistency check threshold (epsilon)
+parser.add_argument("-fb_thresh", default=str(def_fb_thresh),
+                    help="Threshold for FB consistency check (greater ==> more permissive)"
+                         "A real number (>0). Default is 2")
+
+#	Whether to save partial results (aside from last local iteration and final flow)
+#		This is usually used for debugging purposes or to show in detail the evolution of the flow field across iterations.
+parser.add_argument("-partial_res", default=str(def_partial_results),
+                    help="Whether to save intermediate iteration results or not"
+                         "0(false) or 1(true). Default is 0")
+
 # Global Mininization
 parser.add_argument("-warps", default=str(def_global_warps),
                     help="Number of warps finest scale")
@@ -111,7 +124,7 @@ parser.add_argument("-glob_iter", default=str(def_global_iter),
 parser.add_argument("-nsp", default=str(def_num_scales_octave),
                     help="Increase the sift matches")
 
-# WHAT IS THIS?
+# Gaussian weight over the data term (not used anymore ==> legacy)
 parser.add_argument("-m", 		default='0',
                     help="It uses the Gaussian weight over the Data Term")
 
@@ -119,26 +132,13 @@ parser.add_argument("-m", 		default='0',
 parser.add_argument("-res_path", default='../Results/',
                     help="Subfolder under '../Results/' where data is stored")
 
-# args = parser.parse_args()
-# core_name1 = args.i0.split('.')[-2].split('/')[-1]
-# core_name2 = args.i1.split('.')[-2].split('/')[-1]
-
 args = parser.parse_args()
 with open(args.file_images, 'r') as file:
     # read a list of lines into data
     data = file.readlines()
 for i in range(len(data)):
     data[i] = data[i][:-1]
-# tmp = data[i][:-1]
-# data[i] = os.path.expanduser(tmp)
-# print("data[i]= " + data[i])
 
-# Save to tmp file
-# tmp_filename = "tmp_absPaths.txt"
-# with open(tmp_filename, 'w') as tmp_file:
-# Store the modified image paths' file
-# tmp_file.writelines(data)
-#	tmp_file.writelines(["%s\n" % item  for item in data])
 sequence = data[0].split('.')[-2].split('/')[-2]  # not used
 core_name1 = data[0].split('.')[-2].split('/')[-1]
 core_name2 = data[1].split('.')[-2].split('/')[-1]
@@ -151,6 +151,8 @@ pch_iter = args.patch_iter
 split_image = args.split_img
 hor_parts = args.h_parts
 ver_parts = args.v_parts
+fb_thresh = args.fb_thresh
+partial_res = args.partial_res
 glb_iter = args.glob_iter
 gauss = args.m
 nsp = args.nsp
@@ -158,10 +160,14 @@ r_path = args.res_path
 
 param_sif = "-ss_nspo {}".format(nsp)
 
+# If the user wants to store partial results, create destination folder (if it does not exist)
+if int(partial_res) == 1:
+	if not os.path.exists(partial_location):
+		os.makedirs(partial_location)
+
 # Auxiliary function to parallelise calls to sift functions
 def run_process(process):#, fname):
     os.system("{}".format(process))
-    #exe_prog("{} {}".format(process, fname))
 
 feature_descriptor = "../build/sift_cli "
 match_comparison = "../build/match_cli"
@@ -171,31 +177,13 @@ of_var = "../build/global_faldoi"
 
 # Set the main directory that contains all the stuff
 root_path = "{}/".format(os.getcwd())
-# print(root_path)
-# binary_path = root_path + "bin/"
 binary_path = '../build/'
-# f_path = root_path + "Results/"
 f_path = r_path
 if not os.path.exists(f_path):
     os.makedirs(f_path)
 # Set the folder where the binaries are.
 # Set the images input.
-# im_name1 = os.path.abspath(args.i0)
-# im_name2 = os.path.abspath(args.i1)
-# Get the image size
-# from PIL import Image
 
-# with open(im_name1, 'r') as f:
-#    image = Image.open(f)
-#    width_im = image.size[0]
-#    height_im = image.size[1]
-
-# Set the images input.
-# Included changes to make the reading not user-dependent even if
-# we use paths such as "~/Folder/subfolder/subsubfolder/.../i0.png"
-# relative paths w.r.t current dir work also fine (e.g.: "../example/i0.png")
-# im_name0 = os.path.abspath(data[0])
-# im_name1 = os.path.abspath(data[1])
 im_name0 = os.path.expanduser(data[0])  # does nothing if no "~/folder..."
 im_name1 = os.path.expanduser(data[1])
 
@@ -237,9 +225,7 @@ print("Loading everything took {} secs.".format(load_timer - init_sift))
 # Initial seeds (SIFT descriptors)
 if descriptors:
     command_line_fwd = "{} {} {} > {}".format(feature_descriptor, im_name0, param_sif, desc_name_1)
-    #exe_prog(command_line_bwd, desc_name_1)
     command_line_bwd = "{} {} {} > {}".format(feature_descriptor, im_name1, param_sif, desc_name_2)
-    #exe_prog(command_line, desc_name_2)
     
     # Define processes to be run in parallel
     commands = (command_line_fwd, command_line_bwd)
@@ -258,9 +244,7 @@ else:
 # Obtain the matches' list
 if matchings:
     command_line_fwd = "{} {} {} > {}".format(match_comparison, desc_name_1, desc_name_2, match_name_1)
-    #exe_prog(command_line, match_name_1)
     command_line_bwd = "{} {} {} > {}".format(match_comparison, desc_name_2, desc_name_1, match_name_2)
-    #exe_prog(command_line, match_name_2)
 
     # Define processes to be run in parallel
     commands = (command_line_fwd, command_line_bwd)
@@ -300,8 +284,8 @@ else:
 # Create a dense flow from a sparse set of initial seeds
 if local_of:
 
-    options = "-m {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {}".format(var_m,
-            windows_radio, loc_iter, pch_iter, split_image, hor_parts, ver_parts)
+    options = "-m {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {} -fb_thresh {} -partial_res {}".format(var_m,
+            windows_radio, loc_iter, pch_iter, split_image, hor_parts, ver_parts, fb_thresh, partial_res)
     param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
                                          region_growing, sim_value, options)
     command_line = "{} {}\n".format(match_propagation, param)
@@ -331,9 +315,7 @@ if global_of:
 else:
     # Need the timer anyway to compute the rest of relative values!
     denseInputVM_timer = time.time()
-# File is closed here
-# Delete temporal absolute paths file
-# os.remove(tmp_filename)
+
 # Elapsed time (whole script)
 end_sift = time.time()
 print("Computing everything took {} secs.".format(end_sift - init_sift))
