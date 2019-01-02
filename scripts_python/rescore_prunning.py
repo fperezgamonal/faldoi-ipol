@@ -69,7 +69,7 @@ def confidence_values(i0, i1, corres, dest_of):
   
   retained_matches = []
   dest = dest_of  + corres_name + "_saliency.txt"
-  print(dest)
+  #print(dest)
   
   with open(match) as match, open(dest, 'w') as dest_w:
     for line in match:

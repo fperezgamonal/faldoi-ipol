@@ -321,7 +321,6 @@ if local_of:
     param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
                                          region_growing, sim_value, options)   
     command_line = "{} {}\n".format(match_propagation, param)
-    print("cmd: {}".format(command_line))
     os.system(command_line)
     # Elapsed time (dense flow)
     dense_timer = time.time()

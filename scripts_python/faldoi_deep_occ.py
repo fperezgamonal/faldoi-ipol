@@ -45,6 +45,9 @@ def_patch_iter = 4
 def_split_img = 0
 def_hor_parts = 3
 def_ver_parts = 2
+def_fb_thresh = 2
+def_partial_results = 0
+partial_location = '../Results/Partial_results/'
 
 #       Global minimisation
 global_of = True
@@ -101,6 +104,18 @@ parser.add_argument("-h_parts", default=str(def_hor_parts),
 parser.add_argument("-v_parts", default=str(def_ver_parts),
                     help="Number of vertical parts"
                          "An integer (>0). Default is 2")
+
+#	FB consistency check threshold (epsilon)
+parser.add_argument("-fb_thresh", default=str(def_fb_thresh),
+                    help="Threshold for FB consistency check (greater ==> more permissive)"
+                         "A real number (>0). Default is 2")
+
+#	Whether to save partial results (aside from last local iteration and final flow)
+#		This is usually used for debugging purposes or to show in detail the evolution of the flow field across iterations.
+parser.add_argument("-partial_res", default=str(def_partial_results),
+                    help="Whether to save intermediate iteration results or not"
+                         "0(false) or 1(true). Default is 0")
+
 # Global Minimisation
 parser.add_argument("-warps", default='5',
                     help="Number of warps finest scale")
@@ -157,6 +172,8 @@ pch_iter = args.patch_iter
 split_image = args.split_img
 hor_parts = args.h_parts
 ver_parts = args.v_parts
+fb_thresh = args.fb_thresh
+partial_res = args.partial_res
 glb_iter = args.glob_iter
 threshold = args.th
 r_path = args.res_path
@@ -170,6 +187,11 @@ max_scale = args.max_scale
 # if (int(num_threads) > 16):
 #    num_threads = '16'
 # Otherwise, use as much cpu's as possible or the number inputted by the user
+
+# If the user wants to store partial results, create destination folder (if it does not exist)
+if int(partial_res) == 1:
+	if not os.path.exists(partial_location):
+		os.makedirs(partial_location)
 
 # Auxiliar function to handle multiprocessing (parallel calls to functions in native Python)
 def run_process(process):
@@ -312,8 +334,8 @@ else:
 
 if local_of:
     # Create a dense flow from a sparse set of initial seeds
-    options = "-m {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {}".format(
-        var_m,windows_radio, loc_iter, pch_iter, split_image, hor_parts, ver_parts)
+    options = "-m {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {} -fb_thresh {} -partial_res {}".format(
+        var_m,windows_radio, loc_iter, pch_iter, split_image, hor_parts, ver_parts, fb_thresh, partial_res)
     param = "{} {} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
                                          region_growing, sim_value, occlusions_rg, options)
     command_line = "{} {}\n".format(match_propagation, param)
