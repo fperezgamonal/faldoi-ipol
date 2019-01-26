@@ -17,10 +17,6 @@ from auxiliar_faldoi_functions import cut_matching_list as cut
 init_sift = time.time()
 # Set the arguments to compute the images
 parser = argparse.ArgumentParser(description='Faldoi Minimization')
-# Need to change this to fully integrate the original faldoi's functionality and
-# the TFM's into one project (currently there are some bugs that do not allow this)
-# parser.add_argument("i0", help="first image")
-# parser.add_argument("i1", help="second image")
 parser.add_argument("file_images", help="File with images paths")
 
 # Default values
@@ -41,7 +37,7 @@ def_patch_iter = 4
 def_split_img = 0
 def_hor_parts = 3
 def_ver_parts = 2
-def_fb_thresh = 2
+def_fb_thresh = 0.45  # TODO: maybe further testing is needed ("ONLY" sintel training (clean + final)) to select this best in average value
 def_partial_results = 0
 partial_location = '../Results/Partial_results/'
 

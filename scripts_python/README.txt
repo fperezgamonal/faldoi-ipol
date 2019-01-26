@@ -66,7 +66,8 @@ As shown above, the scripts only have one mandatory parameter: the text file def
 				exploiting parallelization (more threads can be active at a time).
 				It significantly reduces the execution time (w.SIFT and DM 1.71x 					faster(**)) and achieves nearly equal end-point error (maximum 0.1%
  				worse).
-				Def. value = 1.
+				Def. value = 0. (we recommend setting it to 1 if you use TVL1, otherwise, set it to 0 as neither NLTV-CSAD nor TVL2-CSAD are 
+				compatible with partitions at the moment.
 		
 		-h_parts	number of horizontal parts into which the image will be split(*)
 				Def. value = 3.
@@ -83,6 +84,15 @@ As shown above, the scripts only have one mandatory parameter: the text file def
 		-res_path	relative path (w.r.t. 'scripts_python') to store the results.
 				Def.value = '../Results/'. Other: '../Results/sift/middlebury/test1/'
 
+		-fb_thresh  threshold for the forward-backward pruning. This value must be > 0.
+					Smaller values imply a stricter pruning, larger values yield a coarser prunning (more "permissive").
+				Def. value = 0.45 for SIFT, 13 for DeepMatching. Values selected as those that produce the minimum EPEall for the whole training
+				dataset MPI-Sintel (Final + clean). Other tests may be necessary to select the best overall and using other source of images may
+				completely change the optimal value too.
+	
+		-partial_res whether or not to save intermediate results from local step.
+				Def. value = 0 (do not save them). If this value is set to 1, the results are stored at: "../Results/Partial_results/'.
+
 
 	2. Specific parameters (those related to the matching algorithm):
 		2.1. SIFT (faldoi_sift.py)
@@ -90,7 +100,7 @@ As shown above, the scripts only have one mandatory parameter: the text file def
 				for more info).
 				Def. value = 15.
 
-		2.2. DeepMatching (faldoi_deep.py and faldoi_deep_occ.py)
+		2.2. DeepMatching (faldoi_deep.py and faldoi_deep_occ.py) ==> https://thoth.inrialpes.fr/src/deepmatching/
 			-th		threshold to discard outliers for deepmatching.
 					Def. value = 0.45.
 			-downscale	subsample factor to reduce original's image dimensions

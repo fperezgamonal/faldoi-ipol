@@ -46,7 +46,7 @@ def cut_deep_list(input_file):
 
 def delete_outliers(input_file, thres):
     """
-      Delete from the list the matches that are consider outliers based open
+      Delete from the list the matches that are consider outliers based upon
       a threshold
     """
     th = float(thres)
