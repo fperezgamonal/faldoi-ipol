@@ -1648,16 +1648,24 @@ int main(int argc, char *argv[]) {
 
     // Process input optional parameters
     vector<string> args(argv, argv + argc);
-    auto windows_ratio = pick_option(args, "wr", to_string(PAR_DEFAULT_WINSIZE));				// Windows ratio
-    auto var_reg = pick_option(args, "m", to_string(M_TVL1));                   				// Methods (default: tvl1)
-    auto file_params = pick_option(args, "p", "");                              				// File of parameters
-    auto local_iters = pick_option(args, "loc_it", to_string(LOCAL_ITER));      				// Local Faldoi number of iterations
-    auto max_iters_patch = pick_option(args, "max_pch_it", to_string(MAX_ITERATIONS_LOCAL)); 	// Iteration per patch of win_ratio
-    auto split_img = pick_option(args, "split_img", to_string(PARTITIONING));   				// Whether to split into subimages or not
-    auto hor_parts = pick_option(args, "h_parts", to_string(HOR_PARTS));        				// Number of horizontal slices (partition)
-    auto ver_parts = pick_option(args, "v_parts", to_string(VER_PARTS));        				// "       " vertical      "        "
-	auto fb_threshold = pick_option(args, "fb_thresh", to_string(FB_TOL));						// Threshold for the FB pruning (if tol > thr, discard)
-	auto partial_results = pick_option(args, "partial_res", to_string(SAVE_RESULTS));			// Whether to store intermediate flows in "../Results/Partial_results"
+    auto windows_ratio = pick_option(args, "wr",
+ 									to_string(PAR_DEFAULT_WINSIZE));		// Windows ratio
+    auto var_reg = pick_option(args, "m", to_string(M_TVL1));       		// Methods (default: tvl1)
+    auto file_params = pick_option(args, "p", "");                  		// File of parameters
+    auto local_iters = pick_option(args, "loc_it", 
+								   to_string(LOCAL_ITER));      			// Local Faldoi number of iterations
+    auto max_iters_patch = pick_option(args, "max_pch_it",
+ 									   to_string(MAX_ITERATIONS_LOCAL));	// Iteration per patch of win_ratio
+    auto split_img = pick_option(args, "split_img",
+ 								to_string(PARTITIONING));   				// Whether to split into subimages or not
+    auto hor_parts = pick_option(args, "h_parts",
+ 								to_string(HOR_PARTS));        				// Number of horizontal slices (partition)
+    auto ver_parts = pick_option(args, "v_parts", 
+								to_string(VER_PARTS));        				// "       " vertical      "        "
+	auto fb_threshold = pick_option(args, "fb_thresh",
+ 									to_string(FB_TOL));						// Threshold for the FB pruning (if tol > thr, discard)
+	auto partial_results = pick_option(args, "partial_res",
+ 									  to_string(SAVE_RESULTS));				// Whether to store intermediate flows in "../Results/Partial_results"
 
     if (args.size() < 6 || args.size() > 9) {
         // Without occlusions
