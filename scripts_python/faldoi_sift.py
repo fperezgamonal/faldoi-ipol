@@ -37,7 +37,7 @@ def_patch_iter = 4
 def_split_img = 0
 def_hor_parts = 3
 def_ver_parts = 2
-def_fb_thresh = 0.45  # TODO: maybe further testing is needed ("ONLY" sintel training (clean + final)) to select this best in average value
+def_fb_thresh = 0.45  # TODO: maybe further testing is needed ("ONLY" sintel training (clean + final)) to select this (THIS is based on MEDIAN)
 def_partial_results = 0
 partial_location = '../Results/Partial_results/'
 

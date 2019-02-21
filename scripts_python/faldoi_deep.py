@@ -43,7 +43,7 @@ def_patch_iter = 4
 def_split_img = 0
 def_hor_parts = 3
 def_ver_parts = 2
-def_fb_thresh = 13  # TODO: maybe further testing is needed ("ONLY" sintel training (clean + final)) to select this best in average value
+def_fb_thresh = 12.55  # TODO: maybe further testing is needed ("ONLY" sintel training (clean + final)) to select this (THIS is based on MEDIAN)
 def_partial_results = 0
 partial_location = '../Results/Partial_results/'
 
@@ -298,7 +298,6 @@ if sparse_flow:
     command_line_fwd = "{} {}\n".format(sparse_flow, param_fwd)
     param_bwd = "{} {} {} {}\n".format(cut(delete(confi(im_name1, im_name0, match_name_2, f_path),threshold)), width_im, height_im, sparse_name_2)
     command_line_bwd = "{} {}\n".format(sparse_flow, param_bwd)
-    
     # Execute in parallel
     # Define processes to be run in parallel
     commands = (command_line_fwd, command_line_bwd)
@@ -319,8 +318,9 @@ if local_of:
     # Create a dense flow from a sparse set of initial seeds
     options = "-m {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {} -fb_thresh {} -partial_res {}".format(
         var_m,windows_radio, loc_iter, pch_iter, split_image, hor_parts, ver_parts, fb_thresh, partial_res)
-    param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2, region_growing, sim_value, options)   
-    command_line = "{} {}\n".format(match_propagation, param)
+    param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
+                                         region_growing, sim_value, options)   
+    command_line = "{} {}\n".format(match_propagation, param)    
     os.system(command_line)
     # Elapsed time (dense flow)
     dense_timer = time.time()
@@ -335,7 +335,8 @@ if global_of:
     # Put the dense flow as input for a variational method
     # Tv-l2 coupled 0 Du 1
     options = "-m {} -w {} -glb_iters {}".format(var_m, warps, glb_iter)
-    param = "{} {} {} {}\n".format(args.file_images, region_growing, var_flow, options)
+    param = "{} {} {} {}\n".format(args.file_images,
+                                   region_growing, var_flow, options)
     command_line = "{} {}\n".format(of_var, param)
     os.system(command_line)
     # Elapsed time (put the dense flow as input for a variational method)
