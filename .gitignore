@@ -3,7 +3,7 @@ Documentation/
 faldoi_doxygen_config.txt
 src/cmake-build-debug/
 src/.idea/
-scripts_python/__pycache__/
+__pycache__/
 build/CMakeFiles/*
 src/.idea/workspace.xml
-scripts_python/*.pyc
+*.pyc
