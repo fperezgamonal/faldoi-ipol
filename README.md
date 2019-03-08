@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 # FALDOI-IPOL
-Stems from the basic [FALDOI: A New Minimization Strategy for Large Displacement Variational Optical Flow][1] by Roberto P. Palomares, Enric Meinhardt-Lopis, Coloma Ballester and Gloria Haro algorithm and aims to add occlusion estimation to several energy functionals and optimise the code to be published on the [IPOL journal](http://www.ipol.im/) with an interactive demo.
+Stems from the basic [FALDOI: A New Minimization Strategy for Large Displacement Variational Optical Flow][1] by Roberto P. Palomares, Enric Meinhardt-Lopis, Coloma Ballester and Gloria Haro algorithm and provides a sped-up optimizationwhich is published on the [IPOL journal](http://www.ipol.im/) with an interactive demo, source code and supplementary materials and tools available openly. In the future, we intend to add occlusion estimation to several energy functionals, aside from the one available (TVL1).
 
 ## Paper(s) and citation
 If you use FALDOI, please cite *any* of the following papers:
@@ -51,9 +51,19 @@ the [arXiv paper (September 2016)][2]:
 }
 ```
 
-You can reference this implementation with: [IPOL article, demo and supplementary material (December 2018)][3]:
+You can reference this implementation with: [IPOL article, demo and supplementary material (March 2019)][3]:
 ```
-bibTeX for IPOL
+@article{ipol.2019.238,
+    title   = {{An Analysis and Speedup of the FALDOI Method for Optical Flow Estimation}},
+    author  = {Gamonal, Ferran P. and Ballester, Coloma and Haro, Gloria and Meinhardt-Llopis, Enric and Palomares, Roberto P.},
+    journal = {{Image Processing On Line}},
+    volume  = {9},
+    pages   = {94--123},
+    year    = {2019},
+    doi     = {10.5201/ipol.2019.238},
+}
+% if your bibliography style doesn't support doi fields:
+    note    = {\url{https://doi.org/10.5201/ipol.2019.238}}
 ``` 
 ___
 ## Table of contents
@@ -78,10 +88,12 @@ The code is written in C/C++ and includes Python scripts to unify and simplify a
 The software needs the following programs to be installed in order to function:
 
 - Python 3.5 (also works with Python 2.7)
-- Pillow for Python 3 (if you do not want to use Pillow, in the python scripts there is a commented section above the PIL import that uses [imagemagick's identify](https://www.imagemagick.org/script/identify.php) instead). Nevertheless, notice that Pillow will be usually faster (since it is built-in python).
-- lipng, libjpeg, libtiff: by default, we use your system's default version (although we provide the original version of libpng which the code was created with). Default system versions of Ubuntu 16.04 LTS have been checked as well.
+- Pillow for Python 3 (if you do not want to use Pillow, in the python scripts there is a commented section above the PIL import that uses [imagemagick's identify](https://www.imagemagick.org/script/identify.php) instead). Nevertheless, notice that Pillow will be usually faster (since it is built in python).
+- lipng, libjpeg, libtiff: by default, we use your system's default version (although we provide the original version of libpng which the code was created with in the 'src/lib' directory). Default system versions of Ubuntu 16.04 LTS have been checked as well.
 
-- OpenMP (Optional but recommended). Should be included with your compiler if you have a relatively new version (e.g.: gcc supports it since version 4.2). For a gentle introduction to OpenMP, please read [this post](https://helloacm.com/simple-tutorial-with-openmp-how-to-use-parallel-block-in-cc-using-openmp/) or visit the official website.
+- OpenMP (Optional but *highly* recommended(*)). Should be included with your compiler if you are using a relatively new version (e.g.: gcc supports it since version 4.2). For a gentle introduction to OpenMP, please read [this post](https://helloacm.com/simple-tutorial-with-openmp-how-to-use-parallel-block-in-cc-using-openmp/) or visit the [official website](https://www.openmp.org/).
+
+(*) The speed-up factor is detailed in the IPOL article but it ranges between 1.5x times faster (only 2 CPUs) to 4x faster (with 16 CPUs). This fact is more critical if you used the original code, which is about 20 times slower than the current multi-threaded implementation.
 
 ### Compilation
 The code needs to be compiled in order to generate the needed executables. Nevertheless, if you do not want to compile the code before testing it once, we added already-compiled executables that are already linked (see [_Execution_](#Execution)). These executables have been compiled in a machine with 4 cores running Ubuntu 16.04 LTS.
@@ -333,7 +345,7 @@ If you encounter any bugs, issues or have any questions about this source code o
 ## Developers
 - Roberto Palomares, 2014 (main dev)
 - Onofre Martorell, 2017 (MsC Thesis: migrated most of the code to C++, added occlusions estimation for the TVL2-L1 functional and fixed bugs)
-- Ferran Pérez, 2018-2019 (optimise the code for IPOL, fixed some bugs with some functionals. All the work is summarised in the [following article](http://www.ipol.im/))
+- Ferran Pérez, 2018-2019 (speed-up optimisation for IPOL, fixed some bugs with some functionals). All the work is summarised in the [following article](http://www.ipol.im/pub/art/2019/238/)
 
 ## License and copyright
 This software is licensed under the BSD 3-Clause license. For details, see [LICENSE.md](LICENSE.md/LICENSE.md)<br>
@@ -345,7 +357,7 @@ All rights reserved.
 
 [1]: https://link.springer.com/content/pdf/10.1007%2Fs10851-016-0688-y.pdf "original Springer paper"
 [2]: https://arxiv.org/abs/1602.08960v3 "arXiv paper"
-[3]: http://www.ipol.im/ "IPOL paper"
+[3]: http://www.ipol.im/pub/art/2019/238/ "IPOL paper"
 [4]: http://www.ipol.im/pub/art/2014/82/ "SIFT implementation"
 [5]: http://lear.inrialpes.fr/src/deepmatching/ "DeepMatching"
 [6]: http://sintel.is.tue.mpg.de/ "MPI Sintel Database"
