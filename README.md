@@ -222,7 +222,7 @@ options (python scripts have equivalent ones with similar names and longer expla
 	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;M_NLTVCSAD_W &ensp;&nbsp; 7<br>
 	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;M_TVL1_OCC   &emsp;&emsp;&ensp;8
 + `-wr (5)`     	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;radius value wr (5) - patch 2\*wr + 1 x 2\*wr +1 (11 x 11).
-+ `-p (None)`   	&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;file of parameters (see function _init_params_ in [utils_preprocess.cpp](src/utils_preprocess.cpp) for more details).
++ `-p (None)`   	&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;file of parameters of the optical flow energy (see function _init_params_ in [utils_preprocess.cpp](src/utils_preprocess.cpp) for more details).
 + `-loc_it (3)` 	&emsp;&emsp;&emsp;&emsp;&ensp;number of iterations for the local minimization.
 + `-max_pch_it (3)` 	&emsp;&emsp;&nbsp; number of iterations per patch (for each 'loc_it')
 + `-split_img (0)`     	&emsp;&emsp;&ensp;&nbsp; whether to split image into parts to boost speed.
@@ -245,9 +245,51 @@ options:
 
 + `-m (0)`      	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;changes the functional (check aux_energy_model.h).
 + `-w (5)`      	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;number of warpings.
-+ `-p (None)`   	&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; file of parameters (see function _init_params_ in
++ `-p (None)`   	&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; file of parameters of the optical flow energy (see function _init_params_ in
 [utils_preprocess.cpp](src/utils_preprocess.cpp) for more details).
-+ `-glb_iters (400)`    &emsp;&nbsp;&nbsp;&nbsp; number of iterations for the global minimization. 
++ `-glb_iters (400)`    &emsp;&nbsp;&nbsp;&nbsp; number of iterations for the global minimization.
+
+##### Change default optical flow energy parameters (input flag *-p*)
+By default, the algorithm uses a set of parameters for the optical flow energy computation which were selected as those giving the best overall results in the tests done for the *first* publication of FALDOI (i.e.: Springer article above).<br>
+Nevertheless, one can input different values by giving the path the txt file with parameters after the flag _-p_. The format of such file is as follows (in parenthesis we include a definition of each parameter but take a look at the paper for further information):
+```
+lambda_value (weight of one part of the data term in prop. 3 in the IPOL article)
+theta_value (coupling parameter, see IPOL article (appendix A) for more information)
+tau_value (time step, see IPOL article (appendix A) proposition 1 for more details)
+beta_value (smoothness/regularity weight term)
+alpha_value (weights the occlusions term related to the flow magnitude (u,v))
+tau_u_value (Chambolle's algorithm variable, see prop. 1 of tvl1 + occlusions*)
+tau_eta_value (Primal-dual algorithm variable see prop. 3 of tvl1 + occlusions*)
+tau_chi_value (Primal-dual algorithm variable, see prop. 3 of tvl1 + occlusions*)
+mu_value (see proposition 2 of tvl1 with occlusions, cited below*)
+```
+\* [A TV-L1 Optical Flow Method with Occlusion Detection. C. Ballester, L. Garrido, V. Lazcano, V.Caselles. ](https://link.springer.com/chapter/10.1007/978-3-642-32717-9_4)<br>
+You must define each value in a new line and if you want to ommit some (i.e.: use the default value) you can introduce a value <=0 (e.g.: -1). For instance, if we only want to change *lambda*=30 and *theta*=0.2. The file will look like:
+```
+30
+0.2
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+```
+Take into account that the last five parameters are only used by TVL2-occ (TVL1-L2 with occlusion modeling). You can get a sense for the range of each value by taking a look at the default values in [parameters.h](src/parameters.h#L20). The default values correspond to the default energy functional, TVL1-L2. More precisely, the default values for all the implemented energy functionals are:<br>
+**TVL1-L2** <br>
+*lambda*=40, *theta*=0.3, *tau*=0.125, *beta*=0.025 (the rest are not used, set it to -1). <br>
+**NLTVL1** <br>
+*lambda*=2, *theta*=0.3, *tau*=0.1, *beta*=0.025 (the rest are not used, set it to -1). <br>
+**TVCSAD** <br>
+*lambda*=0.85, *theta*=0.3, *tau*=0.1, *beta*=0.025 (the rest are not used, set it to -1). <br>
+**NLTV-CSAD** <br>
+*lambda*=0.85, *theta*=0.3, *tau*=0.1, *beta*=0.025 (the rest are not used, set it to -1). <br> 
+**TVL1-L2 with occlusion estimation** <br>
+*lambda*=23.455, *theta*=0.283, *tau*=0.1, *beta*=0.702, *alpha*=0.071, *tau_u*=0.074, *tau_eta*=0.084, *tau_chi*=0.134, *mu*=1.406 (values rounded up to 3 decimals for simplicity, see related line in parameters.h for full-precision).<br>
+Finally, the weighted versions with the suffix '_w', share the same parameters with the "standard" versions but *lambda* is divided by the window size squared.
+
+
 
 ### Python scripts - Usage
 As you saw above, calling each binary with the correct parameters and keeping track of all output files to pass them to the following step, etc. can be very convoluted. For that reason, we suggest that you try using the python scripts to simplify the process. In the directory [scripts_python](scripts_python), you will find three main scripts that execute the whole algorithm following all the steps detailed in the [Algorithm's steps section](#algorithm's-steps).
@@ -259,19 +301,20 @@ Given a text file containing the paths to the input frames, computes the optical
 ```
 options: 
 
-+ `-vm (0)`    &emsp;&emsp;&ensp;&ensp;&emsp;&emsp;&emsp;&ensp;changes the functional (check aux_energy_model.h).
-+ `-wr (5)`    &emsp;&emsp;&ensp;&ensp;&emsp;&emsp;&emsp;&ensp;windows radius or patch size (2\*wr + 1 x 2\*wr + 1). E.g.: wr=5 means a 11x11 patch size.
-+ `-local_iter` &emsp;&emsp;&ensp;&emsp;&emsp;number of iterations for the local minimization.
-+ `-patch_iter` &emsp;&emsp;&ensp;&emsp;&emsp;number of iterations per patch (for each 'local_iter')
-+ `-split_img (0)`     	&emsp;&emsp;&ensp;&nbsp; whether to split image into parts to boost speed.
-+ `-h_parts (3)`     	&emsp;&emsp;&ensp;&emsp;&ensp;number of horizontal parts.
-+ `-v_parts (2)`     	&emsp;&emsp;&emsp;&ensp;&ensp;number of vertical parts.
-+ `-fb_thresh (*)`      &emsp;&emsp;&ensp;&ensp;forward-backward consistency check threshold(*) Def. 0.45 for SIFT, 13 for DeepMatching.
-+ `-partial_res (0)`    &emsp;&ensp;&ensp;whether to save all intermediate flows or not.
-+ `-warps (5)` &emsp;&emsp;&ensp;&ensp;&emsp;&emsp;numbers of warps at the finest scale (global minimisation).
-+ `-glob_iter (400)` &emsp;&ensp;&ensp;number of iterations for the global minimization. 
-+ `-nsp (15)`  &emsp;&emsp;&ensp;&ensp;&emsp;&emsp;&ensp;number of scales per octave to be computed by the SIFT algorithm.
-+ `-res_path`  &emsp;&emsp;&ensp;&ensp;&emsp;&emsp;&ensp;path where the output files will be saved (partial and final flow, descriptors and matches). If "None", the results are stored in the [Results](Results) folder.
++ `-vm (0)`    &emsp;&emsp;&ensp;&ensp;&emsp;&emsp;&ensp; changes the functional (check aux_energy_model.h).
++ `-wr (5)`    &emsp;&emsp;&ensp;&ensp;&emsp;&emsp;&ensp; windows radius or patch size (2\*wr + 1 x 2\*wr + 1). E.g.: wr=5 means a 11x11 patch size.
++ `-local_iter` &emsp;&emsp;&ensp;&emsp;&ensp;number of iterations for the local minimization.
++ `-patch_iter` &emsp;&emsp;&ensp;&emsp;&ensp;number of iterations per patch (for each 'local_iter')
++ `-split_img (0)`     	&emsp;&emsp;&ensp; whether to split image into parts to boost speed.
++ `-h_parts (3)`     	&emsp;&emsp;&ensp;&ensp;&ensp; number of horizontal parts.
++ `-v_parts (2)`     	&emsp;&emsp;&emsp;&ensp; number of vertical parts.
++ `-fb_thresh (*)`      &emsp;&emsp;&ensp;&nbsp;forward-backward consistency check threshold(*) Def. 0.45 for SIFT, 13 for DeepMatching.
++ `-partial_res (0)`    &emsp;&ensp;&nbsp;whether to save all intermediate flows or not.
++ `-warps (5)`&emsp;&emsp;&ensp;&emsp;&emsp; numbers of warps at the finest scale (global minimisation).
++ `-glob_iter (400)` &emsp;&ensp;&nbsp;number of iterations for the global minimization. 
++ `-nsp (15)`&emsp;&emsp;&ensp;&ensp;&emsp;&emsp;number of scales per octave to be computed by the SIFT algorithm.
++ `-res_path`  &emsp;&emsp;&ensp;&ensp;&emsp;&ensp; path where the output files will be saved (partial and final flow, descriptors and matches). If "None", the results are stored in the [Results](Results) folder.
++  `energy_params` (" ") &ensp;&ensp;path to a txt file containing modified energy parameters (see subsection above). This parameter is equivalent to *-p* when directly working with the binaries.
 
 #### faldoi_deep.py
 Does the same as the above script but the matches are extracted with the DeepMatching algorithm instead of SIFT. Usage:
@@ -280,25 +323,26 @@ Does the same as the above script but the matches are extracted with the DeepMat
 ```
 options:
 
-+ `-vm (0)`     &emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;&ensp;changes the functional (check aux_energy_model.h).
-+ `-wr (5)`     &emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;&ensp;windows radius or patch size (2\*wr + 1 x 2\*wr + 1). E.g.: wr=5 means a 11x11 patch size.
-+ `-local_iter` &emsp;&emsp;&ensp;&emsp;&emsp;number of iterations for the local minimization.
-+ `-patch_iter` &emsp;&emsp;&ensp;&emsp;&emsp;number of iterations per patch (for each 'local_iter')
++ `-vm (0)`     &emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;changes the functional (check aux_energy_model.h).
++ `-wr (5)`     &emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;windows radius or patch size (2\*wr + 1 x 2\*wr + 1). E.g.: wr=5 means a 11x11 patch size.
++ `-local_iter` &emsp;&emsp;&ensp;&emsp;&ensp; number of iterations for the local minimization.
++ `-patch_iter` &emsp;&emsp;&ensp;&emsp;&ensp; number of iterations per patch (for each 'local_iter')
 + `-split_img (0)`     	&emsp;&emsp;&ensp;&nbsp; whether to split image into parts to boost speed.
-+ `-h_parts (3)`     	&emsp;&emsp;&ensp;&emsp;&ensp;number of horizontal parts.
++ `-h_parts (3)`     	&emsp;&emsp;&emsp;&ensp;&nbsp; number of horizontal parts.
 + `-v_parts (2)`     	&emsp;&emsp;&emsp;&ensp;&ensp;number of vertical parts.
 + `-fb_thresh (*)`      &emsp;&emsp;&ensp;&ensp;forward-backward consistency check threshold(*) Def. 0.45 for SIFT, 13 for DeepMatching.
-+ `-partial_res (0)`    &emsp;&ensp;&ensp;whether to save all intermediate flows or not.
-+ `-warps (5)` &emsp;&emsp;&ensp;&ensp;&emsp;&emsp;numbers of warps at the finest scale (global minimisation).
-+ `-glob_iter (400)` &emsp;&ensp;&ensp;number of iterations for the global minimization. 
++ `-partial_res (0)`    &emsp;&ensp;&ensp; whether to save all intermediate flows or not.
++ `-warps (5)` &emsp;&emsp;&ensp;&ensp;&emsp;&ensp;&nbsp; numbers of warps at the finest scale (global minimisation).
++ `-glob_iter (400)` &emsp;&ensp;&ensp; number of iterations for the global minimization. 
 + `-warps (5)`  &emsp;&emsp;&emsp;&emsp;&ensp;&ensp;numbers of warps at the finest scale (global minimisation).
 + `-th (0.45)`  &emsp;&emsp;&emsp;&emsp;&ensp;&ensp;threshold to discard outliers from DeepMatching.
-+ `-nt (4)`     &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;number of CPUs used to compute DeepMatching.
-+ `-downscale (2)` &emsp;&emsp;&emsp;related to the scale at which DM will work (by default, half original resolution).
-+ `-max_scale (sqrt(2))` maximum scale of DeepMatching.
-+ `-rot_plus (45)` &emsp;&emsp;&emsp;positive rotation angle for DeepMatching.
-+ `-rot_minus (45)` &emsp;&emsp;&ensp;negative rotation angle for DeepMatching.
-+ `-res_path`   &emsp;&emsp;&emsp;&emsp;&ensp;&ensp;&ensp;path where the output files will be saved (partial and final flow, descriptors and matches). If "None", the results are stored in the [Results](Results) folder.
++ `-nt (4)`     &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;number of CPUs used to compute DeepMatching.
++ `-downscale (2)` &emsp;&emsp;&emsp; related to the scale at which DM will work (by default, half original resolution).
++ `-max_scale (sqrt(2))` &nbsp; maximum scale of DeepMatching.
++ `-rot_plus (45)` &emsp;&emsp;&emsp; positive rotation angle for DeepMatching.
++ `-rot_minus (45)` &emsp;&emsp;&ensp; negative rotation angle for DeepMatching.
++ `-res_path`   &emsp;&emsp;&emsp;&emsp;&ensp;&ensp;&nbsp; path where the output files will be saved (partial and final flow, descriptors and matches). If "None", the results are stored in the [Results](Results) folder.
++ `energy_params` (" ") &emsp;&ensp; path to a txt file containing modified energy parameters (see subsection above). This parameter is equivalent to *-p* when directly working with the binaries.
 
 
 #### NOTE

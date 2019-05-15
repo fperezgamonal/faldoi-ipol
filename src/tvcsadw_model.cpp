@@ -463,7 +463,7 @@ void guided_tvcsad_w(
       divergence_patch(xi11,xi12,div_xi1,ii,ij,ei,ej,nx);
       divergence_patch(xi21,xi22,div_xi2,ii,ij,ei,ej,nx);
 
-      //Almacenamos la iteracion anterior
+      //Save previous iteration
 //#pragma omp parallel for schedule(dynamic,1) collapse(2)
       for (int l = ij; l < ej; l++){
       for (int k = ii; k < ei; k++){

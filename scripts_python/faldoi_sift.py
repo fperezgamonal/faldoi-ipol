@@ -20,28 +20,29 @@ parser = argparse.ArgumentParser(description='Faldoi Minimization')
 parser.add_argument("file_images", help="File with images paths")
 
 # Default values
-#	SIFT
+#   SIFT
 descriptors = True
 matchings = True
 def_num_scales_octave = 15
 
-#	Sparse flow
+#   Sparse flow
 sparse_flow_val = True
 
-#	Local minimisation
+#   Local minimisation
 local_of = True
 def_method = 0
+def_energy_params = ""
 def_winsize = 5
 def_local_iter = 3
 def_patch_iter = 4
 def_split_img = 0
 def_hor_parts = 3
 def_ver_parts = 2
-def_fb_thresh = 0.45  # TODO: maybe further testing is needed ("ONLY" sintel training (clean + final)) to select this (THIS is based on MEDIAN)
+def_fb_thresh = 0.45
 def_partial_results = 0
 partial_location = '../Results/Partial_results/'
 
-#	Global minimisation
+#   Global minimisation
 global_of = True
 def_global_iter = 400
 def_global_warps = 5
@@ -68,10 +69,16 @@ parser.add_argument("-vm", default=str(def_method),
 # M_NLTVCSAD_W 7
 # M_TVL1_OCC   8       
 
+# Energy parameters file (.txt)
+parser.add_argument("-energy_params", default=str(def_method),
+                    help="Optical Flow energy parameters (txt file)."
+                         "The format is one parameter value per line, as follows: "
+                         "lambda_value\ntheta_value\ntau_value\nbeta_value\nalpha_value\ntau_u_value\n"
+                         "tau_eta_value\ntau_chi_value")
 
 # Local Wise Minimization
 # 	Window's radius
-parser.add_argument("-wr", default= str(def_winsize),
+parser.add_argument("-wr", default=str(def_winsize),
                     help="Windows Radio Local patch"
                          "1 -  3x3, 2 - 5x5,...")  # (2*r +1) x (2*r+1)
 #       Number of local faldoi iterations
@@ -85,7 +92,7 @@ parser.add_argument("-patch_iter", default=str(def_patch_iter),
 # 	Whether to split the image into partitions or not
 parser.add_argument("-split_img", default=str(def_split_img),
                     help="Enable local minimization w. subpartions instead of whole image"
-                         "1 - enabled, othewise - disabled.")
+                         "1 - enabled, otherwise - disabled.")
 
 # 	Number of horizontal splits
 parser.add_argument("-h_parts", default=str(def_hor_parts),
@@ -103,7 +110,7 @@ parser.add_argument("-fb_thresh", default=str(def_fb_thresh),
                          "A real number (>0). Default is 2")
 
 #	Whether to save partial results (aside from last local iteration and final flow)
-#		This is usually used for debugging purposes or to show in detail the evolution of the flow field across iterations.
+#   This is usually used for debugging purposes or to show in detail the evolution of the flow field across iterations.
 parser.add_argument("-partial_res", default=str(def_partial_results),
                     help="Whether to save intermediate iteration results or not"
                          "0(false) or 1(true). Default is 0")
@@ -128,6 +135,9 @@ parser.add_argument("-m", 		default='0',
 parser.add_argument("-res_path", default='../Results/',
                     help="Subfolder under '../Results/' where data is stored")
 
+# Verbose
+parser.add_argument("-verbose", default='0', help="Toggle verbosity on/off")
+
 args = parser.parse_args()
 with open(args.file_images, 'r') as file:
     # read a list of lines into data
@@ -135,11 +145,11 @@ with open(args.file_images, 'r') as file:
 for i in range(len(data)):
     data[i] = data[i][:-1]
 
-sequence = data[0].split('.')[-2].split('/')[-2]  # not used
-core_name1 = data[0].split('.')[-2].split('/')[-1]
-core_name2 = data[1].split('.')[-2].split('/')[-1]
+core_name1 = data[0][:-4].split('/')[-1]  # changed to allow for dots in the filenames
+core_name2 = data[1][:-4].split('/')[-1]
 
 var_m = args.vm
+energy_params = args.energy_params
 warps = args.warps
 windows_radio = args.wr
 loc_iter = args.local_iter
@@ -153,17 +163,20 @@ glb_iter = args.glob_iter
 gauss = args.m
 nsp = args.nsp
 r_path = args.res_path
+verbose = args.verbose
 
 param_sif = "-ss_nspo {}".format(nsp)
 
 # If the user wants to store partial results, create destination folder (if it does not exist)
 if int(partial_res) == 1:
-	if not os.path.exists(partial_location):
-		os.makedirs(partial_location)
+    if not os.path.exists(partial_location):
+        os.makedirs(partial_location)
+
 
 # Auxiliary function to parallelise calls to sift functions
-def run_process(process):#, fname):
+def run_process(process):
     os.system("{}".format(process))
+
 
 feature_descriptor = "../build/sift_cli "
 match_comparison = "../build/match_cli"
@@ -191,27 +204,27 @@ with open(im_name1, 'rb') as f:
     width_im = image.size[0]
     height_im = image.size[1]
 
-#===============================================================================
+# ===============================================================================
 # IF YOU DO NOT WANT/HAVE PILLOW, UNCOMMENT 3 LINES BELOW AND COMMENT 4 ABOVE)
 # Using imageMagick to get width and height (PIL is not in the IPOL server)
 # cmd = 'identify -ping -format "%w %h" ' + im_name1
 # tmp_out = subprocess.check_output(cmd, shell=True, universal_newlines=True)
 # width_im, height_im = tmp_out.split(' ')
-#===============================================================================
+# ===============================================================================
 
 # os.chdir(binary_path)
-desc_name_1 = "{}{}_sift_desc_1.txt".format(f_path, core_name1)
-desc_name_2 = "{}{}_sift_desc_2.txt".format(f_path, core_name2)
+desc_name_1 = "{}_sift_desc_1.txt".format(os.path.join(f_path, core_name1))
+desc_name_2 = "{}_sift_desc_2.txt".format(os.path.join(f_path, core_name2))
 
-match_name_1 = "{}{}_sift_mt_1.txt".format(f_path, core_name1)
-match_name_2 = "{}{}_sift_mt_2.txt".format(f_path, core_name2)
+match_name_1 = "{}_sift_mt_1.txt".format(os.path.join(f_path, core_name1))
+match_name_2 = "{}_sift_mt_2.txt".format(os.path.join(f_path, core_name2))
 
-sparse_name_1 = "{}{}_sift_mt_1.flo".format(f_path, core_name1)
-sparse_name_2 = "{}{}_sift_mt_2.flo".format(f_path, core_name2)
+sparse_name_1 = "{}_sift_mt_1.flo".format(os.path.join(f_path, core_name1))
+sparse_name_2 = "{}_sift_mt_2.flo".format(os.path.join(f_path, core_name2))
 
-region_growing = "{}{}_sift_rg.flo".format(f_path, core_name1)
-sim_value = "{}{}_sift_sim.tiff".format(f_path, core_name1)
-var_flow = "{}{}_sift_var.flo".format(f_path, core_name1)
+region_growing = "{}_sift_rg.flo".format(os.path.join(f_path, core_name1))
+sim_value = "{}_sift_sim.tiff".format(os.path.join(f_path, core_name1))
+var_flow = "{}_sift_var.flo".format(os.path.join(f_path, core_name1))
 
 # Elapsed time (loadings)
 load_timer = time.time()
@@ -261,12 +274,12 @@ if sparse_flow_val:
     param = "{} {} {} {}".format(cut(match_name_1), width_im, height_im, sparse_name_1)
     
 # If we use custom matches that are already filtered, cut needs to be avoided
-    #param = "{} {} {} {}".format(match_name_1, width_im, height_im, sparse_name_1)    
+    # param = "{} {} {} {}".format(match_name_1, width_im, height_im, sparse_name_1)
     command_line = "{} {}".format(sparse_flow, param)
     os.system(command_line)
     # Create a sparse flow from the sift matches (img I1).
     param = "{} {} {} {}".format(cut(match_name_2), width_im, height_im, sparse_name_2)
-    #param = "{} {} {} {}".format(match_name_2, width_im, height_im, sparse_name_2)
+    # param = "{} {} {} {}".format(match_name_2, width_im, height_im, sparse_name_2)
     command_line = "{} {}".format(sparse_flow, param)
     os.system(command_line)
     # Elapsed time (create sparse flow from SIFT matches)
@@ -280,10 +293,11 @@ else:
 # Create a dense flow from a sparse set of initial seeds
 if local_of:
 
-    options = "-m {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {} -fb_thresh {} -partial_res {}".format(var_m,
-            windows_radio, loc_iter, pch_iter, split_image, hor_parts, ver_parts, fb_thresh, partial_res)
-    param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
-                                         region_growing, sim_value, options)
+    options = "-m {} -p {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {} -fb_thresh {}" \
+              " -partial_res {} -verbose {}".format(var_m, energy_params, windows_radio, loc_iter, pch_iter,
+                                                    split_image, hor_parts, ver_parts, fb_thresh, partial_res, verbose)
+    param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2, region_growing, sim_value,
+                                         options)
     command_line = "{} {}\n".format(match_propagation, param)
     os.system(command_line)
     # Elapsed time (dense flow from sparse set of initial seeds)
@@ -298,9 +312,8 @@ else:
 # Put the dense flow as input for a variational method
 # Tv-l2 coupled 0 Du 1
 if global_of:
-    options = "-m {} -w {} -glb_iters {}".format(var_m, warps, glb_iter)
-    param = "{} {} {} {}\n".format(args.file_images,
-                                   region_growing, var_flow, options)
+    options = "-m {} -p {} -w {} -glb_iters {} -verbose {}".format(var_m, energy_params, warps, glb_iter, verbose)
+    param = "{} {} {} {}\n".format(args.file_images, region_growing, var_flow, options)
     command_line = "{} {}\n".format(of_var, param)
     os.system(command_line)
     # Elapsed time (Put the dense flow as input for a variational method)

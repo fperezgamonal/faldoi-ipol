@@ -37,13 +37,14 @@ sparse_flow = True
 #	Local minimisation
 local_of = True
 def_method = 0
+def_energy_params = ""
 def_winsize = 5
 def_local_iter = 3
 def_patch_iter = 4
 def_split_img = 0
 def_hor_parts = 3
 def_ver_parts = 2
-def_fb_thresh = 12.55  # TODO: maybe further testing is needed ("ONLY" sintel training (clean + final)) to select this (THIS is based on MEDIAN)
+def_fb_thresh = 12.55
 def_partial_results = 0
 partial_location = '../Results/Partial_results/'
 
@@ -52,11 +53,15 @@ global_of = True
 def_global_iter = 400
 def_global_warps = 5
 
-print("Code blocks activation value:\n" + \
-      "\tmatchings =\t" + str(matchings) + "\n" + \
-      "\tsparse_flow =\t" + str(sparse_flow) + "\n" + \
-      "\tlocal_of =\t" + str(local_of) + "\n" + \
-      "\tglobal_of =\t" + str(global_of) + "\n")
+def_verbose = 0
+
+print('''Code blocks activation value:
+        matchings =     {}
+        sparse_flow =   {}
+        local_of =      {}
+        global_of =     {}
+        '''.format(matchings, sparse_flow, local_of, global_of))
+
 # Energy model
 parser.add_argument("-vm", default=str(def_method),
                     help="Variational Method "
@@ -69,13 +74,19 @@ parser.add_argument("-vm", default=str(def_method),
 # M_TVCSAD_W   5
 # M_NLTVCSAD   6
 # M_NLTVCSAD_W 7
-# M_TVL1_OCC   8       
+# M_TVL1_OCC   8
 
+# Energy parameters file (.txt)
+parser.add_argument("-energy_params", default=str(def_method),
+                    help="Optical Flow energy parameters (txt file)."
+                         "The format is one parameter value per line, as follows: "
+                         "lambda_value\ntheta_value\ntau_value\nbeta_value\nalpha_value\ntau_u_value\n"
+                         "tau_eta_value\ntau_chi_value")
 
 # Local Wise Minimization 
 parser.add_argument("-wr", default=str(def_winsize),
                     help="Windows Radio Local patch"
-                         "1 -  3x3, 2 - 5x5,...") #(2*r +1) x (2*r+1)
+                         "1 -  3x3, 2 - 5x5,...")  # (2*r +1) x (2*r+1)
 
 #       Number of local faldoi iterations
 parser.add_argument("-local_iter", default=str(def_local_iter),
@@ -90,23 +101,23 @@ parser.add_argument("-split_img", default=str(def_split_img),
                     help="Enable local minimization w. subpartions instead of whole image"
                          "1 - enabled, othewise - disabled.")
 
-# 	Number of horizontal splits
+#   Number of horizontal splits
 parser.add_argument("-h_parts", default=str(def_hor_parts),
                     help="Number of horizontal parts"
                          "An integer (>0). Default is 3")
 
-#	Number of vertical splits
+#   Number of vertical splits
 parser.add_argument("-v_parts", default=str(def_ver_parts),
                     help="Number of vertical parts"
                          "An integer (>0). Default is 2")
 
-#	FB consistency check threshold (epsilon)
+#   FB consistency check threshold (epsilon)
 parser.add_argument("-fb_thresh", default=str(def_fb_thresh),
                     help="Threshold for FB consistency check (greater ==> more permissive)"
                          "A real number (>0). Default is 2")
 
-#	Whether to save partial results (aside from last local iteration and final flow)
-#		This is usually used for debugging purposes or to show in detail the evolution of the flow field across iterations.
+#   Whether to save partial results (aside from last local iteration and final flow)
+#   This is usually used for debugging purposes or to show in detail the evolution of the flow field across iterations.
 parser.add_argument("-partial_res", default=str(def_partial_results),
                     help="Whether to save intermediate iteration results or not"
                          "0(false) or 1(true). Default is 0")
@@ -146,7 +157,11 @@ parser.add_argument("-rot_minus", default=str(def_rot_minus),
 
 # Results "sub"path (e.g.: /Results/experiment1/iter3/)
 parser.add_argument("-res_path", default='../Results/',
-                    help="Subfolder under '../Results/' where data is stored");
+                    help="Subfolder under '../Results/' where data is stored")
+
+# Verbose
+parser.add_argument("-verbose", default='0', help="Toggle verbosity on/off")
+
 
 args = parser.parse_args()
 with open(args.file_images, 'r') as file:
@@ -155,11 +170,11 @@ with open(args.file_images, 'r') as file:
 for i in range(len(data)):
     data[i] = data[i][:-1]
 
-sequence = data[0].split('.')[-2].split('/')[-2]  # not used
-core_name1 = data[0].split('.')[-2].split('/')[-1]
-core_name2 = data[1].split('.')[-2].split('/')[-1]
+core_name1 = data[0][:-4].split('/')[-1]  # changed to allow for dots in the filenames
+core_name2 = data[1][:-4].split('/')[-1]
 
 var_m = args.vm
+energy_params = args.energy_params
 warps = args.warps
 windows_radio = args.wr
 loc_iter = args.local_iter
@@ -177,6 +192,7 @@ downscale = args.downscale
 rot_plus = args.rot_plus
 rot_minus = args.rot_minus
 max_scale = args.max_scale
+verbose = args.verbose
 
 
 # Deep matching (at least in IPOL's server) is not faster when using 16 cpu's or more
@@ -186,8 +202,9 @@ max_scale = args.max_scale
 
 # If the user wants to store partial results, create destination folder (if it does not exist)
 if int(partial_res) == 1:
-	if not os.path.exists(partial_location):
-		os.makedirs(partial_location)
+    if not os.path.exists(partial_location):
+        os.makedirs(partial_location)
+
 
 # Auxiliar function to handle multiprocessing (parallel calls to functions in native Python)
 def run_process(process):
@@ -220,23 +237,23 @@ with open(im_name1, 'rb') as f:
     width_im = image.size[0]
     height_im = image.size[1]
 
-#===============================================================================
+# ===============================================================================
 # IF YOU DO NOT WANT/HAVE PILLOW, UNCOMMENT 3 LINES BELOW AND COMMENT 4 ABOVE)
-# Using imageMagick to get width and height (PIL is not in the IPOL server)
+# Using imageMagick to get width and height
 # cmd = 'identify -ping -format "%w %h" ' + im_name1
 # tmp_out = subprocess.check_output(cmd, shell=True, universal_newlines=True)
 # width_im, height_im = tmp_out.split(' ')
-#===============================================================================
+# ===============================================================================
 
-match_name_1 = "{}{}_dm_mt_1.txt".format(f_path, core_name1)
-sparse_name_1 = "{}{}_dm_mt_1.flo".format(f_path, core_name1)
+match_name_1 = "{}_dm_mt_1.txt".format(os.path.join(f_path, core_name1))
+sparse_name_1 = "{}_dm_mt_1.flo".format(os.path.join(f_path, core_name1))
 
-match_name_2 = "{}{}_dm_mt_2.txt".format(f_path, core_name2)
-sparse_name_2 = "{}{}_dm_mt_2.flo".format(f_path, core_name2)
+match_name_2 = "{}_dm_mt_2.txt".format(os.path.join(f_path, core_name2))
+sparse_name_2 = "{}_dm_mt_2.flo".format(os.path.join(f_path, core_name2))
 
-region_growing = "{}{}_dm_rg.flo".format(f_path, core_name1)
-sim_value = "{}{}_dm_sim.tiff".format(f_path, core_name1)
-var_flow = "{}{}_dm_var.flo".format(f_path, core_name1)
+region_growing = "{}_dm_rg.flo".format(os.path.join(f_path, core_name1))
+sim_value = "{}_dm_sim.tiff".format(os.path.join(f_path, core_name1))
+var_flow = "{}_dm_var.flo".format(os.path.join(f_path, core_name1))
 
 # Elapsed time (loadings)
 load_timer = time.time()
@@ -249,11 +266,17 @@ if matchings:
         nt_bwd = str(1)
         nt_fwd = str(1)
         # I0-I1
-        param_fwd = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name0, im_name1, nt_fwd, downscale, max_scale, rot_plus, rot_minus, match_name_1)
+        param_fwd = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name0, im_name1,
+                                                                                              nt_fwd, downscale,
+                                                                                              max_scale, rot_plus,
+                                                                                              rot_minus, match_name_1)
         command_line_fwd = "{} {}\n".format(match_comparison, param_fwd)
 
         # I1-I0
-        param_bwd = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name1, im_name0, nt_bwd, downscale, max_scale, rot_plus, rot_minus, match_name_2)
+        param_bwd = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name1, im_name0,
+                                                                                              nt_bwd, downscale,
+                                                                                              max_scale, rot_plus,
+                                                                                              rot_minus, match_name_2)
         command_line_bwd = "{} {}\n".format(match_comparison, param_bwd)
 
         os.system(command_line_fwd)
@@ -269,11 +292,17 @@ if matchings:
         nt_fwd = str(nt_fwd)
 
         # Added -nt 0 to avoid process hanging issues
-        param_fwd = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name0, im_name1, nt_fwd, downscale, max_scale, rot_plus, rot_minus, match_name_1)
+        param_fwd = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name0, im_name1,
+                                                                                              nt_fwd, downscale,
+                                                                                              max_scale, rot_plus,
+                                                                                              rot_minus, match_name_1)
         command_line_fwd = "{} {}\n".format(match_comparison, param_fwd)
 
         # I1-I0
-        param_bwd = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name1, im_name0, nt_bwd, downscale, max_scale, rot_plus, rot_minus, match_name_2)
+        param_bwd = "{} {} -nt {} -downscale {} -max_scale {} -rot_range -{} +{} > {}".format(im_name1, im_name0,
+                                                                                              nt_bwd, downscale,
+                                                                                              max_scale, rot_plus,
+                                                                                              rot_minus, match_name_2)
         command_line_bwd = "{} {}\n".format(match_comparison, param_bwd)
 
         # Execute in parallel
@@ -294,9 +323,11 @@ else:
 
 # Create a sparse flow from the deep matches.
 if sparse_flow:
-    param_fwd = "{} {} {} {}\n".format(cut(delete(confi(im_name0, im_name1, match_name_1, f_path), threshold)), width_im, height_im, sparse_name_1)
+    param_fwd = "{} {} {} {}\n".format(cut(delete(confi(im_name0, im_name1, match_name_1, f_path), threshold)),
+                                       width_im, height_im, sparse_name_1)
     command_line_fwd = "{} {}\n".format(sparse_flow, param_fwd)
-    param_bwd = "{} {} {} {}\n".format(cut(delete(confi(im_name1, im_name0, match_name_2, f_path),threshold)), width_im, height_im, sparse_name_2)
+    param_bwd = "{} {} {} {}\n".format(cut(delete(confi(im_name1, im_name0, match_name_2, f_path),threshold)),
+                                       width_im, height_im, sparse_name_2)
     command_line_bwd = "{} {}\n".format(sparse_flow, param_bwd)
     # Execute in parallel
     # Define processes to be run in parallel
@@ -316,10 +347,11 @@ else:
 
 if local_of:
     # Create a dense flow from a sparse set of initial seeds
-    options = "-m {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {} -fb_thresh {} -partial_res {}".format(
-        var_m,windows_radio, loc_iter, pch_iter, split_image, hor_parts, ver_parts, fb_thresh, partial_res)
-    param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2,
-                                         region_growing, sim_value, options)   
+    options = "-m {} -p {} -wr {} -loc_it {} -max_pch_it {} -split_img {} -h_parts {} -v_parts {} -fb_thresh {} " \
+              "-partial_res {} -verbose {}".format(var_m, energy_params, windows_radio, loc_iter, pch_iter, split_image,
+                                                   hor_parts, ver_parts, fb_thresh, partial_res, verbose)
+    param = "{} {} {} {} {} {}\n".format(args.file_images, sparse_name_1, sparse_name_2, region_growing, sim_value,
+                                         options)
     command_line = "{} {}\n".format(match_propagation, param)    
     os.system(command_line)
     # Elapsed time (dense flow)
@@ -334,9 +366,8 @@ else:
 if global_of:
     # Put the dense flow as input for a variational method
     # Tv-l2 coupled 0 Du 1
-    options = "-m {} -w {} -glb_iters {}".format(var_m, warps, glb_iter)
-    param = "{} {} {} {}\n".format(args.file_images,
-                                   region_growing, var_flow, options)
+    options = "-m {} -p {} -w {} -glb_iters {} -verbose {}".format(var_m, energy_params, warps, glb_iter, verbose)
+    param = "{} {} {} {}\n".format(args.file_images, region_growing, var_flow, options)
     command_line = "{} {}\n".format(of_var, param)
     os.system(command_line)
     # Elapsed time (put the dense flow as input for a variational method)

@@ -18,6 +18,7 @@
 #include <cassert>
 #include <vector>
 #include <algorithm>
+#include <boost/lexical_cast.hpp>
 
 extern "C" {
 #include "bicubic_interpolation.h"
@@ -190,8 +191,8 @@ void Dual_TVL1_optic_flow(
 
         if (verbose)
             fprintf(stderr, "Warping: %d, "
-                    "Iterations: %d, "
-                    "Error: %f\n", warpings, n, error);
+                            "Iterations: %d, "
+                            "Error: %f\n", warpings, n, error);
     }
 
     // Delete allocated memory
@@ -519,7 +520,7 @@ void duOF(
         }
         if (verbose)
             fprintf(stderr, "Warping: %d,Iter: %d "
-                    "Error: %f\n", warpings, n, err_D);
+                            "Error: %f\n", warpings, n, err_D);
     }
 
     free(u1x);
@@ -610,9 +611,12 @@ void tvl2OF(
     centered_gradient(I1, I1x, I1y, nx, ny);
 
     auto clk_init_end = system_clock::now(); // PROFILING
-    duration<double> elapsed_secs_init = clk_init_end - clk_tvl2OF; // PROFILING
-    cout << "(tvl2OF) initialising everything took "
-         << elapsed_secs_init.count() << endl;
+    duration<double> elapsed_secs_init;
+    if (verbose) {
+        elapsed_secs_init = clk_init_end - clk_tvl2OF; // PROFILING
+        cout << "(tvl2OF) initialising everything took "
+             << elapsed_secs_init.count() << endl;
+    }
 
     double total_v1v2 = 0.0;
     double total_fwd_grad = 0.0;
@@ -626,16 +630,19 @@ void tvl2OF(
 
     for (int warpings = 0; warpings < warps; warpings++) {
         //printf("warpings:%d\n", warpings);
-	auto clk_warp_start = system_clock::now();
+        auto clk_warp_start = system_clock::now();
         // Compute the warping of the Right image and its derivatives Ir(x + u1o), Irx (x + u1o) and Iry (x + u2o)
         bicubic_interpolation_warp(I1, u1, u2, I1w, nx, ny, true);
         bicubic_interpolation_warp(I1x, u1, u2, I1wx, nx, ny, true);
         bicubic_interpolation_warp(I1y, u1, u2, I1wy, nx, ny, true);
 
-	auto clk_bicubic_end = system_clock::now(); // PROFILING
-        duration<double> elapsed_secs_bicubic = clk_bicubic_end - clk_warp_start; // PROFILING
-        cout << "(tvl2OF) Bicubic interpolation took "
-             << elapsed_secs_bicubic.count() << endl;
+        auto clk_bicubic_end = system_clock::now(); // PROFILING
+        duration<double> elapsed_secs_bicubic;
+        if (verbose) {
+            elapsed_secs_bicubic = clk_bicubic_end - clk_warp_start; // PROFILING
+            cout << "(tvl2OF) Bicubic interpolation took "
+                 << elapsed_secs_bicubic.count() << endl;
+        }
 
         for (int i = 0; i < size; i++) {
             const float Ix2 = I1wx[i] * I1wx[i];
@@ -656,10 +663,13 @@ void tvl2OF(
         //   u2_[i] = u2[i];
         // }
 
-	auto clk_constants = system_clock::now(); // PROFILING
-        duration<double> elapsed_secs_constants = clk_constants - clk_bicubic_end; // PROFILING
-        cout << "(tvl2OF) Computing constant part of functions & auxiliar variables (grad, rho_c, u1_, u2_) took "
-             << elapsed_secs_constants.count() << endl;
+        auto clk_constants = system_clock::now(); // PROFILING
+        duration<double> elapsed_secs_constants;
+        if (verbose) {
+            elapsed_secs_constants = clk_constants - clk_bicubic_end; // PROFILING
+            cout << "(tvl2OF) Computing constant part of functions & auxiliar variables (grad, rho_c, u1_, u2_) took "
+                 << elapsed_secs_constants.count() << endl;
+        }
 /*
 	double total_v1v2 = 0.0;
 	double total_fwd_grad = 0.0;
@@ -676,7 +686,7 @@ void tvl2OF(
             n++;
             // Estimate the values of the variable (v1, v2)
             // (thresholding opterator TH)
-	    auto clk_v1v2 = system_clock::now();
+            auto clk_v1v2 = system_clock::now();
 #ifdef _OPENMP
 #pragma omp parallel for
             for (int i = 0; i < size; i++) {
@@ -707,31 +717,40 @@ void tvl2OF(
             }
 #endif
 
-	    auto clk_v1v2_end = system_clock::now(); // PROFILING
-	    duration<double> elapsed_secs_v1v2 = clk_v1v2_end - clk_v1v2;  // PROFILING
-	    total_v1v2 += elapsed_secs_v1v2.count();
+            auto clk_v1v2_end = system_clock::now(); // PROFILING
+            duration<double> elapsed_secs_v1v2 = clk_v1v2_end - clk_v1v2;  // PROFILING
+            total_v1v2 += elapsed_secs_v1v2.count();
 
             // Dual variables
             forward_gradient(u1_, u1x, u1y, nx, ny);
             forward_gradient(u2_, u2x, u2y, nx, ny);
 
             auto clk_fwd_grad_end = system_clock::now(); // PROFILING
-            duration<double> elapsed_secs_fwd_grad = clk_fwd_grad_end - clk_v1v2_end;  // PROFILING
-            total_fwd_grad += elapsed_secs_fwd_grad.count();
+            duration<double> elapsed_secs_fwd_grad;
+            if (verbose) {
+                elapsed_secs_fwd_grad = clk_fwd_grad_end - clk_v1v2_end;  // PROFILING
+                total_fwd_grad += elapsed_secs_fwd_grad.count();
+            }
 
             ofTVl2_getD(xi11, xi12, xi21, xi22, u1x, u1y, u2x, u2y, tau, size);
 
             auto clk_getD_end = system_clock::now(); // PROFILING
-            duration<double> elapsed_secs_getD = clk_getD_end - clk_fwd_grad_end;  // PROFILING
-            total_getD += elapsed_secs_getD.count();
+            duration<double> elapsed_secs_getD;
+            if (verbose) {
+                elapsed_secs_getD = clk_getD_end - clk_fwd_grad_end;  // PROFILING
+                total_getD += elapsed_secs_getD.count();
+            }
 
             // Primal variables
             divergence(xi11, xi12, div_xi1, nx, ny);
             divergence(xi21, xi22, div_xi2, nx, ny);
 
             auto clk_divergence_end = system_clock::now(); // PROFILING
-            duration<double> elapsed_secs_divergence = clk_divergence_end - clk_getD_end;  // PROFILING
-            total_divergence += elapsed_secs_divergence.count();
+            duration<double> elapsed_secs_divergence;
+            if (verbose) {
+                elapsed_secs_divergence = clk_divergence_end - clk_getD_end;  // PROFILING
+                total_divergence += elapsed_secs_divergence.count();
+            }
 
             // Store previous iteration
             memcpy(u1Aux, u1, size * sizeof(float));
@@ -742,14 +761,20 @@ void tvl2OF(
             // }
 
             auto clk_memcpy_end = system_clock::now(); // PROFILING
-            duration<double> elapsed_secs_memcpy = clk_memcpy_end - clk_divergence_end;  // PROFILING
-            total_memcpy += elapsed_secs_memcpy.count();
+            duration<double> elapsed_secs_memcpy;
+            if (verbose) {
+                elapsed_secs_memcpy = clk_memcpy_end - clk_divergence_end;  // PROFILING
+                total_memcpy += elapsed_secs_memcpy.count();
+            }
 
             ofTVl2_getP(u1, u2, v1, v2, div_xi1, div_xi2, u_N, theta, tau, size, &err_D);
 
             auto clk_getP_end = system_clock::now(); // PROFILING
-            duration<double> elapsed_secs_getP = clk_getP_end - clk_memcpy_end;  // PROFILING
-            total_getP += elapsed_secs_getP.count();
+            duration<double> elapsed_secs_getP;
+            if (verbose) {
+                elapsed_secs_getP = clk_getP_end - clk_memcpy_end;  // PROFILING
+                total_getP += elapsed_secs_getP.count();
+            }
 
             // (aceleration = 1);
             for (int i = 0; i < size; i++) {
@@ -758,51 +783,65 @@ void tvl2OF(
             }
 
             auto clk_copy_u1u2_end = system_clock::now(); // PROFILING
-            duration<double> elapsed_secs_copy_u1u2 = clk_copy_u1u2_end - clk_getP_end;  // PROFILING
-            total_copy_u1u2 += elapsed_secs_copy_u1u2.count();
+            duration<double> elapsed_secs_copy_u1u2;
+            if (verbose) {
+                elapsed_secs_copy_u1u2 = clk_copy_u1u2_end - clk_getP_end;  // PROFILING
+                total_copy_u1u2 += elapsed_secs_copy_u1u2.count();
+            }
 
         }
 
-	auto clk_while_end = system_clock::now(); // PROFILING
-        duration<double> elapsed_secs_while = clk_while_end - clk_constants; // PROFILING
-        cout << "(tvl2OF) While loop (with 400 it) took "
-             << elapsed_secs_while.count() << endl;
+        auto clk_while_end = system_clock::now(); // PROFILING
+        duration<double> elapsed_secs_while;
+        if (verbose) {
+            elapsed_secs_while = clk_while_end - clk_constants; // PROFILING
+            cout << "(tvl2OF) While loop (with 400 it) took "
+                 << elapsed_secs_while.count() << endl;
+        }
 
         if (verbose)
             fprintf(stderr, "Warping: %d,Iter: %d "
-                    "Error: %f\n", warpings, n, err_D);
-	
-	auto clk_warp_end = system_clock::now(); // PROFILING
-   	duration<double> elapsed_secs_warp = clk_warp_end - clk_warp_start; // PROFILING
-    	cout << "(tvl2OF) Warping num. " << warpings;
-	cout << " took " << elapsed_secs_warp.count() << endl;
+                            "Error: %f\n", warpings, n, err_D);
+
+        auto clk_warp_end = system_clock::now(); // PROFILING
+        duration<double> elapsed_secs_warp; // PROFILING
+        if (verbose) {
+            elapsed_secs_warp = clk_warp_end - clk_warp_start;
+            cout << "(tvl2OF) Warping num. " << warpings;
+            cout << " took " << elapsed_secs_warp.count() << endl;
+        }
 
     }
-    
+
     auto clk_all_warps_end = system_clock::now(); // PROFILING
-    duration<double> elapsed_secs_all_warps = clk_all_warps_end - clk_init_end; // PROFILING
-    cout << "(tvl2OF) All warpings took "
-         << elapsed_secs_all_warps.count() << endl;
+    duration<double> elapsed_secs_all_warps;
+    if (verbose) {
+        elapsed_secs_all_warps = clk_all_warps_end - clk_init_end; // PROFILING
+        cout << "(tvl2OF) All warpings took "
+             << elapsed_secs_all_warps.count() << endl;
+    }
 
-    // PROFILING
-    cout << "\n\n" << std::endl;
-    cout << "Warpings loop profiling (total and %)" << endl;
-    cout << "\t(v1-v2 loop) total: " << total_v1v2 << ", perc.: " <<
-	    100 * (total_v1v2 / elapsed_secs_all_warps.count()) << "%" << endl;
-    cout << "\t(fwd_grad) total: " << total_fwd_grad << ", perc.: " <<
-            100 * (total_fwd_grad / elapsed_secs_all_warps.count()) << "%" << endl;
-    cout << "\t(getD) total: " << total_getD << ", perc.: " <<
-            100 * (total_getD / elapsed_secs_all_warps.count()) << "%" << endl; 
-    cout << "\t(divergence) total: " << total_divergence << ", perc.: " <<
-            100 * (total_divergence / elapsed_secs_all_warps.count()) << "%" << endl;
-    cout << "\t(memcpy) total: " << total_memcpy << ", perc.: " <<
-            100 * (total_memcpy / elapsed_secs_all_warps.count()) << "%" << endl;
-    cout << "\t(getP) total: " << total_getP << ", perc.: " <<
-            100 * (total_getP / elapsed_secs_all_warps.count()) << "%" << endl;
-    cout << "\t(copy_u1u2) total: " << total_copy_u1u2 << ", perc.: " <<
-            100 * (total_copy_u1u2 / elapsed_secs_all_warps.count()) << "%" << endl;
+    if (verbose) {
+        // PROFILING
+        cout << "\n\n" << std::endl;
+        cout << "Warpings loop profiling (total and %)" << endl;
+        cout << "\t(v1-v2 loop) total: " << total_v1v2 << ", perc.: " <<
+             100 * (total_v1v2 / elapsed_secs_all_warps.count()) << "%" << endl;
+        cout << "\t(fwd_grad) total: " << total_fwd_grad << ", perc.: " <<
+             100 * (total_fwd_grad / elapsed_secs_all_warps.count()) << "%" << endl;
+        cout << "\t(getD) total: " << total_getD << ", perc.: " <<
+             100 * (total_getD / elapsed_secs_all_warps.count()) << "%" << endl;
+        cout << "\t(divergence) total: " << total_divergence << ", perc.: " <<
+             100 * (total_divergence / elapsed_secs_all_warps.count()) << "%" << endl;
+        cout << "\t(memcpy) total: " << total_memcpy << ", perc.: " <<
+             100 * (total_memcpy / elapsed_secs_all_warps.count()) << "%" << endl;
+        cout << "\t(getP) total: " << total_getP << ", perc.: " <<
+             100 * (total_getP / elapsed_secs_all_warps.count()) << "%" << endl;
+        cout << "\t(copy_u1u2) total: " << total_copy_u1u2 << ", perc.: " <<
+             100 * (total_copy_u1u2 / elapsed_secs_all_warps.count()) << "%" << endl;
 
-    cout << "\n\n" << std::endl;
+        cout << "\n\n" << std::endl;
+    }
 
 
 
@@ -1560,7 +1599,7 @@ void tvcsad_PD(
         }
         if (verbose)
             fprintf(stderr, "Warping: %d,Iter: %d "
-                    "Error: %f\n", warpings, n, err_D);
+                            "Error: %f\n", warpings, n, err_D);
     }
 
     delete[] p;
@@ -1821,14 +1860,17 @@ int main(int argc, char *argv[]) {
     auto file_params = pick_option(args, "p", "");                          // Params' file
     auto global_iters = pick_option(args, "glb_iters",
                                     to_string(MAX_ITERATIONS_GLOBAL));      // Faldoi global iterations
+    auto verbose_str = pick_option(args, "verbose", to_string(PAR_DEFAULT_VERBOSE));
 
     if (args.size() != 6 && args.size() != 4) {
         fprintf(stderr, "Without occlusions:\n");
         fprintf(stderr, "Usage: %lu  ims.txt in_flow.flo  out.flo "
-                "[-m method_val] [-w num_warps] [-p file of parameters] val [-glb_iters global_iters] \n", args.size());
+                        "[-m method_val] [-w num_warps] [-p file of parameters] [-glb_iters global_iters] [-verbose verbose]"
+                        " \n", args.size());
         fprintf(stderr, "With occlusions:\n");
         fprintf(stderr, "Usage: %lu  ims.txt in_flow.flo  out.flo occl_input.png occl_out.png"
-                " [-m method_val] [-w num_warps] [-p file of parameters] val [-glb_iters global_iters] \n", args.size());
+                        " [-m method_val] [-w num_warps] [-p file of parameters] [-glb_iters global_iters] [-verbose verbose]"
+                        "\n", args.size());
 
         return EXIT_FAILURE;
     }
@@ -1838,7 +1880,8 @@ int main(int argc, char *argv[]) {
     int val_method = stoi(var_reg);
     int nwarps = stoi(warps_val);
     int glb_it = stoi(global_iters);
-
+    bool verbose;
+    verbose = boost::lexical_cast<bool>(verbose_str);
 
     // Read the parameters
     // Filename that contains the paths to the images to use
@@ -1982,6 +2025,7 @@ int main(int argc, char *argv[]) {
     params.warps = nwarps;
     params.val_method = val_method;
     params.iterations_of = glb_it;
+    params.verbose = verbose;
     if (params.verbose)
         cerr << params;
 
@@ -2078,9 +2122,11 @@ int main(int argc, char *argv[]) {
     }
 
     auto clk_init_end = system_clock::now(); // PROFILING
-    duration<double> elapsed_secs_init = clk_init_end - clk_init_start; // PROFILING
-    cout << "(global_faldoi.cpp) initialising everything took "
-         << elapsed_secs_init.count() << endl;
+    if (params.verbose) {
+        duration<double> elapsed_secs_init = clk_init_end - clk_init_start; // PROFILING
+        cout << "(global_faldoi.cpp) initialising everything took "
+             << elapsed_secs_init.count() << endl;
+    }
 
     // 0 - TVl2 coupled, otherwise Du
     if (val_method == M_TVL1 || val_method == M_TVL1_W) {
@@ -2157,9 +2203,12 @@ int main(int argc, char *argv[]) {
     return EXIT_SUCCESS;
 
     auto clk_global_min_end = system_clock::now(); // PROFILING
-    duration<double> elapsed_secs_global_min = clk_global_min_end - clk_init_end; // PROFILING
-    cout << "(global_faldoi.cpp) global minimisation (functional-specific) took "
-         << elapsed_secs_global_min.count() << endl;
+    duration<double> elapsed_secs_global_min;
+    if (params.verbose) {
+        elapsed_secs_global_min = clk_global_min_end - clk_init_end; // PROFILING
+        cout << "(global_faldoi.cpp) global minimisation (functional-specific) took "
+             << elapsed_secs_global_min.count() << endl;
+    }
 
 }
 
