@@ -24,15 +24,15 @@ parser.add_argument("file_images", help = "File with images paths")
 # Default values
 # 	Deep Matching
 matchings = True
-def_downscale = 2
+def_downscale = 2  # means 2^n, default for EpicFlow was n=1 but here we use n=2 to significantly reduce the computation time (>6x)
 def_max_scale = math.sqrt(2)
 def_num_threads = 4
 def_rot_plus = 45
 def_rot_minus = 45
-def_threshold = 0.45
+def_threshold = 0.045  # BIG typo, was 0.45 (10x), filtering many more inliers!
 
 #	Sparse flow
-sparse_flow = True
+sparse_flow_flag = True
 
 #	Local minimisation
 local_of = True
@@ -60,7 +60,7 @@ print('''Code blocks activation value:
         sparse_flow =   {}
         local_of =      {}
         global_of =     {}
-        '''.format(matchings, sparse_flow, local_of, global_of))
+        '''.format(matchings, sparse_flow_flag, local_of, global_of))
 
 # Energy model
 parser.add_argument("-vm", default=str(def_method),
@@ -140,7 +140,7 @@ parser.add_argument("-nt", default=str(def_num_threads),
 
 # Subsample factor
 parser.add_argument("-downscale", default=str(def_downscale),
-                    help="Subsample factor to reduce images dimensions (def=2)")
+                    help="Subsample factor to reduce images dimensions by powers of 2 (def=2 ==> 2^2)")
 
 # Maximum scale
 parser.add_argument("-max_scale", default=str(def_max_scale),
@@ -322,12 +322,17 @@ else:
     matches_timer = time.time()
 
 # Create a sparse flow from the deep matches.
-if sparse_flow:
+if sparse_flow_flag:
+ 	# To compute sparse flow from pre-computed matches: uncomment next 4 lines and comment the 2 below them
+    # matches_fname = "{}_saliency_out_cut.txt".format(match_name_1[:-4])
+    # matches_bwd_fname = "{}_saliency_out_cut.txt".format(match_name_2[:-4])
+    # param_fwd = "{} {} {} {}\n".format(matches_fname, width_im, height_im, sparse_name_1)
+    # param_bwd = "{} {} {} {}\n".format(matches_bwd_fname, width_im, height_im, sparse_name_2)
     param_fwd = "{} {} {} {}\n".format(cut(delete(confi(im_name0, im_name1, match_name_1, f_path), threshold)),
                                        width_im, height_im, sparse_name_1)
-    command_line_fwd = "{} {}\n".format(sparse_flow, param_fwd)
     param_bwd = "{} {} {} {}\n".format(cut(delete(confi(im_name1, im_name0, match_name_2, f_path),threshold)),
                                        width_im, height_im, sparse_name_2)
+    command_line_fwd = "{} {}\n".format(sparse_flow, param_fwd)
     command_line_bwd = "{} {}\n".format(sparse_flow, param_bwd)
     # Execute in parallel
     # Define processes to be run in parallel
