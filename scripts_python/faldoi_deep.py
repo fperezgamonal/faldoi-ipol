@@ -44,7 +44,7 @@ def_patch_iter = 4
 def_split_img = 0
 def_hor_parts = 3
 def_ver_parts = 2
-def_fb_thresh = 12.55
+def_fb_thresh = 2  # 12.55 was optimal with sub-optimal filtering threshold, 0.45 instead of 0.045f ==> but should check it)
 def_partial_results = 0
 partial_location = '../Results/Partial_results/'
 
